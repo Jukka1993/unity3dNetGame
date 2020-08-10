@@ -1,0 +1,11 @@
+G:\unityPrjs\echoPrj\server\EchoPrjServer\EchoPrjServer\bin\Debug\netcoreapp2.0\EchoPrjServer.deps.json
+G:\unityPrjs\echoPrj\server\EchoPrjServer\EchoPrjServer\bin\Debug\netcoreapp2.0\EchoPrjServer.runtimeconfig.json
+G:\unityPrjs\echoPrj\server\EchoPrjServer\EchoPrjServer\bin\Debug\netcoreapp2.0\EchoPrjServer.runtimeconfig.dev.json
+G:\unityPrjs\echoPrj\server\EchoPrjServer\EchoPrjServer\bin\Debug\netcoreapp2.0\EchoPrjServer.dll
+G:\unityPrjs\echoPrj\server\EchoPrjServer\EchoPrjServer\bin\Debug\netcoreapp2.0\EchoPrjServer.pdb
+G:\unityPrjs\echoPrj\server\EchoPrjServer\EchoPrjServer\obj\Debug\netcoreapp2.0\EchoPrjServer.csprojResolveAssemblyReference.cache
+G:\unityPrjs\echoPrj\server\EchoPrjServer\EchoPrjServer\obj\Debug\netcoreapp2.0\EchoPrjServer.csproj.CoreCompileInputs.cache
+G:\unityPrjs\echoPrj\server\EchoPrjServer\EchoPrjServer\obj\Debug\netcoreapp2.0\EchoPrjServer.AssemblyInfoInputs.cache
+G:\unityPrjs\echoPrj\server\EchoPrjServer\EchoPrjServer\obj\Debug\netcoreapp2.0\EchoPrjServer.AssemblyInfo.cs
+G:\unityPrjs\echoPrj\server\EchoPrjServer\EchoPrjServer\obj\Debug\netcoreapp2.0\EchoPrjServer.dll
+G:\unityPrjs\echoPrj\server\EchoPrjServer\EchoPrjServer\obj\Debug\netcoreapp2.0\EchoPrjServer.pdb
