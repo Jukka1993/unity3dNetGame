@@ -72,7 +72,7 @@ namespace EchoPrjServer
                 }
                 string recvStr = System.Text.Encoding.Default.GetString(state.readBuff, 0, count);
                 byte[] sendBytes =
-                    System.Text.Encoding.Default.GetBytes("echo " + recvStr);
+                    System.Text.Encoding.Default.GetBytes(recvStr);
                 foreach(KeyValuePair<Socket, ClientState> kvp in clients)
                 {
                     kvp.Key.Send(sendBytes);
