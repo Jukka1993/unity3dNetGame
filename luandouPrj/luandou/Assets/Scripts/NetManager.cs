@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Net.Sockets;
 using UnityEngine.UI;
 using System;
+using System.Linq;
 
 public static class NetManager{
     static Socket socket;
@@ -54,6 +55,9 @@ public static class NetManager{
         if (socket == null) return;
         if (!socket.Connected) return;
         byte[] sendBytes = System.Text.Encoding.Default.GetBytes(sendStr);
+        //Int16 len = (Int16)sendBytes.Length;
+        //byte[] lenBytes = BitConverter.GetBytes(len);
+        //sendBytes = lenBytes.Concat(sendBytes).ToArray();
         socket.Send(sendBytes);
     }
     public static void Update()

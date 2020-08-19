@@ -38,13 +38,13 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -274,48 +274,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 151ad59424295d640b3822fb0441263d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &1101550535
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4200926076368680, guid: e16efbd21ba5cc940980e2247829cd0e, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 1.074
-      objectReference: {fileID: 0}
-    - target: {fileID: 4200926076368680, guid: e16efbd21ba5cc940980e2247829cd0e, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4200926076368680, guid: e16efbd21ba5cc940980e2247829cd0e, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 1.47
-      objectReference: {fileID: 0}
-    - target: {fileID: 4200926076368680, guid: e16efbd21ba5cc940980e2247829cd0e, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4200926076368680, guid: e16efbd21ba5cc940980e2247829cd0e, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4200926076368680, guid: e16efbd21ba5cc940980e2247829cd0e, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4200926076368680, guid: e16efbd21ba5cc940980e2247829cd0e, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4200926076368680, guid: e16efbd21ba5cc940980e2247829cd0e, type: 2}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: e16efbd21ba5cc940980e2247829cd0e, type: 2}
-  m_IsPrefabAsset: 0
+  humanPrefab: {fileID: 1534283961742864, guid: e16efbd21ba5cc940980e2247829cd0e,
+    type: 2}
+  myHuman: {fileID: 0}
+  time: 0
+  haveListed: 0
 --- !u!1 &1716578984
 GameObject:
   m_ObjectHideFlags: 0
@@ -410,21 +373,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1 &1984627148 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1534283961742864, guid: e16efbd21ba5cc940980e2247829cd0e,
-    type: 2}
-  m_PrefabInternal: {fileID: 1101550535}
---- !u!114 &1984627149
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1984627148}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ca1818f8893ca3469c313fc1274d4ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 1.2
-  desc: 
