@@ -312,9 +312,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Script\framework\ByteArray.cs" />
     <Compile Include="Assets\Script\framework\MsgBase.cs" />
     <Compile Include="Assets\Script\framework\NetManager.cs" />
     <Compile Include="Assets\Script\proto\BattleMsg.cs" />
+    <Compile Include="Assets\Script\proto\SysMsg.cs" />
     <Compile Include="Assets\Script\test.cs" />
   </ItemGroup>
   <ItemGroup>

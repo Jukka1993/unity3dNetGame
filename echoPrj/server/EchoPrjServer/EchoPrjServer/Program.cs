@@ -92,6 +92,7 @@ namespace EchoPrjServer
                 //    clients.TryGetValue(clients.Keys.GetEnumerator().Current, out clientCur);
                 //    clientCur.socket.Send(sendBytes);
                 //}
+                Console.WriteLine("receve data");
                 clientfd.BeginReceive(state.readBuff, 0, 1024, 0, ReceiveCallback, state);
             }
             catch (SocketException ex)
