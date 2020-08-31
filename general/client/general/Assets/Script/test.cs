@@ -14,9 +14,11 @@ public class test : MonoBehaviour {
     void OnMsgMove(MsgBase msgBase)
     {
         MsgMove msg = (MsgMove)msgBase;
-        Debug.Log("OnMsgMove msg.x = " + msg.x);
-        Debug.Log("OnMsgMove msg.y = " + msg.y);
-        Debug.Log("OnMsgMove msg.z = " + msg.z);
+        //Debug.Log("OnMsgMove msg.x = " + msg.x);
+        //Debug.Log("OnMsgMove msg.y = " + msg.y);
+        //Debug.Log("OnMsgMove msg.z = " + msg.z);
+        Debug.Log("Receive OnMsgMove => " + msg.x + " " + msg.y + " " + msg.z);
+
 
     }
     void OnConnectSucc(string err)
@@ -50,6 +52,7 @@ public class test : MonoBehaviour {
         msg.x = 120;
         msg.y = 123;
         msg.z = -6;
+        Debug.Log("Send OnMsgMove => " + msg.x+" "+msg.y + " " + msg.z);
         NetManager.Send(msg);
     }
 
