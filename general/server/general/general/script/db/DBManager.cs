@@ -32,7 +32,7 @@ namespace general.script.db
         public static bool IsAccountExist(string id)
         {
             //防止sql注入
-            if (!DBManager.IsSafeString(id))
+            if (!IsSafeString(id))
             {
                 return false;
             }
@@ -52,6 +52,39 @@ namespace general.script.db
                 return false;
             }
 
+        }
+        public static bool Register(int id,string pw)
+        {
+            //id防sql注入
+            //if (!IsSafeString(id))
+            //{
+            //    Console.WriteLine("[数据库]Register fail, id not safe ");
+            //    return false;
+            //}
+            //pw防sql注入
+            if (!IsSafeString(pw))
+            {
+                Console.WriteLine("[数据库]Register fail, pw not safe ");
+                return false;
+            }
+            //能否注册，id是否已存在
+            //if (!IsAccountExist(id))
+            //{
+            //    Console.WriteLine("[数据库]Register fail, id exist");
+            //    return false;
+            //}
+            //写入数据库User表
+            string sql = string.Format("insert into player set id = '{0}',pw = '{1}';", id, pw);
+            try
+            {
+                MySqlCommand cmd = new MySqlCommand(sql, mysql);
+                cmd.ExecuteNonQuery();
+                return true;
+            } catch(Exception e)
+            {
+                Console.WriteLine("[数据库]Register fail " + e.Message);
+                return false;
+            }
         }
         private static bool IsSafeString(string str)
         {

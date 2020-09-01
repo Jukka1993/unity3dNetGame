@@ -29,6 +29,11 @@ namespace general
             {
                 return;
             }
+            if (DBManager.Register(12345, "12345"))
+            {
+                Console.WriteLine("注册成功");
+
+            }
             bool is1Exist = DBManager.IsAccountExist("1");
             bool is2Exist = DBManager.IsAccountExist("2");
             bool is3Exist = DBManager.IsAccountExist("3");
