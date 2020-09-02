@@ -29,19 +29,29 @@ namespace general
             {
                 return;
             }
-            if (DBManager.Register(12345, "12345"))
+            //if (DBManager.Register("jukka", "12345"))
+            //{
+            //    Console.WriteLine("注册成功");
+            //}
+            //if (DBManager.CreatePlayer(1))
+            //{
+            //    Console.WriteLine("创建成功");
+            //}
+            if (DBManager.CheckPassword("jukka", "123452"))
             {
-                Console.WriteLine("注册成功");
-
+                Console.WriteLine("用户名密码正确");
+            } else
+            {
+                Console.WriteLine("用户名或密码错误");
             }
-            bool is1Exist = DBManager.IsAccountExist("1");
-            bool is2Exist = DBManager.IsAccountExist("2");
-            bool is3Exist = DBManager.IsAccountExist("3");
-            bool is4Exist = DBManager.IsAccountExist("4");
-            Console.WriteLine("is1Exist " + is1Exist);
-            Console.WriteLine("is2Exist " + is2Exist);
-            Console.WriteLine("is3Exist " + is3Exist);
-            Console.WriteLine("is4Exist " + is4Exist);
+            //bool is1Exist = DBManager.IsNameExist("1");
+            //bool is2Exist = DBManager.IsNameExist("2");
+            //bool is3Exist = DBManager.IsNameExist("3");
+            //bool is4Exist = DBManager.IsNameExist("4");
+            //Console.WriteLine("is1Exist " + is1Exist);
+            //Console.WriteLine("is2Exist " + is2Exist);
+            //Console.WriteLine("is3Exist " + is3Exist);
+            //Console.WriteLine("is4Exist " + is4Exist);
             NetManager.StartLoop(8888);
             
 
