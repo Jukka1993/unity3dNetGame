@@ -1,6 +1,7 @@
 ﻿using System;
 using general.script.net;
 using general.script.db;
+using general.script.logic;
 
 namespace general
 {
@@ -25,7 +26,7 @@ namespace general
             //Console.WriteLine(msgMove1.y);
             //Console.WriteLine(msgMove1.z);
             //Console.WriteLine("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-            if (!DBManager.Connect("netgame", "127.0.0.1", 3306, "root", ""))
+            if (!DBManager.Connect("netgame", "127.0.0.1", 13306, "root", "199349529"))
             {
                 return;
             }
@@ -37,12 +38,21 @@ namespace general
             //{
             //    Console.WriteLine("创建成功");
             //}
-            if (DBManager.CheckPassword("jukka", "123452"))
+            //if (DBManager.CheckPassword("jukka", "12345"))
+            //{
+            //    Console.WriteLine("用户名密码正确");
+            //}
+            //else
+            //{
+            //    Console.WriteLine("用户名或密码错误");
+            //}
+            PlayerData playerData = DBManager.GetPlayerData(1);
+            if(playerData != null)
             {
-                Console.WriteLine("用户名密码正确");
+                Console.WriteLine("id = 1, playerData.coin = {0}, playerData.text = {1}", playerData.coin,playerData.text);
             } else
             {
-                Console.WriteLine("用户名或密码错误");
+                Console.WriteLine("no player whose id = 1 ");
             }
             //bool is1Exist = DBManager.IsNameExist("1");
             //bool is2Exist = DBManager.IsNameExist("2");

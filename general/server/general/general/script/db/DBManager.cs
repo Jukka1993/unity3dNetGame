@@ -133,6 +133,37 @@ namespace general.script.db
                 return false;
             }
         }
+        public static int GetId(string name)
+        {
+            return 0;
+        }
+        public static PlayerData GetPlayerData(int id)
+        {
+            string sql = String.Format("select * from player where id = '{0}';", id);
+            try
+            {
+                MySqlCommand cmd = new MySqlCommand(sql, mysql);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                if (!reader.HasRows)
+                {
+                    reader.Close();
+                    return null;
+                } else
+                {
+                    reader.Read();
+                    string datastr = reader.GetString("data");
+                    PlayerData playerData = (PlayerData)JsonConvert.DeserializeObject(datastr, typeof(PlayerData));
+
+                    reader.Close();
+                    return playerData;
+
+                }
+            }catch (Exception e)
+            {
+                Console.WriteLine("[数据库] GetPlayerData fail, " + e.Message);
+                return null;
+            }
+        }
         private static bool IsSafeString(string str)
         {
             return !Regex.IsMatch(str, @"[-|;|,|\/|\(|\)|\[|\]|\}|\{|%|@|\*|!|\']");
