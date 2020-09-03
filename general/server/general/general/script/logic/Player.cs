@@ -7,7 +7,7 @@ namespace general.script.logic
 {
     public class Player
     {
-        public string id = "";
+        public int id = -1;
         public ClientState cs;
         public int x;
         public int y;

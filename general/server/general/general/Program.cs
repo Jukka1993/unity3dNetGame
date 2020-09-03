@@ -26,7 +26,8 @@ namespace general
             //Console.WriteLine(msgMove1.y);
             //Console.WriteLine(msgMove1.z);
             //Console.WriteLine("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-            if (!DBManager.Connect("netgame", "127.0.0.1", 13306, "root", "199349529"))
+            //if (!DBManager.Connect("netgame", "127.0.0.1", 13306, "root", "199349529"))
+            if (!DBManager.Connect("netgame", "127.0.0.1", 3306, "root", ""))
             {
                 return;
             }
@@ -38,22 +39,25 @@ namespace general
             //{
             //    Console.WriteLine("创建成功");
             //}
-            //if (DBManager.CheckPassword("jukka", "12345"))
-            //{
-            //    Console.WriteLine("用户名密码正确");
-            //}
-            //else
-            //{
-            //    Console.WriteLine("用户名或密码错误");
-            //}
-            PlayerData playerData = DBManager.GetPlayerData(1);
-            if(playerData != null)
+            int userId = DBManager.CheckPassword("jukka", "123455");
+            if (userId > 0)
             {
-                Console.WriteLine("id = 1, playerData.coin = {0}, playerData.text = {1}", playerData.coin,playerData.text);
-            } else
-            {
-                Console.WriteLine("no player whose id = 1 ");
+                Console.WriteLine("用户名密码正确,用户 jukka 的id为 {0} ",userId);
+                PlayerData playerData = DBManager.GetPlayerData(userId);
+                if (playerData != null)
+                {
+                    Console.WriteLine("id = 1, playerData.coin = {0}, playerData.text = {1}", playerData.coin, playerData.text);
+                }
+                else
+                {
+                    Console.WriteLine("no player whose id = 1 ");
+                }
             }
+            else
+            {
+                Console.WriteLine("用户名或密码错误");
+            }
+            
             //bool is1Exist = DBManager.IsNameExist("1");
             //bool is2Exist = DBManager.IsNameExist("2");
             //bool is3Exist = DBManager.IsNameExist("3");

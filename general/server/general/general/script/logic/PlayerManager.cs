@@ -6,12 +6,12 @@ namespace general.script.logic
 {
     class PlayerManager
     {
-        static Dictionary<string, Player> players = new Dictionary<string, Player>();
-        public static bool IsOnline(string id)
+        static Dictionary<int, Player> players = new Dictionary<int, Player>();
+        public static bool IsOnline(int id)
         {
             return players.ContainsKey(id);
         }
-        public static Player GetPlayer(string id)
+        public static Player GetPlayer(int id)
         {
             if (players.ContainsKey(id))
             {
@@ -19,11 +19,11 @@ namespace general.script.logic
             }
             return null;
         }
-        public static void AddPlayer(string id,Player player)
+        public static void AddPlayer(int id,Player player)
         {
             players.Add(id, player);
         }
-        public static void RemovePlayer(string id)
+        public static void RemovePlayer(int id)
         {
             players.Remove(id);
         }

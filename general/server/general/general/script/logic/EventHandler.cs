@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using general.script.net;
+using general.script.db;
 
 namespace general.script.logic
 {
@@ -10,6 +11,14 @@ namespace general.script.logic
         public static void OnDisconnect(ClientState cs)
         {
             Console.WriteLine("Close");
+            //Player下线
+            if(cs.player != null)
+            {
+                //保存数据
+                DBManager.UpdatePlayerData(cs.player.id, cs.player.data);
+                //移除
+                PlayerManager.RemovePlayer(cs.player.id);
+            }
         }
         public static void OnTimer()
         {

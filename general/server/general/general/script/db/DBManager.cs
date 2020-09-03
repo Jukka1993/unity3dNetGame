@@ -74,17 +74,32 @@ namespace general.script.db
             }
 
         }
-        public static bool CheckPassword(string name, string pw)
+        public static bool UpdatePlayerData(int id,PlayerData playerData)
+        {
+            string data = JsonConvert.SerializeObject(playerData);
+            string sql = string.Format("update player set data = '{0}' where id = '{1}`;", data, id);
+            try
+            {
+                MySqlCommand cmd = new MySqlCommand(sql, mysql);
+                cmd.ExecuteNonQuery();
+                return true;
+            } catch(Exception e)
+            {
+                Console.WriteLine("[数据库] UpdatePlayerData err, " + e.Message);
+                return false;
+            }
+        }
+        public static int CheckPassword(string name, string pw)
         {
             if (!IsSafeString(name))
             {
                 Console.WriteLine("[] CheckPassword fail, name not safe");
-                return false;
+                return -1;
             }
             if (!IsSafeString(pw))
             {
                 Console.WriteLine("[]CheckPassword fail, pw not safe");
-                return false;
+                return -1;
             }
             string sql = string.Format("select * from account where name = '{0}' and pw = '{1}';", name, pw);
             try
@@ -92,12 +107,22 @@ namespace general.script.db
                 MySqlCommand cmd = new MySqlCommand(sql, mysql);
                 MySqlDataReader dataReader = cmd.ExecuteReader();
                 bool hasRows = dataReader.HasRows;
-                dataReader.Close();
-                return hasRows;
+                if (hasRows)
+                {
+                    dataReader.Read();
+                    int id = dataReader.GetInt32("id");
+                    dataReader.Close();
+                    return id;
+                } else
+                {
+                    dataReader.Close();
+                    return -1;
+                }
+                //return hasRows;
             }catch(Exception e)
             {
                 Console.WriteLine("[] CheckPassword err, " + e.Message);
-                return false;
+                return -1;
             }
         }
         public static bool Register(string name,string pw)

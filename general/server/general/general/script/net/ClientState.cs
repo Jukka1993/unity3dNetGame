@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Net.Sockets;
+using general.script.logic;
 
 namespace general.script.net
 {
@@ -9,7 +10,9 @@ namespace general.script.net
     {
         public Socket socket;
         public ByteArray readBuff = new ByteArray();
-        //玩家数据后面添加
+        //ping
         public long lastPingTime = 0;
+        //玩家
+        public Player player;
     }
 }
