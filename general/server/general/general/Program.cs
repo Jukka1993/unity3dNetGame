@@ -26,8 +26,8 @@ namespace general
             //Console.WriteLine(msgMove1.y);
             //Console.WriteLine(msgMove1.z);
             //Console.WriteLine("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-            //if (!DBManager.Connect("netgame", "127.0.0.1", 13306, "root", "199349529"))
-            if (!DBManager.Connect("netgame", "127.0.0.1", 3306, "root", ""))
+            if (!DBManager.Connect("netgame", "127.0.0.1", 13306, "root", "199349529"))
+                //if (!DBManager.Connect("netgame", "127.0.0.1", 3306, "root", ""))
             {
                 return;
             }
@@ -39,7 +39,7 @@ namespace general
             //{
             //    Console.WriteLine("创建成功");
             //}
-            int userId = DBManager.CheckPassword("jukka", "123455");
+            int userId = DBManager.CheckPassword("jukka", "12345");
             if (userId > 0)
             {
                 Console.WriteLine("用户名密码正确,用户 jukka 的id为 {0} ",userId);

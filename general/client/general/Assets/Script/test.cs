@@ -1,8 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class test : MonoBehaviour {
+    public InputField nameInputField;
+    public InputField passwordInputField;
+    public InputField notePadInputField;
 
 	// Use this for initialization
 	void Start () {
@@ -10,7 +15,20 @@ public class test : MonoBehaviour {
         NetManager.AddEventListener(NetEvent.ConnectFail, OnConnectFail);
         NetManager.AddEventListener(NetEvent.Close, OnConnectClose);
         NetManager.AddMsgListener("MsgMove", OnMsgMove);
+        NetManager.AddMsgListener("MsgRegister", OnMsgRegister);
 	}
+    void OnMsgRegister(MsgBase msgBase)
+    {
+        MsgRegister msg = (MsgRegister)msgBase;
+        if(msg.result == 0)
+        {
+            Debug.Log("注册成功");
+        } else
+        {
+            Debug.Log("注册失败");
+        }
+
+    }
     void OnMsgMove(MsgBase msgBase)
     {
         MsgMove msg = (MsgMove)msgBase;
@@ -38,16 +56,30 @@ public class test : MonoBehaviour {
     }
     public void OnConnectClicked()
     {
+        Debug.Log("AA");
         NetManager.Connect("127.0.0.1", 8888);
         //todo 转圈圈,开始连接中
     }
+    public void OnRegisterClicked()
+    {
+        Debug.Log("OnRegisterClicked ");
+        Debug.Log(nameInputField.text);
+        Debug.Log(passwordInputField.text);
+
+        MsgRegister msgRegister = new MsgRegister();
+        msgRegister.name = nameInputField.text;
+        msgRegister.pw = passwordInputField.text;
+
+        NetManager.Send(msgRegister);
+    }
+
     public void OnCloseClicked()
     {
         NetManager.Close();
     }
     public void OnMoveClicked()
     {
-        Debug.Log("OnMoveClicked");
+        Debug.Log("OnMoveClicked 111");
         MsgMove msg = new MsgMove();
         msg.x = 120;
         msg.y = 123;

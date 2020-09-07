@@ -307,6 +307,7 @@ public static class NetManager {
         if(Time.time -lastPingTime > pingInterval)
         {
             MsgPing msgPing = new MsgPing();
+            Debug.Log("Send(msgPing);");
             Send(msgPing);
             lastPingTime = Time.time;
         }

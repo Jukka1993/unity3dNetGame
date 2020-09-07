@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 //using System.Text.Json;
 using Newtonsoft.Json;
+using general.script.proto;
 //using System.Web.Script.Serialization;
 //using System.Runtime.Serialization.Json;
 
@@ -25,7 +26,6 @@ public class MsgBase{
     }
     public static MsgBase Decode(string protoName,byte[] bytes,int offset,int count)
     {
-        
         string s = System.Text.Encoding.UTF8.GetString(bytes, offset, count);
         MsgBase msgBase = (MsgBase)JsonConvert.DeserializeObject(s,Type.GetType(protoName));
         //MsgBase msgBase = (MsgBase)JsonSerializer.Deserialize(s,Type.GetType(protoName));

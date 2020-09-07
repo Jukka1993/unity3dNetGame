@@ -10,7 +10,7 @@ namespace general.script.logic
     {
         public static void OnDisconnect(ClientState cs)
         {
-            Console.WriteLine("Close");
+            Console.WriteLine("Close111");
             //Player下线
             if(cs.player != null)
             {

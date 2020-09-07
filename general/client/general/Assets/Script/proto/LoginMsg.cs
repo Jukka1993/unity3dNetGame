@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-//namespace general.script.proto
-//{
+
     public class MsgRegister:MsgBase
     {
         public MsgRegister()
@@ -35,4 +34,4 @@ using System.Text;
         }
         public int reason = 0;
     }
-//}
+

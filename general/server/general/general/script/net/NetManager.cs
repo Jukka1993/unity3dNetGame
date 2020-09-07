@@ -64,6 +64,7 @@ namespace general.script.net
                 Console.WriteLine("Accept " + clientfd.RemoteEndPoint.ToString());
                 ClientState cs = new ClientState();
                 cs.socket = clientfd;
+                cs.lastPingTime = NetManager.GetTimeStamp();
                 clients.Add(clientfd, cs);
             } catch(SocketException ex)
             {
@@ -153,7 +154,7 @@ namespace general.script.net
             //分发消息，反射获取协议名对应的MethodInfo
             MethodInfo mi = typeof(MsgHandler).GetMethod(protoName);
             object[] o = { cs, msgBase };
-            Console.WriteLine("Receive " + protoName);
+            Console.WriteLine("Receive proto " + protoName);
             if(mi != null)
             {
                 mi.Invoke(null, o);
