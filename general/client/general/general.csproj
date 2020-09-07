@@ -316,6 +316,8 @@
     <Compile Include="Assets\Script\framework\MsgBase.cs" />
     <Compile Include="Assets\Script\framework\NetManager.cs" />
     <Compile Include="Assets\Script\proto\BattleMsg.cs" />
+    <Compile Include="Assets\Script\proto\LoginMsg.cs" />
+    <Compile Include="Assets\Script\proto\NotepadMsg.cs" />
     <Compile Include="Assets\Script\proto\SysMsg.cs" />
     <Compile Include="Assets\Script\test.cs" />
   </ItemGroup>

@@ -77,7 +77,7 @@ namespace general.script.db
         public static bool UpdatePlayerData(int id,PlayerData playerData)
         {
             string data = JsonConvert.SerializeObject(playerData);
-            string sql = string.Format("update player set data = '{0}' where id = '{1}`;", data, id);
+            string sql = string.Format("update player set data = '{0}' where id = '{1}';", data, id);
             try
             {
                 MySqlCommand cmd = new MySqlCommand(sql, mysql);

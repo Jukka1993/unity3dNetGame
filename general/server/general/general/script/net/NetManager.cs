@@ -5,7 +5,7 @@ using System.Net.Sockets;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using general.script.logic;
+//using general.script.logic;
 
 namespace general.script.net
 {

@@ -4,30 +4,38 @@ using System.Text;
 
 //namespace general.script.proto
 //{
-    public class MsgRegister:MsgBase
+public class MsgRegister:MsgBase
+{
+    public MsgRegister()
     {
-        public MsgRegister()
-        {
-            protoName = "MsgRegister";
-        }
-        //客户端发
-        public string name = "";
-        public string pw = "";
-        //服务器回,
-        public int id = -1;
-        public int result = 0;
+        protoName = "MsgRegister";
     }
-    public class MsgLogin : MsgBase
+    //客户端发
+    public string name = "";
+    public string pw = "";
+    //服务器回,
+    public int id = -1;
+    public int result = 0;
+}
+public class MsgLogin : MsgBase
+{
+    public MsgLogin()
     {
-        public MsgLogin()
-        {
-            protoName = "MsgLogin";
-        }
-        public string name = "";
-        public string pw = "";
-        public int result = 0;
+        protoName = "MsgLogin";
     }
-    public class MsgKick : MsgBase
+    public string name = "";
+    public string pw = "";
+    public int result = 0;
+}
+public class MsgLogout : MsgBase
+{
+    public MsgLogout()
+    {
+        protoName = "MsgLogout";
+    }
+    public int result = 0;
+}
+public class MsgKick : MsgBase
     {
         public MsgKick()
         {

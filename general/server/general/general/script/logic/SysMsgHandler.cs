@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using general.script.net;
 
-namespace general.script.logic
-{
+//namespace general.script.logic
+//{
     public partial class MsgHandler
     {
         public static void MsgPing(ClientState cs, MsgBase msg)
@@ -15,4 +15,4 @@ namespace general.script.logic
             NetManager.Send(cs, msgPong);
         }
     }
-}
+//}

@@ -16,6 +16,11 @@ public class test : MonoBehaviour {
         NetManager.AddEventListener(NetEvent.Close, OnConnectClose);
         NetManager.AddMsgListener("MsgMove", OnMsgMove);
         NetManager.AddMsgListener("MsgRegister", OnMsgRegister);
+        NetManager.AddMsgListener("MsgLogin", OnMsgLogin);
+        NetManager.AddMsgListener("MsgKick", OnMsgKick);
+        NetManager.AddMsgListener("MsgLogout", OnMsgLogout);
+        NetManager.AddMsgListener("MsgSaveText", OnMsgSaveText);
+        NetManager.AddMsgListener("MsgGetText", OnGetMsgGetText);
 	}
     void OnMsgRegister(MsgBase msgBase)
     {
@@ -54,6 +59,63 @@ public class test : MonoBehaviour {
         Debug.Log("OnConnectClose => "+err);
         //todo 进入游戏
     }
+    void OnMsgLogout(MsgBase msgBase)
+    {
+        MsgLogout msg = (MsgLogout)msgBase;
+        if(msg.result == 0)
+        {
+            Debug.Log("登出成功");
+        } else
+        {
+            Debug.Log("登出失败");
+        }
+    }
+    void OnMsgKick(MsgBase msgBase)
+    {
+        MsgKick msg = (MsgKick)msgBase;
+        Debug.Log("被踢了");
+    }
+    void OnMsgLogin(MsgBase msgBase)
+    {
+        MsgLogin msg = (MsgLogin)msgBase;
+        if(msg.result == 0)
+        {
+            Debug.Log("登录成功");
+            //this.gameObject.active = false;
+            GetMsgGetText();
+        } else
+        {
+            Debug.Log("登录失败");
+        }
+    }
+    void OnGetMsgGetText(MsgBase msgBase)
+    {
+        MsgGetText msg = (MsgGetText)msgBase;
+        notePadInputField.text = msg.text;
+    }
+    void OnMsgSaveText(MsgBase msgBase)
+    {
+        MsgSaveText msg = (MsgSaveText)msgBase;
+        if(msg.result == 0)
+        {
+            Debug.Log("保存成功");
+        } else
+        {
+            Debug.Log("保存失败");
+        }
+    }
+    public void SendMsgSaveText()
+    {
+        Debug.Log("SendMsgSaveText");
+        MsgSaveText msg = new MsgSaveText();
+        msg.text = notePadInputField.text;
+        NetManager.Send(msg);
+    }
+    public void GetMsgGetText()
+    {
+        MsgGetText msg = new MsgGetText();
+        NetManager.Send(msg);
+    }
     public void OnConnectClicked()
     {
         Debug.Log("AA");
@@ -71,6 +133,20 @@ public class test : MonoBehaviour {
         msgRegister.pw = passwordInputField.text;
 
         NetManager.Send(msgRegister);
+    }
+    public void OnLoginClicked()
+    {
+        Debug.Log("OnLoginClicked");
+        MsgLogin msg = new MsgLogin();
+        msg.name = nameInputField.text;
+        msg.pw = passwordInputField.text;
+        NetManager.Send(msg);
+    }
+    public void OnLogoutClicked()
+    {
+        Debug.Log("OnLogoutClicked");
+        MsgLogout msg = new MsgLogout();
+        NetManager.Send(msg);
     }
 
     public void OnCloseClicked()

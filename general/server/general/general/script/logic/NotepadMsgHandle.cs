@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 using general.script.net;
-using general.script.proto;
-namespace general.script.logic
-{
+//using general.script.proto;
+using general.script.logic;
+//namespace general.script.logic
+//{
     public partial class MsgHandler
     {
         public static void MsgGetText(ClientState cs, MsgBase msgBase)
@@ -24,10 +25,14 @@ namespace general.script.logic
             Player player = cs.player;
             if(player == null)
             {
+                msg.result = 1;
+                //保存失败
+                NetManager.Send(cs, msg);
+
                 return;
             }
             player.data.text = msg.text;
             player.Send(msg);
         }
     }
-}
+//}

@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using general.script.net;
-using general.script.proto;
+//using general.script.proto;
 using general.script.db;
+using general.script.logic;
 
-namespace general.script.logic
-{
+//namespace general.script.logic
+//{
     public partial class MsgHandler
     {
         public static void MsgRegister(ClientState cs, MsgBase msgBase)
@@ -25,6 +26,19 @@ namespace general.script.logic
                 msg.result = 1;
             }
             NetManager.Send(cs, msg);
+        }
+        public static void MsgLogout(ClientState cs,MsgBase msgBase)
+        {
+            MsgLogout msg = (MsgLogout)msgBase;
+            if(cs.player == null)
+        {
+            return;
+        }
+            DBManager.UpdatePlayerData(cs.player.id, cs.player.data);
+            PlayerManager.RemovePlayer(cs.player.id);
+            cs.player = null;
+            msg.result = 0;
+            NetManager.Send(cs,msg);
         }
         public static void MsgLogin(ClientState cs,MsgBase msgBase)
         {
@@ -49,8 +63,11 @@ namespace general.script.logic
                 Player other = PlayerManager.GetPlayer(id);
                 MsgKick msgKick = new MsgKick();
                 msgKick.reason = 0;
+            DBManager.UpdatePlayerData(other.id, other.data);
+            PlayerManager.RemovePlayer(other.id);
                 other.Send(msgKick);
-                NetManager.Close(other.cs);
+            other.cs.player = null;
+                //NetManager.Close(other.cs);
             }
             //获取玩家数据
             PlayerData playerData = DBManager.GetPlayerData(id);
@@ -70,4 +87,4 @@ namespace general.script.logic
             player.Send(msg);
         }
     }
-}
+//}
