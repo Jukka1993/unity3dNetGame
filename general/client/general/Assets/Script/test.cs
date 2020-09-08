@@ -22,28 +22,6 @@ public class test : MonoBehaviour {
         NetManager.AddMsgListener("MsgSaveText", OnMsgSaveText);
         NetManager.AddMsgListener("MsgGetText", OnGetMsgGetText);
 	}
-    void OnMsgRegister(MsgBase msgBase)
-    {
-        MsgRegister msg = (MsgRegister)msgBase;
-        if(msg.result == 0)
-        {
-            Debug.Log("注册成功");
-        } else
-        {
-            Debug.Log("注册失败");
-        }
-
-    }
-    void OnMsgMove(MsgBase msgBase)
-    {
-        MsgMove msg = (MsgMove)msgBase;
-        //Debug.Log("OnMsgMove msg.x = " + msg.x);
-        //Debug.Log("OnMsgMove msg.y = " + msg.y);
-        //Debug.Log("OnMsgMove msg.z = " + msg.z);
-        Debug.Log("Receive OnMsgMove => " + msg.x + " " + msg.y + " " + msg.z);
-
-
-    }
     void OnConnectSucc(string err)
     {
         Debug.Log("OnConnectSucc => "+err);
@@ -59,21 +37,27 @@ public class test : MonoBehaviour {
         Debug.Log("OnConnectClose => "+err);
         //todo 进入游戏
     }
-    void OnMsgLogout(MsgBase msgBase)
+    void OnMsgMove(MsgBase msgBase)
     {
-        MsgLogout msg = (MsgLogout)msgBase;
+        MsgMove msg = (MsgMove)msgBase;
+        //Debug.Log("OnMsgMove msg.x = " + msg.x);
+        //Debug.Log("OnMsgMove msg.y = " + msg.y);
+        //Debug.Log("OnMsgMove msg.z = " + msg.z);
+        Debug.Log("Receive OnMsgMove => " + msg.x + " " + msg.y + " " + msg.z);
+
+
+    }
+    void OnMsgRegister(MsgBase msgBase)
+    {
+        MsgRegister msg = (MsgRegister)msgBase;
         if(msg.result == 0)
         {
-            Debug.Log("登出成功");
+            Debug.Log("注册成功");
         } else
         {
-            Debug.Log("登出失败");
+            Debug.Log("注册失败");
         }
-    }
-    void OnMsgKick(MsgBase msgBase)
-    {
-        MsgKick msg = (MsgKick)msgBase;
-        Debug.Log("被踢了");
+
     }
     void OnMsgLogin(MsgBase msgBase)
     {
@@ -88,10 +72,21 @@ public class test : MonoBehaviour {
             Debug.Log("登录失败");
         }
     }
-    void OnGetMsgGetText(MsgBase msgBase)
+    void OnMsgKick(MsgBase msgBase)
     {
-        MsgGetText msg = (MsgGetText)msgBase;
-        notePadInputField.text = msg.text;
+        MsgKick msg = (MsgKick)msgBase;
+        Debug.Log("被踢了");
+    }
+    void OnMsgLogout(MsgBase msgBase)
+    {
+        MsgLogout msg = (MsgLogout)msgBase;
+        if(msg.result == 0)
+        {
+            Debug.Log("登出成功");
+        } else
+        {
+            Debug.Log("登出失败");
+        }
     }
     void OnMsgSaveText(MsgBase msgBase)
     {
@@ -103,6 +98,11 @@ public class test : MonoBehaviour {
         {
             Debug.Log("保存失败");
         }
+    }
+    void OnGetMsgGetText(MsgBase msgBase)
+    {
+        MsgGetText msg = (MsgGetText)msgBase;
+        notePadInputField.text = msg.text;
     }
     public void SendMsgSaveText()
     {
@@ -148,7 +148,6 @@ public class test : MonoBehaviour {
         MsgLogout msg = new MsgLogout();
         NetManager.Send(msg);
     }
-
     public void OnCloseClicked()
     {
         NetManager.Close();

@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Text;
 using general.script.net;
-//using general.script.proto;
+using general.script.proto;
 using general.script.logic;
-//namespace general.script.logic
-//{
+namespace general.script.logic
+{
     public partial class MsgHandler
     {
         public static void MsgGetText(ClientState cs, MsgBase msgBase)
         {
             MsgGetText msg = (MsgGetText)msgBase;
             Player player = cs.player;
-            if(player == null)
+            if (player == null)
             {
                 return;
             }
@@ -23,7 +23,7 @@ using general.script.logic;
         {
             MsgSaveText msg = (MsgSaveText)msgBase;
             Player player = cs.player;
-            if(player == null)
+            if (player == null)
             {
                 msg.result = 1;
                 //保存失败
@@ -35,4 +35,4 @@ using general.script.logic;
             player.Send(msg);
         }
     }
-//}
+}

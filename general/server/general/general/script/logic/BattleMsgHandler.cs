@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using general.script.net;
-
+using general.script.proto;
 namespace general.script.logic
 {
     public partial class MsgHandler

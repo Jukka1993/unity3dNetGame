@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-//namespace general.script.proto
-//{
+using general.script.net;
+namespace general.script.proto
+{
     //获取记事本内容
     public class MsgGetText : MsgBase
     {
@@ -26,4 +26,4 @@ using System.Text;
         //服务端回(0-成功,1-文字太长
         public int result = 0;
     }
-//}
+}

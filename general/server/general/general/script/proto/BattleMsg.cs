@@ -1,16 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-
-public class MsgMove : MsgBase {
-
-	public MsgMove() { protoName = "MsgMove"; }
-    public int x = 0;
-    public int y = 0;
-    public int z = 0;
-}
-public class MsgAttack : MsgBase
+using general.script.net;
+namespace general.script.proto
 {
-    public MsgAttack() { protoName = "MsgAttack"; }
-    public string desc = "127.0.0.1:6543";
+    public class MsgMove : MsgBase
+    {
 
+        public MsgMove() { protoName = "MsgMove"; }
+        public int x = 0;
+        public int y = 0;
+        public int z = 0;
+    }
+    public class MsgAttack : MsgBase
+    {
+        public MsgAttack() { protoName = "MsgAttack"; }
+        public string desc = "127.0.0.1:6543";
+
+    }
 }
+

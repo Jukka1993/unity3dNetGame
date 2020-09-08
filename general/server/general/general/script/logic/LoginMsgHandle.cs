@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using general.script.net;
-//using general.script.proto;
+using general.script.proto;
 using general.script.db;
 using general.script.logic;
 
-//namespace general.script.logic
-//{
+namespace general.script.logic
+{
     public partial class MsgHandler
     {
         public static void MsgRegister(ClientState cs, MsgBase msgBase)
@@ -87,4 +87,4 @@ using general.script.logic;
             player.Send(msg);
         }
     }
-//}
+}

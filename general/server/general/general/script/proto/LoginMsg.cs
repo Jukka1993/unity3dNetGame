@@ -1,41 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using general.script.net;
 
-//namespace general.script.proto
-//{
-public class MsgRegister:MsgBase
+namespace general.script.proto
 {
-    public MsgRegister()
+    public class MsgRegister : MsgBase
     {
-        protoName = "MsgRegister";
+        public MsgRegister()
+        {
+            protoName = "MsgRegister";
+        }
+        //客户端发
+        public string name = "";
+        public string pw = "";
+        //服务器回,
+        public int id = -1;
+        public int result = 0;
     }
-    //客户端发
-    public string name = "";
-    public string pw = "";
-    //服务器回,
-    public int id = -1;
-    public int result = 0;
-}
-public class MsgLogin : MsgBase
-{
-    public MsgLogin()
+    public class MsgLogin : MsgBase
     {
-        protoName = "MsgLogin";
+        public MsgLogin()
+        {
+            protoName = "MsgLogin";
+        }
+        public string name = "";
+        public string pw = "";
+        public int result = 0;
     }
-    public string name = "";
-    public string pw = "";
-    public int result = 0;
-}
-public class MsgLogout : MsgBase
-{
-    public MsgLogout()
+    public class MsgLogout : MsgBase
     {
-        protoName = "MsgLogout";
+        public MsgLogout()
+        {
+            protoName = "MsgLogout";
+        }
+        public int result = 0;
     }
-    public int result = 0;
-}
-public class MsgKick : MsgBase
+    public class MsgKick : MsgBase
     {
         public MsgKick()
         {
@@ -43,4 +44,4 @@ public class MsgKick : MsgBase
         }
         public int reason = 0;
     }
-//}
+}

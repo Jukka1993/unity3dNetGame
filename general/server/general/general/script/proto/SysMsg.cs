@@ -1,10 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-public class MsgPing :MsgBase {
-    public MsgPing() { protoName = "MsgPing"; }
-}
-public class MsgPong : MsgBase
+using general.script.net;
+namespace general.script.proto
 {
-    public MsgPong() { protoName = "MsgPong"; }
+    public class MsgPing : MsgBase
+    {
+        public MsgPing() { protoName = "MsgPing"; }
+    }
+    public class MsgPong : MsgBase
+    {
+        public MsgPong() { protoName = "MsgPong"; }
+    }
 }
