@@ -3,6 +3,8 @@
 
 Library/
 Temp/
+build/
+Build/
 # User-specific files
 *.suo
 *.user
