@@ -15,6 +15,7 @@ namespace general.script.proto
         public string name = "";
         public string pw = "";
         //服务器回,
+        public string reasonStr = "";
         public int id = -1;
         public int result = 0;
     }
@@ -24,6 +25,7 @@ namespace general.script.proto
         {
             protoName = "MsgLogin";
         }
+        public string reasonStr = "";
         public string name = "";
         public string pw = "";
         public int result = 0;
@@ -42,6 +44,7 @@ namespace general.script.proto
         {
             protoName = "MsgKick";
         }
+        public string reasonStr = "";
         public int reason = 0;
     }
 }

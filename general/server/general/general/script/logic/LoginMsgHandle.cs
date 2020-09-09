@@ -15,7 +15,8 @@ namespace general.script.logic
             MsgRegister msg = (MsgRegister)msgBase;
             //注册
             //int id = ;
-            if (DBManager.Register(msg.name, msg.pw))
+            string reasonStr = "";
+            if (DBManager.Register(msg.name, msg.pw,out reasonStr))
             {
                 int id = DBManager.CheckPassword(msg.name, msg.pw);
                 DBManager.CreatePlayer(id);
@@ -23,6 +24,7 @@ namespace general.script.logic
                 msg.result = 0;
             } else
             {
+                msg.reasonStr = reasonStr;
                 msg.result = 1;
             }
             NetManager.Send(cs, msg);
@@ -43,10 +45,12 @@ namespace general.script.logic
         public static void MsgLogin(ClientState cs,MsgBase msgBase)
         {
             MsgLogin msg = (MsgLogin)msgBase;
-            int id = DBManager.CheckPassword(msg.name, msg.pw);
+            string reasonStr = "";
+            int id = DBManager.CheckPassword(msg.name, msg.pw,out reasonStr);
             if (id < 0)
             {
                 msg.result = 1;
+                msg.reasonStr = reasonStr;
                 NetManager.Send(cs, msg);
                 return;
             }
@@ -55,6 +59,8 @@ namespace general.script.logic
             {
                 msg.result = 1;
                 NetManager.Send(cs, msg);
+                msg.reasonStr = reasonStr;
+
                 return;
             }
             //如果该账号已被其他人登录，则踢出其他人
@@ -63,6 +69,7 @@ namespace general.script.logic
                 Player other = PlayerManager.GetPlayer(id);
                 MsgKick msgKick = new MsgKick();
                 msgKick.reason = 0;
+                msgKick.reasonStr = "other login with your account";
             DBManager.UpdatePlayerData(other.id, other.data);
             PlayerManager.RemovePlayer(other.id);
                 other.Send(msgKick);
@@ -74,6 +81,7 @@ namespace general.script.logic
             if(playerData == null)
             {
                 msg.result = 1;
+                msg.reasonStr = reasonStr;
                 NetManager.Send(cs, msg);
                 return;
             }

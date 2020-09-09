@@ -55,7 +55,7 @@ public class test : MonoBehaviour {
             Debug.Log("注册成功");
         } else
         {
-            Debug.Log("注册失败");
+            Debug.Log("注册失败 " + msg.reasonStr);
         }
 
     }
@@ -69,13 +69,13 @@ public class test : MonoBehaviour {
             GetMsgGetText();
         } else
         {
-            Debug.Log("登录失败");
+            Debug.Log("登录失败" + msg.reasonStr);
         }
     }
     void OnMsgKick(MsgBase msgBase)
     {
         MsgKick msg = (MsgKick)msgBase;
-        Debug.Log("被踢了");
+        Debug.Log("被踢了" + msg.reasonStr);
     }
     void OnMsgLogout(MsgBase msgBase)
     {

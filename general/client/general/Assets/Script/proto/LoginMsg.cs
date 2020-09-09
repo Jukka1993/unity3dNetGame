@@ -13,6 +13,7 @@ public class MsgRegister:MsgBase
     public string name = "";
     public string pw = "";
     //服务器回,
+    public string reasonStr = "";
     public int id = -1;
     public int result = 0;
 }
@@ -30,6 +31,7 @@ public class MsgLogin : MsgBase
     {
         protoName = "MsgLogin";
     }
+    public string reasonStr = "";
     public string name = "";
     public string pw = "";
     public int result = 0;
@@ -40,6 +42,7 @@ public class MsgKick : MsgBase
     {
         protoName = "MsgKick";
     }
+    public string reasonStr = "";
     public int reason = 0;
 }
 

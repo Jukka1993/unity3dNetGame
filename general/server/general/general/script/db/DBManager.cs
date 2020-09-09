@@ -23,11 +23,11 @@ namespace general.script.db
             {
                 mysql.Open();
                 Console.WriteLine();
-                Console.WriteLine("[数据库]connect succ ");
+                Console.WriteLine("[Database]connect succ ");
                 return true;
             }catch(Exception e)
             {
-                Console.WriteLine("[数据库]connect fail, " + e.Message);
+                Console.WriteLine("[Database]connect fail, " + e.Message);
                 return false;
             }
         }
@@ -50,7 +50,7 @@ namespace general.script.db
                 return !hasRows;
             }catch(Exception e)
             {
-                Console.WriteLine("[数据库] IsNameExist err, " + e.Message);
+                Console.WriteLine("[Database] IsNameExist err, " + e.Message);
                 return false;
             }
 
@@ -69,7 +69,7 @@ namespace general.script.db
                 return true;
             }catch(Exception e)
             {
-                Console.WriteLine("[数据库] CreatePlayer err, " + e.Message);
+                Console.WriteLine("[Database] CreatePlayer err, " + e.Message);
                 return false;
             }
 
@@ -85,20 +85,27 @@ namespace general.script.db
                 return true;
             } catch(Exception e)
             {
-                Console.WriteLine("[数据库] UpdatePlayerData err, " + e.Message);
+                Console.WriteLine("[Database] UpdatePlayerData err, " + e.Message);
                 return false;
             }
         }
         public static int CheckPassword(string name, string pw)
         {
+            string reasonStr = "";
+            return CheckPassword(name, pw, out reasonStr);
+        }
+        public static int CheckPassword(string name, string pw, out string reasonStr)
+        {
             if (!IsSafeString(name))
             {
-                Console.WriteLine("[] CheckPassword fail, name not safe");
+                Console.WriteLine("[Database] CheckPassword fail, name not safe");
+                reasonStr = "[Database] CheckPassword fail, name not safe";
                 return -1;
             }
             if (!IsSafeString(pw))
             {
-                Console.WriteLine("[]CheckPassword fail, pw not safe");
+                Console.WriteLine("[Database]CheckPassword fail, pw not safe");
+                reasonStr = "[Database]CheckPassword fail, pw not safe";
                 return -1;
             }
             string sql = string.Format("select * from account where name = '{0}' and pw = '{1}';", name, pw);
@@ -112,36 +119,49 @@ namespace general.script.db
                     dataReader.Read();
                     int id = dataReader.GetInt32("id");
                     dataReader.Close();
+                    reasonStr = "";
+
                     return id;
                 } else
                 {
                     dataReader.Close();
+                    reasonStr = "Account or Password error!";
                     return -1;
                 }
                 //return hasRows;
             }catch(Exception e)
             {
                 Console.WriteLine("[] CheckPassword err, " + e.Message);
+                reasonStr = "[] CheckPassword err, " + e.Message;
                 return -1;
             }
         }
-        public static bool Register(string name,string pw)
+        public static bool Register(string name ,string pw)
         {
+            string nothing = "";
+            return Register(name, pw,out nothing);
+        }
+        public static bool Register(string name,string pw,out string reasonStr)
+        {
+            reasonStr = "";
             //name防sql注入
             if (!IsSafeString(name))
             {
                 Console.WriteLine("[数据库]Register fail, id not safe ");
+                reasonStr = "[数据库]Register fail, id not safe ";
                 return false;
             }
             //pw防sql注入
             if (!IsSafeString(pw))
             {
                 Console.WriteLine("[数据库]Register fail, pw not safe ");
+                reasonStr = "[数据库]Register fail, pw not safe ";
                 return false;
             }
             //能否注册，name是否已存在
             if (!IsNameExist(name))
             {
+                reasonStr = "[数据库]Register fail, name exist";
                 Console.WriteLine("[数据库]Register fail, name exist");
                 return false;
             }
@@ -155,6 +175,8 @@ namespace general.script.db
             } catch(Exception e)
             {
                 Console.WriteLine("[数据库]Register fail " + e.Message);
+                reasonStr = "[数据库]Register fail " + e.Message;
+
                 return false;
             }
         }
