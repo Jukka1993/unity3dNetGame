@@ -12,7 +12,7 @@ public class Test1 : MonoBehaviour {
         //skin.transform.position = Vector3.zero;
         GameObject tankObj = new GameObject("myTank");
         BaseTank baseTank = tankObj.AddComponent<CtrlTank>();
-        baseTank.Init("TankPrefab/tankPrefab");
+        baseTank.Init("Prefabs/ModelPre/TankPrefab/tankPrefab");
         baseTank.transform.gameObject.AddComponent<CameraFollow>();
 	}
 	
