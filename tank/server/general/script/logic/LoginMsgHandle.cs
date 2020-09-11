@@ -51,6 +51,7 @@ namespace general.script.logic
             {
                 msg.result = 1;
                 msg.reasonStr = reasonStr;
+                msg.id = id;
                 NetManager.Send(cs, msg);
                 return;
             }

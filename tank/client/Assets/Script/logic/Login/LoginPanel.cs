@@ -27,11 +27,11 @@ public class LoginPanel : BasePanel {
         //网络消息监听
         NetManager.AddMsgListener("MsgLogin", OnMsgLogin);
         //网络事件监听
-        NetManager.AddEventListener(NetEvent.ConnectSucc, OnConnectSucc);
-        NetManager.AddEventListener(NetEvent.ConnectFail, OnConnectFail);
+        //NetManager.AddEventListener(NetEvent.ConnectSucc, OnConnectSucc);
+        //NetManager.AddEventListener(NetEvent.ConnectFail, OnConnectFail);
 
         //连接服务器
-        NetManager.Connect("127.0.0.1", 8888);
+        //NetManager.Connect("127.0.0.1", 8888);
     }
     public override void OnClose()
     {
@@ -39,8 +39,8 @@ public class LoginPanel : BasePanel {
         //网络协议监听 移除
         NetManager.RemoveMsgListener("MsgLogin", OnMsgLogin);
         //网络事件监听 移除
-        NetManager.RemoveEventListener(NetEvent.ConnectSucc, OnConnectSucc);
-        NetManager.RemoveEventListener(NetEvent.ConnectFail, OnConnectFail);
+        //NetManager.RemoveEventListener(NetEvent.ConnectSucc, OnConnectSucc);
+        //NetManager.RemoveEventListener(NetEvent.ConnectFail, OnConnectFail);
     }
     private void OnConnectSucc(string str)
     {
@@ -57,19 +57,20 @@ public class LoginPanel : BasePanel {
         MsgLogin msg = (MsgLogin)msgBase;
         if(msg.result == 0)
         {
-            Debug.Log("登录成功");
+            CommonUtil.OpenTip("登录成功");
             //进入游戏
             //添加坦克
             GameObject tankObj = new GameObject("myTank");
             CtrlTank ctrlTank = tankObj.AddComponent<CtrlTank>();
-            ctrlTank.Init("tankPrefab");
+            ctrlTank.Init("Prefabs/ModelPre/TankPrefab/tankPrefab");
             //设置相机
             tankObj.AddComponent<CameraFollow>();
+            GameMain.id = msg.id;
             //关闭登录界面
             Close();
         } else
         {
-            //PanelManager.Open<TipPanel>("登录失败");
+            CommonUtil.OpenTip("登录失败: " + msg.reasonStr);
         }
     }
     private void OnLoginClick()
@@ -77,7 +78,7 @@ public class LoginPanel : BasePanel {
         Debug.Log("===OnLoginClick");
         if(nameInputField.text == "" || passwordInputField.text == "")
         {
-            //PanelManager.Open<TipPanel>("用户名和密码不能为空");
+            CommonUtil.OpenTip("用户名和密码不能为空");
             return;
         }
         //发送登录请求
@@ -88,7 +89,6 @@ public class LoginPanel : BasePanel {
     }
     private void OnRegisterClick()
     {
-        Debug.Log("===OnRegisterClick");
-        //PanelManager.Open<RegisterPanel>();
+        PanelManager.Open<RegisterPanel>();
     }
 }

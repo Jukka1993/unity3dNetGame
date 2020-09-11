@@ -17,7 +17,7 @@ public class BasePanel : MonoBehaviour {
     public void Close()
     {
         string name = this.GetType().ToString();
-        //PanelManager.Close(name);
+        PanelManager.Close(name);
     }
     //初始化时
     public virtual void OnInit()
