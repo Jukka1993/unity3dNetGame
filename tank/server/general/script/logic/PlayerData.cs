@@ -8,5 +8,7 @@ namespace general.script.logic
     {
         public int coin = 0;
         public string text = "new text";
+        public int winCount = 0;
+        public int lostCount = 0;
     }
 }

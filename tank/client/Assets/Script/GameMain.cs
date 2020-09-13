@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameMain : MonoBehaviour {
     public static int id = -1;
+    public static string userName = "";
     private void Start()
     {
         //网络监听

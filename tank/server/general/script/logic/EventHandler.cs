@@ -14,6 +14,16 @@ namespace general.script.logic
             //Player下线
             if(cs.player != null)
             {
+                if(cs.player != null)
+                {
+                    int roomId = cs.player.roomId;
+                    if(roomId >= 0)
+                    {
+                        Room room = RoomManager.GetRoom(roomId);
+                        room.RemovePlayer(cs.player.id);
+                    }
+                }
+
                 //保存数据
                 DBManager.UpdatePlayerData(cs.player.id, cs.player.data);
                 //移除

@@ -79,6 +79,7 @@ namespace general.script.logic
             }
             //获取玩家数据
             PlayerData playerData = DBManager.GetPlayerData(id);
+            string playerName = DBManager.GetPlayerName(id);
             if(playerData == null)
             {
                 msg.result = 1;
@@ -87,6 +88,7 @@ namespace general.script.logic
                 return;
             }
             Player player = new Player(cs);
+            player.name = playerName;
             player.id = id;
             player.data = playerData;
             PlayerManager.AddPlayer(id, player);

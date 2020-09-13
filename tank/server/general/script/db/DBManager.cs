@@ -184,6 +184,30 @@ namespace general.script.db
         {
             return 0;
         }
+        public static string GetPlayerName(int id)
+        {
+            string sql = String.Format("select * from account where id = '{0}';", id);
+            try
+            {
+                MySqlCommand cmd = new MySqlCommand(sql, mysql);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                if (!reader.HasRows)
+                {
+                    reader.Close();
+                    return "***";
+                } else
+                {
+                    reader.Read();
+                    string nameStr = reader.GetString("name");
+                    reader.Close();
+                    return nameStr;
+                }
+            }catch (MySqlException e)
+            {
+                Console.WriteLine("[数据库] GetPlayerName fail, " + e.Message);
+                return null;
+            }
+        }
         public static PlayerData GetPlayerData(int id)
         {
             string sql = String.Format("select * from player where id = '{0}';", id);

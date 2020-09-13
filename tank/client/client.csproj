@@ -329,10 +329,13 @@
     <Compile Include="Assets\Script\logic\Login\New Folder\LoginView.cs" />
     <Compile Include="Assets\Script\logic\Login\New Folder\RegisterView.cs" />
     <Compile Include="Assets\Script\logic\Login\RegisterPanel.cs" />
+    <Compile Include="Assets\Script\logic\Room\RoomListPanel.cs" />
+    <Compile Include="Assets\Script\logic\Room\RoomPanel.cs" />
     <Compile Include="Assets\Script\logic\testTank.cs" />
     <Compile Include="Assets\Script\proto\BattleMsg.cs" />
     <Compile Include="Assets\Script\proto\LoginMsg.cs" />
     <Compile Include="Assets\Script\proto\NotepadMsg.cs" />
+    <Compile Include="Assets\Script\proto\RoomMsg.cs" />
     <Compile Include="Assets\Script\proto\SysMsg.cs" />
     <Compile Include="Assets\Script\tank\BaseTank.cs" />
     <Compile Include="Assets\Script\tank\CtrlTank.cs" />

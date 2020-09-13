@@ -207,6 +207,7 @@ namespace general.script.net
             Array.Copy(bodyBytes, 0, sendBytes, 2 + nameBytes.Length, bodyBytes.Length);
             try
             {
+                Console.WriteLine("Send + " + cs.socket.RemoteEndPoint);
                 cs.socket.BeginSend(sendBytes, 0, sendBytes.Length, 0, null, null);
             }
             catch (SocketException ex)
