@@ -33,7 +33,15 @@ namespace general.script.net
             string typeFullName = "general.script.proto." + protoName;
             Console.WriteLine("typeFullName " + typeFullName);
             Console.WriteLine("Type.Tostring "+Type.GetType(typeFullName).ToString());
-            MsgBase msgBase = (MsgBase)JsonConvert.DeserializeObject(s, Type.GetType(typeFullName));
+            MsgBase msgBase = null;
+            try
+            {
+                msgBase = (MsgBase)JsonConvert.DeserializeObject(s, Type.GetType(typeFullName));
+            } catch(Exception e)
+            {
+                Console.WriteLine("DeserializeObject error " + e.ToString());
+                Console.WriteLine("\n");
+            }
             //MsgBase msgBase = (MsgBase)JsonSerializer.Deserialize(s,Type.GetType(protoName));
             ////MsgBase msgBase = (MsgBase)JsonUtility.FromJson(s, Type.GetType(protoName));
             return msgBase;
@@ -53,15 +61,24 @@ namespace general.script.net
             count = 0;
             if (offset + 2 > bytes.Length)
             {
+                Console.WriteLine(" Decode Name fail 1");
                 return "";
             }
             Int16 len = (Int16)((bytes[offset + 1] << 8) | bytes[offset]);
             if (offset + 2 + len > bytes.Length)
             {
+                Console.WriteLine(" Decode Name fail 2");
+                string name1 = System.Text.Encoding.UTF8.GetString(bytes, offset + 2, len);
+                Console.WriteLine("name1 = " + name1);
+
                 return "";
             }
             count = 2 + len;
             string name = System.Text.Encoding.UTF8.GetString(bytes, offset + 2, len);
+            if(name == "")
+            {
+                Console.WriteLine(" Decode Name fail 3");
+            }
             return name;
         }
     }

@@ -38,6 +38,9 @@ public class RoomPanel : BasePanel {
     public override void OnClose()
     {
         base.OnClose();
+        NetManager.RemoveMsgListener("MsgGetRoomInfo", OnMsgGetRoomInfo);
+        NetManager.RemoveMsgListener("MsgLeaveRoom", OnMsgLeaveRoom);
+        NetManager.RemoveMsgListener("MsgStartBattle", OnMsgStartBattle);
     }
     private void OnMsgStartBattle(MsgBase msgBase)
     {
