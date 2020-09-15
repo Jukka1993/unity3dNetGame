@@ -147,6 +147,9 @@ namespace general.script.net
             readBuff.readIdx += nameCount;
             //开始解析协议体，这里为什么是bodyLength还要再看看才能想清楚。。。
             int bodyCount = bodyLength - nameCount;
+            
+                string name123 = System.Text.Encoding.UTF8.GetString(readBuff.bytes, 0, readBuff.bytes.Length);
+
             MsgBase msgBase = MsgBase.Decode(protoName, readBuff.bytes, readBuff.readIdx, bodyCount);
             //协议体解析完了，将readIdx移动，便于之后再次解析下一条消息。
             readBuff.readIdx += bodyCount;

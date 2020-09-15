@@ -68,7 +68,9 @@ namespace general.script.net
             if (offset + 2 + len > bytes.Length)
             {
                 Console.WriteLine(" Decode Name fail 2");
-                string name1 = System.Text.Encoding.UTF8.GetString(bytes, offset + 2, len);
+                //string name1 = System.Text.Encoding.UTF8.GetString(bytes, offset + 2, len);
+                string name1 = System.Text.Encoding.UTF8.GetString(bytes, 0, bytes.Length);
+
                 Console.WriteLine("name1 = " + name1);
 
                 return "";

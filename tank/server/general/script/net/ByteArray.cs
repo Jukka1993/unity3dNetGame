@@ -29,6 +29,7 @@ public class ByteArray
     {
         if (size < length) return;
         if (size < initSize) return;
+        Console.WriteLine("Resize ================");
         int n = 1;
         while (n < size) n *= 2;
         capacity = n;
@@ -57,6 +58,9 @@ public class ByteArray
         {
             ReSize(length + count);
         }
+        
+        string bsStr = System.Text.Encoding.UTF8.GetString(bs, 0, bytes.Length);
+        Console.WriteLine(bsStr);
         Array.Copy(bs, offset, bytes, writeIdx, count);
         readIdx += count;
         return count;
