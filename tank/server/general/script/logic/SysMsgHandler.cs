@@ -10,7 +10,7 @@ namespace general.script.logic
     {
         public static void MsgPing(ClientState cs, MsgBase msg)
         {
-            Console.WriteLine("Receive MsgPing");
+            //Console.WriteLine("Receive MsgPing");
             cs.lastPingTime = NetManager.GetTimeStamp();
             MsgPong msgPong = new MsgPong();
             NetManager.Send(cs, msgPong);

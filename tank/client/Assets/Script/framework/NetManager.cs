@@ -27,7 +27,7 @@ public static class NetManager {
     static int msgCount = 0;
     readonly static int MAX_MESSAGE_FIRE = 10;
     public static bool isUsePing = true;
-    public static int pingInterval = 30;
+    public static int pingInterval = 30000;
     static float lastPingTime = 0;
     static float lastPongTime = 0;
 

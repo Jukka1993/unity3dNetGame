@@ -31,8 +31,8 @@ namespace general.script.net
             MsgSaveText xx = new MsgSaveText();
             string s = System.Text.Encoding.UTF8.GetString(bytes, offset, count);
             string typeFullName = "general.script.proto." + protoName;
-            Console.WriteLine("typeFullName " + typeFullName);
-            Console.WriteLine("Type.Tostring "+Type.GetType(typeFullName).ToString());
+            //Console.WriteLine("typeFullName " + typeFullName);
+            //Console.WriteLine("Type.Tostring "+Type.GetType(typeFullName).ToString());
             MsgBase msgBase = null;
             try
             {
@@ -67,11 +67,9 @@ namespace general.script.net
             Int16 len = (Int16)((bytes[offset + 1] << 8) | bytes[offset]);
             if (offset + 2 + len > bytes.Length)
             {
-                Console.WriteLine(" Decode Name fail 2");
                 //string name1 = System.Text.Encoding.UTF8.GetString(bytes, offset + 2, len);
                 string name1 = System.Text.Encoding.UTF8.GetString(bytes, 0, bytes.Length);
-
-                Console.WriteLine("name1 = " + name1);
+                string name2 = name1;
 
                 return "";
             }

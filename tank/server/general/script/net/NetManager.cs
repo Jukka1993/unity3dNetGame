@@ -18,7 +18,7 @@ namespace general.script.net
         //select的检查列表
         static List<Socket> checkRead = new List<Socket>();
         //ping间隔
-        public static long pingInterval = 30;
+        public static long pingInterval = 30000;
         public static void StartLoop(int listenPort)
         {
             //Socket
@@ -128,12 +128,31 @@ namespace general.script.net
             {
                 return;
             }
-            Int16 bodyLength = readBuff.ReadInt16();
-            //消息体长度比读缓冲区的内容长度还长，说明消息没收完，则return掉，等下次收到了更多的字节了再来处理
-            if(readBuff.length < bodyLength)
-            {
-                return;
-            }
+            //{
+            //原来勘误上面有这里的修改,我还查了好久的问题才查出来
+                byte[] bytes = readBuff.bytes;
+                Int16 bodyLength = (Int16)((bytes[readBuff.readIdx + 1] << 8) | bytes[readBuff.readIdx]);
+                if(readBuff.length < bodyLength + 2)
+                {
+                    return;
+                }
+                readBuff.readIdx += 2;
+            //}
+
+            //Int16 bodyLength = readBuff.ReadInt16();
+            ////消息体长度比读缓冲区的内容长度还长，说明消息没收完，则return掉，等下次收到了更多的字节了再来处理
+            //if(readBuff.length < bodyLength)
+            //{
+            //    Console.WriteLine("见此日志 readIndex 必连续加2，DecodeName极大概率出错");
+            //    //此处有个坑爹的地方,如果readBuff.length小于bodyLength则会返回，下次再来获取数据
+            //    //但是上面的bodyLength是通过ReadInt16得来的,即使这次获取数据不完整返回，也会导致
+            //    //readIndex += 2; 所以一旦出现这种情况,就会导致 readIndex多向后偏移了两位,
+            //    //从而在下面的DecodeName中，解析到的长度变得超级长（几万很常见）
+            //    //如果此处要用 ReadInt16的话需要在下面的return之前将readIndex -= 2;
+            //    //当然最好不要这样做，感觉这里之前就有坑,
+            //    //见下面的AAA注释，而是将ReadInt16和readIndex+=2的操作分开比较好理解
+            //    return;
+            //}
             //开始解析协议名
             int nameCount = 0;
             string protoName = MsgBase.DecodeName(readBuff.bytes, readBuff.readIdx, out nameCount);
@@ -142,22 +161,26 @@ namespace general.script.net
             {
                 Console.WriteLine("OnReceiveData MsgBase.DecodeName fail");
                 Close(cs);
+                return;
             }
             //协议名解析完了，读缓冲区的“开始读取索引”向后移动协议名的字节长度，用于之后直接开始解析协议体
+            Console.WriteLine("D nameCount += " + nameCount);
             readBuff.readIdx += nameCount;
-            //开始解析协议体，这里为什么是bodyLength还要再看看才能想清楚。。。
+            //AAA 开始解析协议体，这里为什么是bodyLength还要再看看才能想清楚。。。
             int bodyCount = bodyLength - nameCount;
             
                 string name123 = System.Text.Encoding.UTF8.GetString(readBuff.bytes, 0, readBuff.bytes.Length);
 
             MsgBase msgBase = MsgBase.Decode(protoName, readBuff.bytes, readBuff.readIdx, bodyCount);
             //协议体解析完了，将readIdx移动，便于之后再次解析下一条消息。
+            Console.WriteLine("D bodyCount += " + bodyCount);
+
             readBuff.readIdx += bodyCount;
             readBuff.CheckAndMoveBytes();
             //分发消息，反射获取协议名对应的MethodInfo
             MethodInfo mi = typeof(MsgHandler).GetMethod(protoName);
             object[] o = { cs, msgBase };
-            Console.WriteLine("Receive proto " + protoName);
+            //Console.WriteLine("Receive proto " + protoName);
             if(mi != null)
             {
                 mi.Invoke(null, o);
@@ -210,7 +233,7 @@ namespace general.script.net
             Array.Copy(bodyBytes, 0, sendBytes, 2 + nameBytes.Length, bodyBytes.Length);
             try
             {
-                Console.WriteLine("Send + " + cs.socket.RemoteEndPoint);
+                //Console.WriteLine("Send + " + cs.socket.RemoteEndPoint);
                 cs.socket.BeginSend(sendBytes, 0, sendBytes.Length, 0, null, null);
             }
             catch (SocketException ex)

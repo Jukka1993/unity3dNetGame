@@ -78,11 +78,11 @@ public class LoginPanel : BasePanel {
     private void OnLoginClick()
     {
         Debug.Log("===OnLoginClick");
-        if(nameInputField.text == "" || passwordInputField.text == "")
-        {
-            CommonUtil.OpenTip("用户名和密码不能为空");
-            return;
-        }
+        //if(nameInputField.text == "" || passwordInputField.text == "")
+        //{
+        //    CommonUtil.OpenTip("用户名和密码不能为空");
+        //    return;
+        //}
         //发送登录请求
         MsgLogin msgLogin = new MsgLogin();
         msgLogin.name = nameInputField.text;
