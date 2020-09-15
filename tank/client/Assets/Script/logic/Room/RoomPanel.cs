@@ -81,11 +81,11 @@ public class RoomPanel : BasePanel {
         }
         for(int i = 0; i < msg.players.Length; i++)
         {
-            GeneratePlayer(msg.players[i]);
+            GeneratePlayer(msg.players[i], msg);
         }
 
     }
-    private void GeneratePlayer(PlayerInfo playerInfo)
+    private void GeneratePlayer(PlayerInfo playerInfo, MsgGetRoomInfo msg)
     {
         GameObject player = Instantiate(playerItem);
         player.transform.SetParent(playerContent);
@@ -94,9 +94,18 @@ public class RoomPanel : BasePanel {
         Text groupText = player.transform.Find("GroupText").GetComponent<Text>();
         Text achieveText = player.transform.Find("AchieveText").GetComponent<Text>();
         Button kickButton = player.transform.Find("Button").GetComponent<Button>();
-
+        Image image = player.transform.Find("Image").GetComponent<Image>();
+        
         nameText.text = playerInfo.name;
-        groupText.text = playerInfo.camp == 0 ? "红方" : "蓝方";
+        if(playerInfo.camp == 1)
+        {
+            groupText.text = "红方" + (playerInfo.isOwner ? "!" : "");
+            image.color = Color.red;
+        } else
+        {
+            groupText.text = "蓝方" + (playerInfo.isOwner ? "!" : "");
+            image.color = Color.blue;
+        }
         achieveText.text = playerInfo.winCount + "胜" + playerInfo.lostCount + "负";
         kickButton.onClick.AddListener(delegate () { OnKickButtonClick(playerInfo.id); });
 

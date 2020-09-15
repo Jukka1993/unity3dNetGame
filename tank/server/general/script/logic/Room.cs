@@ -48,6 +48,7 @@ namespace general.script.logic
                 ownerId = player.id;
             }
             Broadcast(ToMsg());
+            RoomManager.Broadcast();
             return true;
         }
         public bool RemovePlayer(int id)
@@ -73,6 +74,9 @@ namespace general.script.logic
             if(playerIds.Count == 0)
             {
                 RoomManager.RemoveRoom(this.roomId);
+            } else
+            {
+                RoomManager.Broadcast();
             }
             Broadcast(ToMsg());
             return true;

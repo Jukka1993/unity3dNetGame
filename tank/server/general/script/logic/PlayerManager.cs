@@ -6,7 +6,15 @@ namespace general.script.logic
 {
     class PlayerManager
     {
-        static Dictionary<int, Player> players = new Dictionary<int, Player>();
+        public static Dictionary<int, Player> players = new Dictionary<int, Player>();
+        //public static Dictionary<int, Player>.ValueCollection.Enumerator playersEnumerator
+        //{
+        //    get
+        //    {
+        //        //return players.Values.GetEnumerator();
+        //        return players.Values.GetEnumerator();
+        //    }
+        //}
         public static bool IsOnline(int id)
         {
             return players.ContainsKey(id);
