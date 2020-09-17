@@ -91,10 +91,12 @@ namespace general.script.logic
             player.name = playerName;
             player.id = id;
             player.data = playerData;
+
             PlayerManager.AddPlayer(id, player);
             cs.player = player;
             //返回协议
             msg.result = 0;
+            msg.id = id;
             player.Send(msg);
         }
     }

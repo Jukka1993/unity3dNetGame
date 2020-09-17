@@ -10,16 +10,16 @@ public class ByteArray
             return rIdx;
         }
         set {
-            Console.WriteLine("rIdx = " + value);
+            //Console.WriteLine("rIdx = " + value);
             bool isAdd2 = value - rIdx == 2;
             if (isAdd2 && lastIsAdd2)
             {
-                Console.WriteLine("Continue Add 2====");
+                //Console.WriteLine("Continue Add 2====");
             }
             if (isAdd2)
             {
                 //Console.SetError(new System.IO.TextWriter());
-                Console.WriteLine("******** current Add 2====");
+                //Console.WriteLine("******** current Add 2====");
             }
             //Console.SetError("isAdd2");
 
@@ -84,9 +84,9 @@ public class ByteArray
         }
         
         string bsStr = System.Text.Encoding.UTF8.GetString(bs, 0, bytes.Length);
-        Console.WriteLine(bsStr);
+        //Console.WriteLine(bsStr);
         Array.Copy(bs, offset, bytes, writeIdx, count);
-        Console.WriteLine("A Write===== " + count);
+        //Console.WriteLine("A Write===== " + count);
         readIdx += count;
         return count;
     }
@@ -104,7 +104,7 @@ public class ByteArray
     {
         if (length < 2) return 0;
         Int16 ret = (Int16)((bytes[1] << 8) | bytes[0]);
-        Console.WriteLine("C ReadInt16 add 2");
+        //Console.WriteLine("C ReadInt16 add 2");
         readIdx += 2;
         CheckAndMoveBytes();
         return ret;

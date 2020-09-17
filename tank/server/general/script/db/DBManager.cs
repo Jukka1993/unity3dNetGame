@@ -22,7 +22,6 @@ namespace general.script.db
             try
             {
                 mysql.Open();
-                Console.WriteLine();
                 Console.WriteLine("[Database]connect succ ");
                 return true;
             }catch(Exception e)

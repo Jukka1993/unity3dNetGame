@@ -18,7 +18,9 @@ public class BaseTank : MonoBehaviour {
     public Transform gun;
     //发射点
     public Transform firePoint;
-    public int hp = 100;
+    public float fireCd = 0.5f;
+    public float lastFireTime = 0;
+    public float hp = 100;
     public int id = -1;
     public int camp = 0;
     private void Start()
@@ -29,6 +31,39 @@ public class BaseTank : MonoBehaviour {
     public void Update()
     {
         
+    }
+    public bool IsDie()
+    {
+        return hp <= 0;
+    }
+    public void Attacked(float att)
+    {
+        if (IsDie())
+        {
+            return;
+        }
+        hp -= att;
+        if (IsDie())
+        {
+            GameObject obj = ResManager.LoadPrefab("Particles/explosion");
+            GameObject explosion = Instantiate(obj, transform.position, transform.rotation);
+            explosion.transform.SetParent(transform);
+        }
+    }
+    public Bullet Fire()
+    {
+        if (IsDie())
+        {
+            return null;
+        }
+        GameObject bulletObj = new GameObject("bullet");
+        Bullet bullet = bulletObj.AddComponent<Bullet>();
+        bullet.Init();
+        bullet.tank = this;
+        bullet.transform.position = firePoint.position;
+        bullet.transform.rotation = firePoint.rotation;
+        lastFireTime = Time.time;
+        return bullet;
     }
 
     public virtual void Init(string skinPath)

@@ -21,7 +21,7 @@ public class TankInfo
     public int id = -1;
     public string name = "";
     public int camp = 0;
-    public int hp = 0;
+    public float hp = 0;
 
     public float x = 0;
     public float y = 0;

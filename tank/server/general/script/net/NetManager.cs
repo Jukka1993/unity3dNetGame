@@ -164,7 +164,7 @@ namespace general.script.net
                 return;
             }
             //协议名解析完了，读缓冲区的“开始读取索引”向后移动协议名的字节长度，用于之后直接开始解析协议体
-            Console.WriteLine("D nameCount += " + nameCount);
+            //Console.WriteLine("D nameCount += " + nameCount);
             readBuff.readIdx += nameCount;
             //AAA 开始解析协议体，这里为什么是bodyLength还要再看看才能想清楚。。。
             int bodyCount = bodyLength - nameCount;
@@ -173,7 +173,7 @@ namespace general.script.net
 
             MsgBase msgBase = MsgBase.Decode(protoName, readBuff.bytes, readBuff.readIdx, bodyCount);
             //协议体解析完了，将readIdx移动，便于之后再次解析下一条消息。
-            Console.WriteLine("D bodyCount += " + bodyCount);
+            //Console.WriteLine("D bodyCount += " + bodyCount);
 
             readBuff.readIdx += bodyCount;
             readBuff.CheckAndMoveBytes();

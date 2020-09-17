@@ -10,7 +10,7 @@ namespace general.script.logic
         public static void MsgMove(ClientState cs,MsgBase msgBase)
         {
             MsgMove msgMove = (MsgMove)msgBase;
-            Console.WriteLine(msgMove.x);
+            //Console.WriteLine(msgMove.x);
             msgMove.x++;
             msgMove.y--;
             msgMove.z = 0;

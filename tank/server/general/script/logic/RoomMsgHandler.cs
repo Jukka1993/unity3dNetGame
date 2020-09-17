@@ -123,7 +123,7 @@ namespace general.script.logic
             {
                 return;
             }
-            Room room = RoomManager.GetRoom(player.id);
+            Room room = RoomManager.GetRoom(player.roomId);
             if(room == null)
             {
                 msg.result = 1;
@@ -136,7 +136,7 @@ namespace general.script.logic
                 player.Send(msg);
                 return;
             }
-            if (!room.CanStartBattle())
+            if (!room.StartBattle())
             {
                 msg.result = 1;
                 player.Send(msg);

@@ -10,7 +10,48 @@ public class BattleManager : MonoBehaviour {
         NetManager.AddMsgListener("MsgEnterBattle", OnMsgEnterBattle);
         NetManager.AddMsgListener("MsgBattleResult", OnMsgBattleResult);
         NetManager.AddMsgListener("MsgLeaveBattle", OnMsgLeaveBattle);
+        NetManager.AddMsgListener("MsgSyncTank", OnMsgSyncTank);
+        NetManager.AddMsgListener("MsgFire", OnMsgFire);
+        NetManager.AddMsgListener("MsgHit", OnMsgHit);
 
+    }
+    private static void OnMsgSyncTank(MsgBase msgBase)
+    {
+        MsgSyncTank msg = (MsgSyncTank)msgBase;
+        if(msg.id == GameMain.id)
+        {
+            return;
+        }
+        SyncTank tank = (SyncTank)GetTank(msg.id);
+        if(tank == null)
+        {
+            return;
+        }
+        tank.SyncPos(msg);
+    }
+    private static void OnMsgFire(MsgBase msgBase)
+    {
+        MsgFire msg = (MsgFire)msgBase;
+        if(msg.id == GameMain.id)
+        {
+            return;
+        }
+        SyncTank tank = (SyncTank)GetTank(msg.id);
+        if(tank == null)
+        {
+            return;
+        }
+        tank.SyncFire(msg);
+    }
+    private static void OnMsgHit(MsgBase msgBase)
+    {
+        MsgHit msg = (MsgHit)msgBase;
+        BaseTank tank = GetTank(msg.targetId);
+        if(tank == null)
+        {
+            return;
+        }
+        tank.Attacked(msg.damage);
     }
     private static void OnMsgEnterBattle(MsgBase msgBase)
     {
@@ -50,10 +91,11 @@ public class BattleManager : MonoBehaviour {
         tank.transform.eulerAngles = rot;
         if(tankInfo.camp == 1)
         {
-            tank.Init("tankPrefab");//todo 写入正确的坦克模型路径
+            tank.Init("Prefabs/ModelPre/TankPrefab/tankPrefab");//todo 写入正确的坦克模型路径
         } else
         {
-            tank.Init("tankPrefab2");//todo 写入正确的坦克模型路径
+            //tank.Init("tankPrefab2");//todo 写入正确的坦克模型路径
+            tank.Init("Prefabs/ModelPre/TankPrefab/tankPrefab");//todo 写入正确的坦克模型路径
         }
         AddTank(tankInfo.id, tank);
     }
