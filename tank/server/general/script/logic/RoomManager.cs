@@ -10,6 +10,13 @@ namespace general.script.logic
     {
         private static int maxId = 1;
         public static Dictionary<int, Room> rooms = new Dictionary<int, Room>();
+        public static void Update()
+        {
+            foreach(Room room in rooms.Values)
+            {
+                room.Update();
+            }
+        }
         public static Room GetRoom(int id)
         {
             if (rooms.ContainsKey(id))

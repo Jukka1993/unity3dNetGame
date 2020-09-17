@@ -18,6 +18,9 @@ public class BaseTank : MonoBehaviour {
     public Transform gun;
     //发射点
     public Transform firePoint;
+    public int hp = 100;
+    public int id = -1;
+    public int camp = 0;
     private void Start()
     {
         

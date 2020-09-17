@@ -10,9 +10,9 @@ namespace general.script.logic
         public int id = -1;
         public string name = "";
         public ClientState cs;
-        public int x;
-        public int y;
-        public int z;
+        public float x;
+        public float y;
+        public float z;
         public float ex;
         public float ey;
         public float ez;

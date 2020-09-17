@@ -33,6 +33,7 @@ namespace general.script.logic
         public static void OnTimer()
         {
             CheckPing();
+            RoomManager.Update();
         }
         public static void CheckPing()
         {

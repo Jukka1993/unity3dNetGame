@@ -115,5 +115,35 @@ namespace general.script.logic
             msg.result = 0;
             player.Send(msg);
         }
+        public static void MsgStartBattle(ClientState cs, MsgBase msgBase)
+        {
+            MsgStartBattle msg = (MsgStartBattle)msgBase;
+            Player player = cs.player;
+            if(player == null)
+            {
+                return;
+            }
+            Room room = RoomManager.GetRoom(player.id);
+            if(room == null)
+            {
+                msg.result = 1;
+                player.Send(msg);
+                return;
+            }
+            if (!room.isOwner(player))
+            {
+                msg.result = 1;
+                player.Send(msg);
+                return;
+            }
+            if (!room.CanStartBattle())
+            {
+                msg.result = 1;
+                player.Send(msg);
+                return;
+            }
+            msg.result = 0;
+            player.Send(msg);
+        }
     }
 }

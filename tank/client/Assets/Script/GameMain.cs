@@ -19,6 +19,7 @@ public class GameMain : MonoBehaviour {
 
         //ui管理器初始化
         PanelManager.Init();
+        BattleManager.Init();
         //打开登录面板
         PanelManager.Open<LoginPanel>();
     }
