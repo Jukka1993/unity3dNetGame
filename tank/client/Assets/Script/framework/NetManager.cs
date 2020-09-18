@@ -191,19 +191,19 @@ public static class NetManager {
         readBuff.readIdx += 2;
         int nameCount = 0;
         string protoName = MsgBase.DecodeName(readBuff.bytes, readBuff.readIdx, out nameCount);
-        Debug.Log("protoName = " + protoName);
+        //Debug.Log("protoName = " + protoName);
         if(protoName == "")
         {
             Debug.Log("OnReceiveData MsgBase.DecodeName fail");
             return;
         }
-        Debug.Log("A protoName = " + protoName);
+        //Debug.Log("A protoName = " + protoName);
 
         readBuff.readIdx += nameCount;
-        Debug.Log("B protoName = " + protoName);
+        //Debug.Log("B protoName = " + protoName);
 
         int bodyCount = bodyLength - nameCount;
-        Debug.Log("C protoName = " + protoName);
+        //Debug.Log("C protoName = " + protoName);
 
         MsgBase msgBase = MsgBase.Decode(protoName, readBuff.bytes, readBuff.readIdx, bodyCount);
         Debug.Log("D protoName = " + protoName);

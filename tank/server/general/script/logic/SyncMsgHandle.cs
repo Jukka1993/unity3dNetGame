@@ -50,7 +50,7 @@ namespace general.script.logic
             {
                 return;
             }
-            Room room = RoomManager.GetRoom(p.id);
+            Room room = RoomManager.GetRoom(p.roomId);
             if(room == null)
             {
                 return;

@@ -108,7 +108,7 @@ public class BattleManager : MonoBehaviour {
         {
             isWin = true;
         }
-        //PanelManager.Open<ResultPanel>(isWin);//todo
+        PanelManager.Open<ResultPanel>(isWin);//todo
     }
     private static  void OnMsgLeaveBattle(MsgBase msgBase)
     {
