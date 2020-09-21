@@ -77,7 +77,7 @@ public class BattleManager : MonoBehaviour {
         if(tankInfo.id == GameMain.id)
         {
             tank = tankObj.AddComponent<CtrlTank>();
-            CameraFollow cf = tankObj.AddComponent<CameraFollow>();
+            tankObj.AddComponent<CameraFollow>();
         } else
         {
             tank = tankObj.AddComponent<SyncTank>();

@@ -88,7 +88,7 @@ public static class NetManager {
     }
     private static void FireMsg(string msgName,MsgBase msgBase)
     {
-        Debug.Log("FireMsg ====== "+ msgName);
+        //Debug.Log("FireMsg ====== "+ msgName);
         if (msgListeners.ContainsKey(msgName))
         {
             msgListeners[msgName](msgBase);
@@ -161,7 +161,7 @@ public static class NetManager {
                 Close();
                 return;
             }
-            Debug.Log("readBuff.writeIdx += " + count);
+            //Debug.Log("readBuff.writeIdx += " + count);
             readBuff.writeIdx += count;
             OnReceiveData();
             if (readBuff.remain < 8)
@@ -192,7 +192,7 @@ public static class NetManager {
         int nameCount = 0;
         string protoName = MsgBase.DecodeName(readBuff.bytes, readBuff.readIdx, out nameCount);
         //Debug.Log("protoName = " + protoName);
-        if(protoName == "")
+        if (protoName == "")
         {
             Debug.Log("OnReceiveData MsgBase.DecodeName fail");
             return;
@@ -206,32 +206,32 @@ public static class NetManager {
         //Debug.Log("C protoName = " + protoName);
 
         MsgBase msgBase = MsgBase.Decode(protoName, readBuff.bytes, readBuff.readIdx, bodyCount);
-        Debug.Log("D protoName = " + protoName);
+        //Debug.Log("D protoName = " + protoName);
 
         readBuff.readIdx += bodyCount;
-        Debug.Log("E protoName = " + protoName);
+        //Debug.Log("E protoName = " + protoName);
 
         readBuff.CheckAndMoveBytes();
-        Debug.Log("11 protoName = " + protoName);
+        //Debug.Log("11 protoName = " + protoName);
 
         lock (msgList)
         {
-            if(protoName == "MsgGetAchieve")
-            {
-                Debug.Log("11 protoName = " + protoName + " " + msgBase);
-            }
+            //if(protoName == "MsgGetAchieve")
+            //{
+            //    Debug.Log("11 protoName = " + protoName + " " + msgBase);
+            //}
 
             msgList.Add(msgBase);
-            if (protoName == "MsgGetAchieve")
-            {
-                Debug.Log("22 protoName = " + protoName + " " + msgBase);
-            }
+            //if (protoName == "MsgGetAchieve")
+            //{
+            //    Debug.Log("22 protoName = " + protoName + " " + msgBase);
+            //}
             
 
 
         }
         msgCount++;
-        Debug.Log("msgCount = " + msgCount);
+        //Debug.Log("msgCount = " + msgCount);
         if (readBuff.length > 2)
         {
             OnReceiveData();

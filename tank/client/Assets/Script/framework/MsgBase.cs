@@ -15,16 +15,16 @@ public class MsgBase{
     public static MsgBase Decode(string protoName,byte[] bytes,int offset,int count)
     {
         string s = System.Text.Encoding.UTF8.GetString(bytes, offset, count);
-        Debug.Log("A  protoName = " + protoName);
-        Debug.Log("AAAAAAAAAA MsgBase Decode s = " + s);
-        Type tt = Type.GetType(protoName);
-        Debug.Log("BBBBBBBBBBBBB AAAAAAAAAAAAAAAA");
-        Debug.Log(tt);
-        Debug.Log("CCCCCCCCCCCCCCCCC");
-        Debug.Log(tt.ToString());
-        Debug.Log("AAAAAAAAAA AAAAAAAAAAAAAAAA");
+        //Debug.Log("A  protoName = " + protoName);
+        //Debug.Log("AAAAAAAAAA MsgBase Decode s = " + s);
+        //Type tt = Type.GetType(protoName);
+        //Debug.Log("BBBBBBBBBBBBB AAAAAAAAAAAAAAAA");
+        //Debug.Log(tt);
+        //Debug.Log("CCCCCCCCCCCCCCCCC");
+        //Debug.Log(tt.ToString());
+        //Debug.Log("AAAAAAAAAA AAAAAAAAAAAAAAAA");
         MsgBase msgBase = (MsgBase)JsonUtility.FromJson(s, Type.GetType(protoName));
-        Debug.Log("B MsgBase Decode s = " + s);
+        //Debug.Log("B MsgBase Decode s = " + s);
 
         return msgBase;
     }
