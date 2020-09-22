@@ -10,10 +10,10 @@
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace>
     </RootNamespace>
-    <ProjectGuid>{A2859A56-AB4A-51F9-60BB-1B6FC96E8C70}</ProjectGuid>
+    <ProjectGuid>{3A1B43A0-276E-34FB-197E-1ACDE9001A0F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <AssemblyName>Assembly-CSharp-firstpass</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -48,7 +48,7 @@
   <PropertyGroup>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <UnityProjectGenerator>Unity/VSTU</UnityProjectGenerator>
-    <UnityProjectType>Game:1</UnityProjectType>
+    <UnityProjectType>GamePlugins:3</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2018.2.18f1</UnityVersion>
   </PropertyGroup>
@@ -61,40 +61,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Script\CameraFollow.cs" />
-    <Compile Include="Assets\Script\framework\BasePanel.cs" />
-    <Compile Include="Assets\Script\framework\ByteArray.cs" />
-    <Compile Include="Assets\Script\framework\MsgBase.cs" />
-    <Compile Include="Assets\Script\framework\NetManager.cs" />
-    <Compile Include="Assets\Script\framework\PanelManager.cs" />
-    <Compile Include="Assets\Script\framework\ResManager.cs" />
-    <Compile Include="Assets\Script\GameMain.cs" />
-    <Compile Include="Assets\Script\logic\Battle\BaseTank.cs" />
-    <Compile Include="Assets\Script\logic\Battle\BattleManager.cs" />
-    <Compile Include="Assets\Script\logic\Battle\Bullet.cs" />
-    <Compile Include="Assets\Script\logic\Battle\CtrlTank.cs" />
-    <Compile Include="Assets\Script\logic\Battle\ResultPanel.cs" />
-    <Compile Include="Assets\Script\logic\Battle\SyncTank.cs" />
-    <Compile Include="Assets\Script\logic\Common\CommonUtil.cs" />
-    <Compile Include="Assets\Script\logic\Common\TipPanel.cs" />
-    <Compile Include="Assets\Script\logic\Core\GameRoot.cs" />
-    <Compile Include="Assets\Script\logic\Login\LoginPanel.cs" />
-    <Compile Include="Assets\Script\logic\Login\New Folder\LoginCtrl.cs" />
-    <Compile Include="Assets\Script\logic\Login\New Folder\LoginModel.cs" />
-    <Compile Include="Assets\Script\logic\Login\New Folder\LoginView.cs" />
-    <Compile Include="Assets\Script\logic\Login\New Folder\RegisterView.cs" />
-    <Compile Include="Assets\Script\logic\Login\RegisterPanel.cs" />
-    <Compile Include="Assets\Script\logic\Room\RoomListPanel.cs" />
-    <Compile Include="Assets\Script\logic\Room\RoomPanel.cs" />
-    <Compile Include="Assets\Script\logic\testTank.cs" />
-    <Compile Include="Assets\Script\proto\BattleMsg.cs" />
-    <Compile Include="Assets\Script\proto\LoginMsg.cs" />
-    <Compile Include="Assets\Script\proto\NotepadMsg.cs" />
-    <Compile Include="Assets\Script\proto\RoomMsg.cs" />
-    <Compile Include="Assets\Script\proto\SyncMsg.cs" />
-    <Compile Include="Assets\Script\proto\SysMsg.cs" />
-    <Compile Include="Assets\Script\test.cs" />
-    <Compile Include="Assets\Script\Test1.cs" />
+    <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\ButtonHandler.cs" />
+    <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\MobileControlRig.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>F:/unityNetPrjs/unity3dNetGame/tank/client/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>

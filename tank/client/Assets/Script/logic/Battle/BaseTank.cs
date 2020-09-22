@@ -8,7 +8,7 @@ public class BaseTank : MonoBehaviour {
     //转向速度
     public float steer = 30f;
     //移动速度
-    public float speed = 3f;
+    public float speed = 30f;
     //炮塔旋转速度
     public float turretSpeed = 30f;
 

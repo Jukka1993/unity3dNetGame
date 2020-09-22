@@ -21,8 +21,8 @@ public class RoomPanel : BasePanel {
         base.OnShow(para);
         playerContent = skin.transform.Find("PlayerList/Scroll View/Viewport/Content");
         playerItem = skin.transform.Find("PlayerList/Scroll View/Viewport/PlayerItem").gameObject;
-        startButton = skin.transform.Find("ActionArea/StartButton").GetComponent<Button>();
-        exitButton = skin.transform.Find("ActionArea/ExitButton").GetComponent<Button>();
+        startButton = skin.transform.Find("ActionArea/Layout/StartButton").GetComponent<Button>();
+        exitButton = skin.transform.Find("ActionArea/Layout/ExitButton").GetComponent<Button>();
 
 
         startButton.onClick.AddListener(OnStartButtonClicked);
@@ -31,6 +31,7 @@ public class RoomPanel : BasePanel {
         NetManager.AddMsgListener("MsgGetRoomInfo", OnMsgGetRoomInfo);
         NetManager.AddMsgListener("MsgLeaveRoom", OnMsgLeaveRoom);
         NetManager.AddMsgListener("MsgStartBattle", OnMsgStartBattle);
+        NetManager.AddMsgListener("MsgKickPlayer", OnMsgKickPlayer);
 
         MsgGetRoomInfo msg = new MsgGetRoomInfo();
         NetManager.Send(msg);
@@ -41,6 +42,32 @@ public class RoomPanel : BasePanel {
         NetManager.RemoveMsgListener("MsgGetRoomInfo", OnMsgGetRoomInfo);
         NetManager.RemoveMsgListener("MsgLeaveRoom", OnMsgLeaveRoom);
         NetManager.RemoveMsgListener("MsgStartBattle", OnMsgStartBattle);
+        NetManager.RemoveMsgListener("MsgKickPlayer", OnMsgKickPlayer);
+    }
+    private void OnMsgKickPlayer(MsgBase msgBase)
+    {
+        MsgKickPlayer msg = (MsgKickPlayer)msgBase;
+        if (msg.result == 0)
+        {
+            if (msg.kickedPlayerId != GameMain.id)
+            {
+                CommonUtil.OpenTip("踢人成功");
+            }
+            else
+            {
+                CommonUtil.OpenTip("你被踢出房间");
+                PanelManager.Open<RoomListPanel>();
+                Close();
+            }
+        }
+        else
+        {
+            if (msg.kickPlayerId == GameMain.id)
+            {
+
+                CommonUtil.OpenTip("踢人失败");
+            }
+        }
     }
     private void OnMsgStartBattle(MsgBase msgBase)
     {
@@ -82,6 +109,11 @@ public class RoomPanel : BasePanel {
         for(int i = 0; i < msg.players.Length; i++)
         {
             GeneratePlayer(msg.players[i], msg);
+            if(msg.players[i].id == GameMain.id)
+            {
+                bool showBegin = msg.players[i].isOwner;
+                startButton.gameObject.SetActive(showBegin);
+            }
         }
 
     }
@@ -113,6 +145,9 @@ public class RoomPanel : BasePanel {
     private void OnKickButtonClick(int playerId)
     {
         Debug.Log("请" + playerId + "出去");
+        MsgKickPlayer msg = new MsgKickPlayer();
+        msg.kickedPlayerId = playerId;
+        NetManager.Send(msg);
     }
     private void OnStartButtonClicked()
     {

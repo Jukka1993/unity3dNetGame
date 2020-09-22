@@ -109,6 +109,7 @@ public class BattleManager : MonoBehaviour {
             isWin = true;
         }
         PanelManager.Open<ResultPanel>(isWin);//todo
+        Reset();
     }
     private static  void OnMsgLeaveBattle(MsgBase msgBase)
     {

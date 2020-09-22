@@ -97,12 +97,7 @@ public class CtrlTank : BaseTank {
         transform.Rotate(0, x * steer * Time.deltaTime, 0);
         //前进后退
         float y = Input.GetAxis("Vertical");
-        Debug.Log(y);
-        Debug.Log(transform.forward);
-        Debug.Log(speed);
-        Debug.Log(Time.deltaTime);
         Vector3 s = y * transform.forward * speed * Time.deltaTime;
-        Debug.Log(s);
         transform.position += s;
     }
 }

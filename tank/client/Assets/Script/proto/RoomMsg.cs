@@ -26,6 +26,16 @@ using System.Text;
         /// </summary>
         public int status = 0;  
     }
+    class MsgKickPlayer : MsgBase
+    {
+        public MsgKickPlayer()
+        {
+            protoName = "MsgKickPlayer";
+        }
+        public int kickedPlayerId = -1;
+        public int result = -1;
+        public int kickPlayerId = -1;
+    }
     class MsgGetRoomList : MsgBase
     {
         public MsgGetRoomList()

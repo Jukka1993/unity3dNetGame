@@ -96,6 +96,46 @@ namespace general.script.logic
             }
             player.Send(room.ToMsg());
         }
+        public static void MsgKickPlayer(ClientState cs, MsgBase msgBase)
+        {
+            MsgKickPlayer msg = (MsgKickPlayer)msgBase;
+            Player player = cs.player;
+            if(player == null)
+            {
+                return;
+            }
+            msg.kickPlayerId = player.id;
+            Room room = RoomManager.GetRoom(cs.player.roomId);
+            if(room == null)
+            {
+                msg.result = 1;
+                NetManager.Send(cs, msg);
+                return;
+            }
+            if(room.ownerId != player.id)
+            {//不是房主无权踢人
+                msg.result = 1;
+                NetManager.Send(cs, msg);
+                return;
+            }
+            if(player.id == msg.kickedPlayerId)
+            {//不能踢自己
+                msg.result = 1;
+                NetManager.Send(cs, msg);
+                return;
+            }
+            if(room.playerIds.ContainsKey(msg.kickedPlayerId) == false)
+            {//要踢的人在房间里不存在
+                msg.result = 1;
+                NetManager.Send(cs, msg);
+                return;
+            }
+            room.RemovePlayer(msg.kickedPlayerId);
+            msg.result = 0;
+            Player kickedPlayer = PlayerManager.GetPlayer(msg.kickedPlayerId);
+            kickedPlayer.Send(msg);
+            player.Send(msg);
+        }
         public static void MsgLeaveRoom(ClientState cs, MsgBase msgBase)
         {
             MsgLeaveRoom msg = (MsgLeaveRoom)msgBase;

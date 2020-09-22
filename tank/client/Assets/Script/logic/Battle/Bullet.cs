@@ -7,6 +7,7 @@ public class Bullet : MonoBehaviour {
     public float speed = 100f;
     public BaseTank tank;
     private GameObject skin;
+    private float lifeTime = 30f;
     Rigidbody rigidBody;
     public void Init()
     {
@@ -21,6 +22,14 @@ public class Bullet : MonoBehaviour {
     }
     private void Update()
     {
+        lifeTime -= Time.deltaTime;
+        if(lifeTime < 0)
+        {
+            GameObject explode = ResManager.LoadPrefab("Particles/fire");
+            Instantiate(explode, transform.position, transform.rotation);
+            Destroy(gameObject);
+            return;
+        }
         transform.position += transform.forward * speed * Time.deltaTime;
     }
     private void OnCollisionEnter(Collision collisionInfo)

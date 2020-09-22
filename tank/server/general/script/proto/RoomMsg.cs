@@ -53,6 +53,16 @@ namespace general.script.proto
         /// </summary>
         public int roomId = -1;
     }
+    class MsgKickPlayer : MsgBase
+    {
+        public MsgKickPlayer()
+        {
+            protoName = "MsgKickPlayer";
+        }
+        public int kickedPlayerId = -1;
+        public int result = -1;
+        public int kickPlayerId = -1;
+    }
     class MsgEnterRoom : MsgBase
     {
         public MsgEnterRoom()
