@@ -88,7 +88,7 @@ namespace general.script.logic
             {
                 return;
             }
-            int damage = 35;
+            int damage = 10;
             targetPlayer.hp -= damage;
 
             msg.id = player.id;
