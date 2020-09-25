@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NamePanel : BasePanel {
-    public GameObject nameTemplate;
+public class TankUIPanel : BasePanel {
+    public GameObject tankUITemplate;
     public Transform container;
     public override void OnInit()
     {
         base.OnInit();
-        skinPath = "Prefabs/UIPre/NamePanel";
+        skinPath = "Prefabs/UIPre/TankUIPanel";
         layer = PanelManager.Layer.Panel;
     }
     public override void OnShow(params object[] para)
     {
         base.OnShow(para);
-        nameTemplate = skin.transform.Find("nameTemplate").gameObject;
+        tankUITemplate = skin.transform.Find("tankUI").gameObject;
         container = skin.transform.Find("Container");
 
     }
@@ -23,13 +23,14 @@ public class NamePanel : BasePanel {
     {
         base.OnClose();
     }
-    public Text GenerateName(string name)
+    public TankUI GenerateTankUI(string name,float hp)
     {
-        GameObject nameObj = Instantiate(nameTemplate);
+        GameObject nameObj = Instantiate(tankUITemplate);
         nameObj.SetActive(true);
         nameObj.transform.SetParent(container);
-        nameObj.GetComponent<Text>().text = name;
-        return nameObj.GetComponent<Text>();
+        TankUI tankUI = nameObj.AddComponent<TankUI>();
+        tankUI.Init(name, hp);
+        return tankUI;
     }
 
 }

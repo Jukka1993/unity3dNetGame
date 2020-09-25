@@ -12,10 +12,8 @@ public class SyncTank : BaseTank {
     new void Update()
     {
         base.Update();
-        if (ForecastUpdate())
-        {
-            UIUpdate();
-        }
+        ForecastUpdate();
+        UIUpdate();
     }
     public override void Init(string skinPath)
     {

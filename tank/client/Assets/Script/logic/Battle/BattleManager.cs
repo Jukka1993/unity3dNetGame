@@ -63,7 +63,7 @@ public class BattleManager : MonoBehaviour {
         Reset();
         PanelManager.Close("RoomPanel");
         PanelManager.Close("ResultPanel");
-        PanelManager.Open<NamePanel>();
+        PanelManager.Open<TankUIPanel>();
         for (int i = 0; i < msg.tanks.Length; i++)
         {
             GenerateTank(msg.tanks[i]);
@@ -86,6 +86,7 @@ public class BattleManager : MonoBehaviour {
         tank.camp = tankInfo.camp;
         tank.id = tankInfo.id;
         tank.hp = tankInfo.hp;
+        tank.tankName = tankInfo.name;
         Vector3 pos = new Vector3(tankInfo.x, tankInfo.y, tankInfo.z);
         Vector3 rot = new Vector3(tankInfo.ex, tankInfo.ey, tankInfo.ez);
         tank.transform.position = pos;
@@ -150,6 +151,6 @@ public class BattleManager : MonoBehaviour {
             MonoBehaviour.Destroy(tank.gameObject);
         }
         tanks.Clear();
-        PanelManager.Close("NamePanel");
+        PanelManager.Close("TankUIPanel");
     }
 }

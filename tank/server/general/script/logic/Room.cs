@@ -236,6 +236,7 @@ namespace general.script.logic
         public TankInfo PlayerToTankInfo(Player player)
         {
             TankInfo info = new TankInfo();
+            info.name = player.name;
             info.camp = player.camp;
             info.id = player.id;
             info.hp = player.hp;

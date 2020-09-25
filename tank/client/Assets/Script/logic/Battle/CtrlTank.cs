@@ -5,11 +5,13 @@ using UnityEngine;
 public class CtrlTank : BaseTank {
     private float lastSendSyncTime = 0;
     public static float syncInterval = 0.02f;
+    //private int nameUp = 5;
 
 	// Use this for initialization
 	void Start () {
-		
-	}
+        //nameUp = 5;
+
+    }
 	
 	// Update is called once per frame
 	new void Update () {
@@ -19,6 +21,7 @@ public class CtrlTank : BaseTank {
         FireUpdate();
 
         SyncUpdate();
+        UIUpdate();
     }
     public void SyncUpdate()
     {

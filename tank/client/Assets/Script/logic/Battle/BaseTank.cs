@@ -12,20 +12,36 @@ public class BaseTank : MonoBehaviour {
     public float speed = 30f;
     //炮塔旋转速度
     public float turretSpeed = 30f;
-
+    public string tankName = "";
     //炮塔
     public Transform turret;
     //炮管
     public Transform gun;
     //发射点
     public Transform firePoint;
-    public NamePanel namePanel;
-    public Text nameText;
+    public TankUIPanel tankUIPanel;
+    public TankUI tankUI;
     public float fireCd = 0.5f;
     public float lastFireTime = 0;
-    public float hp = 100;
+    public float _hp = 100;
+    public float hp
+    {
+        get
+        {
+            return _hp;
+        }
+        set
+        {
+            if (tankUI != null)
+            {
+                tankUI.UpdateHp(value);
+            }
+            _hp = value;
+        }
+    }
     public int id = -1;
     public int camp = 0;
+    protected int nameUp = 10;
     private void Start()
     {
         
@@ -37,32 +53,33 @@ public class BaseTank : MonoBehaviour {
     }
     public void UIUpdate()
     {
-        if(namePanel == null)
+        if(tankUIPanel == null)
         {
-            namePanel = PanelManager.GetPanel<NamePanel>();
+            tankUIPanel = PanelManager.GetPanel<TankUIPanel>();
         }
-        if (namePanel == null)
-        {
-            return;
-        }
-        if (nameText == null)
-        {
-            nameText = namePanel.GenerateName(id.ToString());
-        }
-        if (nameText == null)
+        if (tankUIPanel == null)
         {
             return;
         }
-
-            //RaycastHit hit;
-            //Ray ray = new Ray(transform.position, Camera.main.transform.position);
-            //if(Physics.Raycast(ray,out hit))
-            //{
-            //    Transform objectHit = hit.transform;
-            //    Vector3 hitPoint = hit.point;
+        if (tankUI == null)
+        {
+            tankUI = tankUIPanel.GenerateTankUI(tankName, hp);
+        }
+        if (tankUI == null)
+        {
+            return;
+        }
         Vector2 pos;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(namePanel.skin.transform as RectTransform, Camera.main.WorldToScreenPoint(transform.position),Camera.main, out pos);
-        nameText.transform.localPosition = pos;
+        Vector2 screenPos = Camera.main.WorldToScreenPoint(transform.position + Vector3.up * nameUp);
+        Vector3 posInCamera = Camera.main.worldToCameraMatrix.MultiplyPoint(transform.position);
+        if(posInCamera.z < 0 && RectTransformUtility.ScreenPointToLocalPointInRectangle(tankUIPanel.skin.transform.Find("Container").transform as RectTransform, screenPos, null, out pos))
+        {
+            tankUI.gameObject.SetActive(true);
+            tankUI.transform.localPosition = pos;
+        } else
+        {
+            tankUI.gameObject.SetActive(false);
+        }
         //}
 
     }
