@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BaseTank : MonoBehaviour {
     //坦克模型
@@ -18,6 +19,8 @@ public class BaseTank : MonoBehaviour {
     public Transform gun;
     //发射点
     public Transform firePoint;
+    public NamePanel namePanel;
+    public Text nameText;
     public float fireCd = 0.5f;
     public float lastFireTime = 0;
     public float hp = 100;
@@ -31,6 +34,37 @@ public class BaseTank : MonoBehaviour {
     public void Update()
     {
         
+    }
+    public void UIUpdate()
+    {
+        if(namePanel == null)
+        {
+            namePanel = PanelManager.GetPanel<NamePanel>();
+        }
+        if (namePanel == null)
+        {
+            return;
+        }
+        if (nameText == null)
+        {
+            nameText = namePanel.GenerateName(id.ToString());
+        }
+        if (nameText == null)
+        {
+            return;
+        }
+
+            //RaycastHit hit;
+            //Ray ray = new Ray(transform.position, Camera.main.transform.position);
+            //if(Physics.Raycast(ray,out hit))
+            //{
+            //    Transform objectHit = hit.transform;
+            //    Vector3 hitPoint = hit.point;
+        Vector2 pos;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(namePanel.skin.transform as RectTransform, Camera.main.WorldToScreenPoint(transform.position),Camera.main, out pos);
+        nameText.transform.localPosition = pos;
+        //}
+
     }
     public bool IsDie()
     {

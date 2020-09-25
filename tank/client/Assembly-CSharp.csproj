@@ -73,6 +73,7 @@
     <Compile Include="Assets\Script\logic\Battle\BattleManager.cs" />
     <Compile Include="Assets\Script\logic\Battle\Bullet.cs" />
     <Compile Include="Assets\Script\logic\Battle\CtrlTank.cs" />
+    <Compile Include="Assets\Script\logic\Battle\NamePanel.cs" />
     <Compile Include="Assets\Script\logic\Battle\ResultPanel.cs" />
     <Compile Include="Assets\Script\logic\Battle\SyncTank.cs" />
     <Compile Include="Assets\Script\logic\Common\CommonUtil.cs" />

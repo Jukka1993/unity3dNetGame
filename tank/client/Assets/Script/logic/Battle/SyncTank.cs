@@ -12,7 +12,10 @@ public class SyncTank : BaseTank {
     new void Update()
     {
         base.Update();
-        ForecastUpdate();
+        if (ForecastUpdate())
+        {
+            UIUpdate();
+        }
     }
     public override void Init(string skinPath)
     {
@@ -25,19 +28,26 @@ public class SyncTank : BaseTank {
         forecastRot = transform.eulerAngles;
         forecastTime = Time.time;
     }
-    public void ForecastUpdate()
+    public bool ForecastUpdate()
     {
         float t = (Time.time - forecastTime) / CtrlTank.syncInterval;
         t = Mathf.Clamp(t, 0f, 1f);
-        //位置
-        Vector3 pos = transform.position;
-        pos = Vector3.Lerp(pos, forecastPos, t);
-        transform.position = pos;
         //旋转
         Quaternion quat = transform.rotation;
         Quaternion forcastQuat = Quaternion.Euler(forecastRot);
         quat = Quaternion.Lerp(quat, forcastQuat, t);
         transform.rotation = quat;
+        //位置
+        Vector3 pos = transform.position;
+        pos = Vector3.Lerp(pos, forecastPos, t);
+        if (!transform.position.Equals(pos))
+        {
+            transform.position = pos;
+            return true;
+        } else
+        {
+            return false;
+        }
     }
     public void SyncPos(MsgSyncTank msg)
     {
