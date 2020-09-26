@@ -1,0 +1,15 @@
+require1 = require;
+function require2(path)
+  require1("luaScript/" .. path);
+end
+function Update()
+  print("lua Update.............");
+end
+require = require2;
+require("test1");
+require("test2");
+
+funcA();
+funcB();
+require("test3");
+funcC();

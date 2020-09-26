@@ -8,4 +8,12 @@ public class ResManager : MonoBehaviour {
     {
         return Resources.Load<GameObject>(path);
     }
+    public static TextAsset LoadText(string path)
+    {
+        return Resources.Load<TextAsset>(path);
+    }
+    public static TextAsset LoadLua(string path)
+    {
+        return Resources.Load<TextAsset>(path);
+    }
 }

@@ -1,0 +1,3 @@
+function funcB()
+print("funcB");
+end

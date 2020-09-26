@@ -5,6 +5,10 @@ using UnityEngine;
 public class GameMain : MonoBehaviour {
     public static int id = -1;
     public static string userName = "";
+    public TextAsset luaMian;
+    XLua.LuaEnv luaEnv;
+    delegate void UpdateDelType();
+    UpdateDelType luaUpdate;
     private void Start()
     {
         //网络监听
@@ -22,10 +26,22 @@ public class GameMain : MonoBehaviour {
         BattleManager.Init();
         //打开登录面板
         PanelManager.Open<LoginPanel>();
+        luaEnv = new XLua.LuaEnv();
+        luaEnv.DoString(luaMian.text);
+        luaUpdate = luaEnv.Global.Get<UpdateDelType>("Update");
+    }
+    public void OnDestroy()
+    {
+        luaUpdate = null;
+        luaEnv.Dispose();
     }
     private void Update()
     {
         NetManager.Update();
+        if(luaUpdate != null)
+        {
+            luaUpdate();
+        }
     }
     void OnConnectFail(string txt)
     {

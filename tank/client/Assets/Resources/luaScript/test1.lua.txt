@@ -1,0 +1,3 @@
+function funcA( ... )
+    print("xxxxx from test1.lua 最克制控制控制快朱快");
+end
