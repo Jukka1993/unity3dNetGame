@@ -577,7 +577,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\u5766\u514B\u5927\u6218(loginview)"
+  m_Text: '--------'
 --- !u!114 &114508250564675764
 MonoBehaviour:
   m_ObjectHideFlags: 1
