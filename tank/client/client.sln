@@ -5,6 +5,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-firstpass", "Assembly-CSharp-firstpass.csproj", "{3A1B43A0-276E-34FB-197E-1ACDE9001A0F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeanTouch", "LeanTouch.csproj", "{98FC8A3E-889A-5264-1B48-81C7DF8A0D4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeanCommon", "LeanCommon.csproj", "{BC5E7D16-CD7B-8DC8-F693-4A24F7BC0097}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{2FC59FCE-BCB1-13D3-FB79-5DD1AF79A2AF}"
 EndProject
 Global
@@ -21,6 +25,14 @@ Global
 		{3A1B43A0-276E-34FB-197E-1ACDE9001A0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A1B43A0-276E-34FB-197E-1ACDE9001A0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A1B43A0-276E-34FB-197E-1ACDE9001A0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98FC8A3E-889A-5264-1B48-81C7DF8A0D4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98FC8A3E-889A-5264-1B48-81C7DF8A0D4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98FC8A3E-889A-5264-1B48-81C7DF8A0D4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98FC8A3E-889A-5264-1B48-81C7DF8A0D4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC5E7D16-CD7B-8DC8-F693-4A24F7BC0097}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC5E7D16-CD7B-8DC8-F693-4A24F7BC0097}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC5E7D16-CD7B-8DC8-F693-4A24F7BC0097}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC5E7D16-CD7B-8DC8-F693-4A24F7BC0097}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2FC59FCE-BCB1-13D3-FB79-5DD1AF79A2AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2FC59FCE-BCB1-13D3-FB79-5DD1AF79A2AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FC59FCE-BCB1-13D3-FB79-5DD1AF79A2AF}.Release|Any CPU.ActiveCfg = Release|Any CPU

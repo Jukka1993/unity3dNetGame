@@ -733,6 +733,14 @@
       <Project>{A2859A56-AB4A-51F9-60BB-1B6FC96E8C70}</Project>
       <Name>Assembly-CSharp</Name>
     </ProjectReference>
+    <ProjectReference Include="LeanCommon.csproj">
+      <Project>{BC5E7D16-CD7B-8DC8-F693-4A24F7BC0097}</Project>
+      <Name>LeanCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="LeanTouch.csproj">
+      <Project>{98FC8A3E-889A-5264-1B48-81C7DF8A0D4D}</Project>
+      <Name>LeanTouch</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

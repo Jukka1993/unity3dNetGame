@@ -689,7 +689,16 @@
       <HintPath>F:/unityNetPrjs/unity3dNetGame/tank/client/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Runtime.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup></ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="LeanCommon.csproj">
+      <Project>{BC5E7D16-CD7B-8DC8-F693-4A24F7BC0097}</Project>
+      <Name>LeanCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="LeanTouch.csproj">
+      <Project>{98FC8A3E-889A-5264-1B48-81C7DF8A0D4D}</Project>
+      <Name>LeanTouch</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -150,6 +150,7 @@
     <None Include="Assets\Resources\luaScript\test2.lua.txt" />
     <None Include="Assets\Resources\luaScript\test1.lua.txt" />
     <None Include="Assets\Resources\luaScript\test3.lua.txt" />
+    <None Include="Assets\Lean\READ ME.txt" />
     <None Include="Assets\Resources\luaScript\test.lua.txt" />
     <None Include="Assets\XLua\Resources\perf\profiler.lua.txt" />
     <None Include="Assets\XLua\Resources\perf\memory.lua.txt" />
@@ -782,6 +783,14 @@
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
       <Project>{3A1B43A0-276E-34FB-197E-1ACDE9001A0F}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
+    <ProjectReference Include="LeanCommon.csproj">
+      <Project>{BC5E7D16-CD7B-8DC8-F693-4A24F7BC0097}</Project>
+      <Name>LeanCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="LeanTouch.csproj">
+      <Project>{98FC8A3E-889A-5264-1B48-81C7DF8A0D4D}</Project>
+      <Name>LeanTouch</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
