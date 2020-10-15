@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class CtrlTank : BaseTank {
     private float lastSendSyncTime = 0;
-    public static float syncInterval = 0.02f;
+    //public static float syncInterval = 0.02f;
+    public static float syncInterval = 0.05f;
     //private int nameUp = 5;
     public VariableJoystick joystick;
     public EButton fireButton;

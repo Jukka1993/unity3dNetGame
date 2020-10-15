@@ -302,15 +302,19 @@ public static class NetManager {
         ByteArray ba;//todo 看下完整的接收数据那一章,有提供一个类 ArrayBuffer
         lock (writeQueue)
         {
-            ba = writeQueue.First();
+            ba = writeQueue.FirstOrDefault();
         }
-        ba.readIdx += count;
-        if(ba.length == 0)
+        if(ba != null)
         {
-            lock (writeQueue)
+            ba.readIdx += count;
+            if (ba.length == 0)
             {
-                writeQueue.Dequeue();
-                ba = writeQueue.First();
+                lock (writeQueue)
+                {
+                    writeQueue.Dequeue();
+                    //ba = writeQueue.First();
+                    ba = writeQueue.FirstOrDefault();
+                }
             }
         }
         if(ba != null)
