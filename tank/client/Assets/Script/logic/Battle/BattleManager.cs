@@ -64,6 +64,7 @@ public class BattleManager : MonoBehaviour {
         PanelManager.Close("RoomPanel");
         PanelManager.Close("ResultPanel");
         PanelManager.Open<TankUIPanel>();
+        PanelManager.Open<PlayControlPanel>();
         for (int i = 0; i < msg.tanks.Length; i++)
         {
             GenerateTank(msg.tanks[i]);
@@ -152,5 +153,6 @@ public class BattleManager : MonoBehaviour {
         }
         tanks.Clear();
         PanelManager.Close("TankUIPanel");
+        PanelManager.Close("PlayControlPanel");
     }
 }

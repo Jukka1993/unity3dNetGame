@@ -62,7 +62,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Joystick Pack\Examples\JoystickPlayerExample.cs" />
+    <Compile Include="Assets\Joystick Pack\Examples\JoystickSetterExample.cs" />
+    <Compile Include="Assets\Joystick Pack\Scripts\Base\Joystick.cs" />
+    <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\DynamicJoystick.cs" />
+    <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FixedJoystick.cs" />
+    <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FloatingJoystick.cs" />
+    <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\VariableJoystick.cs" />
     <Compile Include="Assets\Script\CameraFollow.cs" />
+    <Compile Include="Assets\Script\EButton.cs" />
     <Compile Include="Assets\Script\GameMain.cs" />
     <Compile Include="Assets\Script\Test1.cs" />
     <Compile Include="Assets\Script\framework\BasePanel.cs" />
@@ -75,6 +83,7 @@
     <Compile Include="Assets\Script\logic\Battle\BattleManager.cs" />
     <Compile Include="Assets\Script\logic\Battle\Bullet.cs" />
     <Compile Include="Assets\Script\logic\Battle\CtrlTank.cs" />
+    <Compile Include="Assets\Script\logic\Battle\PlayControlPanel.cs" />
     <Compile Include="Assets\Script\logic\Battle\ResultPanel.cs" />
     <Compile Include="Assets\Script\logic\Battle\SyncTank.cs" />
     <Compile Include="Assets\Script\logic\Battle\TankUI.cs" />

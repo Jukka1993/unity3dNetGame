@@ -1,16 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CtrlTank : BaseTank {
     private float lastSendSyncTime = 0;
     public static float syncInterval = 0.02f;
     //private int nameUp = 5;
+    public VariableJoystick joystick;
+    public EButton fireButton;
+    public EButton leftButton;
+    public EButton rightButton;
 
 	// Use this for initialization
 	void Start () {
         //nameUp = 5;
-
+        PlayControlPanel controlPanel = PanelManager.GetPanel<PlayControlPanel>();
+        if(controlPanel != null)
+        {
+            joystick = controlPanel.joystick;
+            leftButton = controlPanel.leftButton;
+            rightButton = controlPanel.rightButton;
+            fireButton = controlPanel.fireButton;
+        }
     }
 	
 	// Update is called once per frame
@@ -44,19 +56,30 @@ public class CtrlTank : BaseTank {
     //炮塔控制
     public void TurretUpdate()
     {
+        //if (Input.GetButtonDown("LeftButton"))
+        //{
+        //    Debug.Log("LeftButton Down");
+        //}
         //
         if (IsDie())
         {
             return;
         }
         float axis = 0;
-        if (Input.GetKey(KeyCode.Q))
+        if (leftButton.isPressed)
         {
             axis = -1;
-        } else if (Input.GetKey(KeyCode.E))
+        } else if (rightButton.isPressed)
         {
             axis = 1;
         }
+        //if (Input.GetKey(KeyCode.Q))
+        //{
+        //    axis = -1;
+        //} else if (Input.GetKey(KeyCode.E))
+        //{
+        //    axis = 1;
+        //}
         Vector3 le = turret.localEulerAngles;
         le.y += axis * Time.deltaTime * turretSpeed;
         turret.localEulerAngles = le;
@@ -67,10 +90,14 @@ public class CtrlTank : BaseTank {
         {
             return;
         }
-        if (!Input.GetKey(KeyCode.Space))
+        if (!fireButton.isPressed)
         {
             return;
         }
+        //if (!Input.GetKey(KeyCode.Space))
+        //{
+        //    return;
+        //}
         if(Time.time - lastFireTime < fireCd)
         {
             return;
@@ -95,11 +122,15 @@ public class CtrlTank : BaseTank {
         {
             return;
         }
+
+        float x = joystick.Horizontal;
+        float y = joystick.Vertical;
+        //float x = Input.GetAxis("Horizontal");
+        //float y = Input.GetAxis("Vertical");
+
         //旋转
-        float x = Input.GetAxis("Horizontal");
         transform.Rotate(0, x * steer * Time.deltaTime, 0);
         //前进后退
-        float y = Input.GetAxis("Vertical");
         Vector3 s = y * transform.forward * speed * Time.deltaTime;
         transform.position += s;
     }

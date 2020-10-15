@@ -3,7 +3,7 @@ function require2(path)
   require1("luaScript/" .. path);
 end
 function Update()
-  print("lua Update.............");
+  -- print("lua Update.............");
 end
 require = require2;
 require("test1");

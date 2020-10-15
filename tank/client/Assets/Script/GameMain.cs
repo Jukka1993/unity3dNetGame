@@ -18,7 +18,7 @@ public class GameMain : MonoBehaviour {
 
         NetManager.AddMsgListener("MsgKick", OnMsgKick);
 
-        NetManager.Connect("127.0.0.1", 8888);
+        NetManager.Connect("127.18.10.121", 8888);
 
 
         //ui管理器初始化
