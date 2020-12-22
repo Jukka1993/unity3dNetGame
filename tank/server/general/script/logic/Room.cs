@@ -171,10 +171,14 @@ namespace general.script.logic
             }
             return -1;
         }
-        public void Broadcast(MsgBase msg)
+        public void Broadcast(MsgBase msg,bool showLog = false)
         {
             foreach(int id in playerIds.Keys)
             {
+                if (showLog)
+                {
+                    Console.WriteLine("should send fire msg to ${0}", id);
+                }
                 Player player = PlayerManager.GetPlayer(id);
                 player.Send(msg);
             }

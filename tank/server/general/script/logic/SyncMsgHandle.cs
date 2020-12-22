@@ -48,19 +48,25 @@ namespace general.script.logic
             Player p = cs.player;
             if(p== null)
             {
+                Console.WriteLine("receive firemsg,but player is not exist");
+
                 return;
             }
             Room room = RoomManager.GetRoom(p.roomId);
             if(room == null)
             {
+                Console.WriteLine("receive firemsg,but room is null");
+
                 return;
             }
             if(room.status != Room.Status.FIGHT)
             {
+                Console.WriteLine("receive firemsg,but room.status is prepare");
                 return;
             }
+            Console.WriteLine("{0} fire,x={1},y={2},z={3},ex={4},ey={5},ez={6}", msg.id, msg.x, msg.y, msg.z, msg.ex, msg.ey, msg.ez);
             msg.id = p.id;
-            room.Broadcast(msg);
+            room.Broadcast(msg,true);
         }
         public static void MsgHit(ClientState cs,MsgBase msgBase)
         {
