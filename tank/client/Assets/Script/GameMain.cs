@@ -12,14 +12,36 @@ public class GameMain : MonoBehaviour {
     delegate void UpdateDelType();
     UpdateDelType luaUpdate;
     public Text text;
+    public Text text2;
+    public Text text3;
+    public Text text4;
     private string showText = "";
+    private string showText2 = "";
+    private string showText3 = "";
+    private string showText4 = "";
+
     public void updateText(string tt)
     {
         showText = tt;
     }
+    public void updateText2(string tt)
+    {
+        showText2 = tt;
+    }
+    public void updateText3(string tt)
+    {
+        showText3 = tt;
+    }
+    public void updateText4(string tt)
+    {
+        showText4 = tt;
+    }
     private void Start()
     {
         NetManager.updateText = updateText;
+        NetManager.updateText2 = updateText2;
+        NetManager.updateText3 = updateText3;
+        NetManager.updateText4 = updateText4;
         //网络监听
         NetManager.AddEventListener(NetEvent.ConnectSucc, OnConnectSucc);
         NetManager.AddEventListener(NetEvent.ConnectFail, OnConnectFail);
@@ -27,7 +49,7 @@ public class GameMain : MonoBehaviour {
 
         NetManager.AddMsgListener("MsgKick", OnMsgKick);
 
-        NetManager.Connect("172.18.10.121", 8888);
+        NetManager.Connect("192.168.100.12", 8888);
         //NetManager.Connect("192.168.100.12", 8888);
         //NetManager.Connect("127.0.0.1", 8888);
 
@@ -51,6 +73,9 @@ public class GameMain : MonoBehaviour {
     private void Update()
     {
         text.text = showText;
+        text2.text = showText2;
+        text3.text = showText3;
+        text4.text = showText4;
         NetManager.Update();
         if(luaUpdate != null)
         {

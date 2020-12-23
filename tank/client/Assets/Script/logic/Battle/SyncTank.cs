@@ -24,11 +24,15 @@ public class SyncTank : BaseTank {
         lastRot = transform.eulerAngles;
         forecastPos = transform.position;
         forecastRot = transform.eulerAngles;
-        forecastTime = Time.time;
+        //forecastTime = Time.time;
+        //DateTime.now.Millisecond;
+        forecastTime = (float)CommonUtil.GetTimeStamp();
     }
     public bool ForecastUpdate()
     {
-        float t = (Time.time - forecastTime) / CtrlTank.syncInterval;
+        //float t = (Time.time - forecastTime) / CtrlTank.syncInterval;
+        float t = (float)(CommonUtil.GetTimeStamp() - forecastTime) / CtrlTank.syncInterval;
+
         t = Mathf.Clamp(t, 0f, 1f);
         //旋转
         Quaternion quat = transform.rotation;

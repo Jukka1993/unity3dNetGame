@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class CtrlTank : BaseTank {
-    private float lastSendSyncTime = 0;
+    private double lastSendSyncTime = 0;
     //public static float syncInterval = 0.02f;
-    public static float syncInterval = 0.05f;
+    public static float syncInterval = 50f;
     //private int nameUp = 5;
     public VariableJoystick joystick;
     public EButton fireButton;
@@ -54,11 +54,15 @@ public class CtrlTank : BaseTank {
     }
     public void SyncUpdate()
     {
-        if(Time.time - lastSendSyncTime < syncInterval)
+        double tttt = CommonUtil.GetTimeStamp() - lastSendSyncTime;
+        if (tttt < syncInterval)
         {
+            //Debug.Log("JJJ");
+            //Debug.Log(CommonUtil.GetTimeStamp());
+            //Debug.Log(lastSendSyncTime);
             return;
         }
-        lastSendSyncTime = Time.time;
+        lastSendSyncTime = CommonUtil.GetTimeStamp();
 
         MsgSyncTank msg = new MsgSyncTank();
         msg.x = transform.position.x;

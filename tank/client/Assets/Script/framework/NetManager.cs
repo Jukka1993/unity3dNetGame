@@ -36,9 +36,16 @@ public static class NetManager {
 
     public delegate void UpdateText(string tt);
     public static UpdateText updateText = null;
+    public static UpdateText updateText2 = null;
+    public static UpdateText updateText3 = null;
+    public static UpdateText updateText4 = null;
 
     public delegate void MsgListener(MsgBase msgBase);
     private static Dictionary<string, MsgListener> msgListeners = new Dictionary<string, MsgListener>();
+    private static int index = 0;
+    private static int index2 = 0;
+    private static int index3 = 0;
+    private static int index4 = 0;
 
     public static void AddEventListener(NetEvent netEvent, EventListener listener)
     {
@@ -165,7 +172,7 @@ public static class NetManager {
                 return;
             }
             readBuff.writeIdx += count;
-            updateText("count = " + count + "\n" + "receiveCallBack readBuff.writeIdx = " + readBuff.writeIdx);
+            updateText(index++ + "count = " + count + "\n" + "receiveCallBack readBuff.writeIdx = " + readBuff.writeIdx);
             //Debug.Log("receiveCallBack readBuff.writeIdx = " + readBuff.writeIdx);
             OnReceiveData();
             if (readBuff.remain < 8)
@@ -211,6 +218,7 @@ public static class NetManager {
 
         MsgBase msgBase = MsgBase.Decode(protoName, readBuff.bytes, readBuff.readIdx, bodyCount);
         //Debug.Log("D protoName = " + protoName);
+        updateText2(index2++ + " 收到协议 " + protoName);
 
         readBuff.readIdx += bodyCount;
         //Debug.Log("E protoName = " + protoName);
@@ -224,7 +232,7 @@ public static class NetManager {
             //{
             //    Debug.Log("11 protoName = " + protoName + " " + msgBase);
             //}
-
+            updateText3(index3++ + " 添加到msgList " + msgBase.protoName);
             msgList.Add(msgBase);
             //if (protoName == "MsgGetAchieve")
             //{
@@ -366,6 +374,7 @@ public static class NetManager {
                 if(msgList.Count > 0)
                 {
                     msgBase = msgList[0];
+                    updateText4(index4++ + "取出协议" + msgBase.protoName);
                     msgList.RemoveAt(0);
                     msgCount--;
                 }
