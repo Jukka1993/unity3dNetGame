@@ -168,7 +168,7 @@ namespace general.script.net
             readBuff.readIdx += nameCount;
             //AAA 开始解析协议体，这里为什么是bodyLength还要再看看才能想清楚。。。
             int bodyCount = bodyLength - nameCount;
-            
+
                 string name123 = System.Text.Encoding.UTF8.GetString(readBuff.bytes, 0, readBuff.bytes.Length);
 
             MsgBase msgBase = MsgBase.Decode(protoName, readBuff.bytes, readBuff.readIdx, bodyCount);
@@ -215,10 +215,10 @@ namespace general.script.net
                 return;
             }
             //cs的socket未连接则return
-            if (!cs.socket.Connected)
-            {
-                return;
-            }
+            //if (!cs.socket.Connected) //貌似这玩意只是说 上一次 有没有连上，还是怎么个意思，反正就是不可靠的意思
+            //{
+            //    return;
+            //}
             //数据编码
             byte[] nameBytes = MsgBase.EncodeName(msg);
             byte[] bodyBytes = MsgBase.Encode(msg);

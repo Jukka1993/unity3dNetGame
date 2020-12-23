@@ -34,6 +34,9 @@ public static class NetManager {
     public delegate void EventListener(String err);
     private static Dictionary<NetEvent, EventListener> eventListeners = new Dictionary<NetEvent, EventListener>();
 
+    public delegate void UpdateText(string tt);
+    public static UpdateText updateText = null;
+
     public delegate void MsgListener(MsgBase msgBase);
     private static Dictionary<string, MsgListener> msgListeners = new Dictionary<string, MsgListener>();
 
@@ -161,8 +164,9 @@ public static class NetManager {
                 Close();
                 return;
             }
-            //Debug.Log("readBuff.writeIdx += " + count);
             readBuff.writeIdx += count;
+            updateText("count = " + count + "\n" + "receiveCallBack readBuff.writeIdx = " + readBuff.writeIdx);
+            //Debug.Log("receiveCallBack readBuff.writeIdx = " + readBuff.writeIdx);
             OnReceiveData();
             if (readBuff.remain < 8)
             {

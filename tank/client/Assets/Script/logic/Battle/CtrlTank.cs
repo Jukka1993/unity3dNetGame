@@ -13,8 +13,16 @@ public class CtrlTank : BaseTank {
     public EButton leftButton;
     public EButton rightButton;
 
-	// Use this for initialization
-	void Start () {
+    public Toggle toggleLeft;
+    public Toggle toggleRight;
+    public Toggle toggleForward;
+    public Toggle toggleBack;
+    public Toggle toggleFire;
+    public Toggle toggleRotateLeft;
+    public Toggle toggleRotateRight;
+
+    // Use this for initialization
+    void Start () {
         //nameUp = 5;
         PlayControlPanel controlPanel = PanelManager.GetPanel<PlayControlPanel>();
         if(controlPanel != null)
@@ -23,6 +31,14 @@ public class CtrlTank : BaseTank {
             leftButton = controlPanel.leftButton;
             rightButton = controlPanel.rightButton;
             fireButton = controlPanel.fireButton;
+
+            toggleLeft = controlPanel.toggleLeft;
+            toggleRight = controlPanel.toggleRight;
+            toggleForward = controlPanel.toggleForward;
+            toggleBack = controlPanel.toggleBack;
+            toggleFire = controlPanel.toggleFire;
+            toggleRotateLeft = controlPanel.toggleRotateLeft;
+            toggleRotateRight = controlPanel.toggleRotateRight;
         }
     }
 	
@@ -67,10 +83,10 @@ public class CtrlTank : BaseTank {
             return;
         }
         float axis = 0;
-        if (leftButton.isPressed)
+        if (leftButton.isPressed || toggleRotateLeft.isOn)
         {
             axis = -1;
-        } else if (rightButton.isPressed)
+        } else if (rightButton.isPressed || toggleRotateRight.isOn)
         {
             axis = 1;
         }
@@ -91,7 +107,7 @@ public class CtrlTank : BaseTank {
         {
             return;
         }
-        if (!fireButton.isPressed)
+        if (!fireButton.isPressed && !toggleFire.isOn)
         {
             return;
         }
@@ -126,6 +142,20 @@ public class CtrlTank : BaseTank {
 
         float x = joystick.Horizontal;
         float y = joystick.Vertical;
+        if (toggleForward.isOn)
+        {
+            y = 1;
+        } else if (toggleBack.isOn)
+        {
+            y = -1;
+        }
+        if (toggleLeft.isOn)
+        {
+            x = -1;
+        } else if (toggleRight.isOn)
+        {
+            x = 1;
+        }
         //float x = Input.GetAxis("Horizontal");
         //float y = Input.GetAxis("Vertical");
 

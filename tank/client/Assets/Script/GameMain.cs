@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameMain : MonoBehaviour {
     public static int id = -1;
@@ -9,8 +11,15 @@ public class GameMain : MonoBehaviour {
     XLua.LuaEnv luaEnv;
     delegate void UpdateDelType();
     UpdateDelType luaUpdate;
+    public Text text;
+    private string showText = "";
+    public void updateText(string tt)
+    {
+        showText = tt;
+    }
     private void Start()
     {
+        NetManager.updateText = updateText;
         //网络监听
         NetManager.AddEventListener(NetEvent.ConnectSucc, OnConnectSucc);
         NetManager.AddEventListener(NetEvent.ConnectFail, OnConnectFail);
@@ -18,8 +27,8 @@ public class GameMain : MonoBehaviour {
 
         NetManager.AddMsgListener("MsgKick", OnMsgKick);
 
-        //NetManager.Connect("172.18.10.121", 8888);
-        NetManager.Connect("192.168.100.12", 8888);
+        NetManager.Connect("172.18.10.121", 8888);
+        //NetManager.Connect("192.168.100.12", 8888);
         //NetManager.Connect("127.0.0.1", 8888);
 
 
@@ -41,6 +50,7 @@ public class GameMain : MonoBehaviour {
     }
     private void Update()
     {
+        text.text = showText;
         NetManager.Update();
         if(luaUpdate != null)
         {

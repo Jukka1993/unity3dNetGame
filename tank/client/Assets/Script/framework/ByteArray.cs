@@ -1,7 +1,7 @@
 ﻿using System;
 public class ByteArray
 {
-    const int DEFAULT_SIZE = 1024;
+    const int DEFAULT_SIZE = 61440;
     public byte[] bytes;
     public int readIdx;
     public int writeIdx;
