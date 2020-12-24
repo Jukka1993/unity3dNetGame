@@ -6,6 +6,7 @@ using System;
 public class MsgBase{
 
     public string protoName = "";
+    public float msgSeq = 1;
 
     public static byte[] Encode(MsgBase msgBase)
     {

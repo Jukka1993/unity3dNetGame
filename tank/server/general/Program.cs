@@ -26,7 +26,7 @@ namespace general
             //Console.WriteLine(msgMove1.y);
             //Console.WriteLine(msgMove1.z);
             //Console.WriteLine("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-            if (!DBManager.Connect("netgame", "127.0.0.1", 3306, "root", "199349529"))
+            if (!DBManager.Connect("netgame", "127.0.0.1", 13306, "root", "199349529"))
             //if (!DBManager.Connect("netgame", "127.0.0.1", 3306, "root", ""))
             {
                 return;

@@ -72,9 +72,21 @@ public class ByteArray
     }
     public void MoveBytes()
     {
+        //勘个毛线误,照这么改了崩得还快些
         Array.Copy(bytes, readIdx, bytes, 0, length);
         writeIdx = length;
         readIdx = 0;
+        // // Array.Copy(bytes, readIdx, bytes, 0, length);
+        // // writeIdx = length;
+        // // readIdx = 0;
+        // //勘误
+        // //https://luopeiyu.github.io/unity_net_book/
+        // // 4.6.2 “完整的ByteArray/移动数据”代码段中的CheckAndMoveBytes方法改为
+        // if(length > 0) {
+        //     Array.Copy(bytes, readIdx, bytes, 0, length);
+        // }
+        // writeIdx = length;
+        // readIdx = 0;
     }
     public int Write(byte[] bs,int offset,int count)
     {
@@ -82,7 +94,7 @@ public class ByteArray
         {
             ReSize(length + count);
         }
-        
+
         string bsStr = System.Text.Encoding.UTF8.GetString(bs, 0, bytes.Length);
         //Console.WriteLine(bsStr);
         Array.Copy(bs, offset, bytes, writeIdx, count);

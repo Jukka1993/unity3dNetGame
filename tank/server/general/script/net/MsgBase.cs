@@ -19,6 +19,7 @@ namespace general.script.net
     {
 
         public string protoName = "";
+        public float msgSeq = 1;
 
         public static byte[] Encode(MsgBase msgBase)
         {

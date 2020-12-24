@@ -46,6 +46,7 @@ public static class NetManager {
     private static int index2 = 0;
     private static int index3 = 0;
     private static int index4 = 0;
+    private static float msgSeq = 0;
 
     public static void AddEventListener(NetEvent netEvent, EventListener listener)
     {
@@ -282,6 +283,7 @@ public static class NetManager {
         {
             return;
         }
+        msg.msgSeq = ++msgSeq;
         byte[] nameBytes = MsgBase.EncodeName(msg);
         byte[] bodyBytes = MsgBase.Encode(msg);
         int len = nameBytes.Length + bodyBytes.Length;

@@ -19,6 +19,7 @@ namespace general.script.net
         static List<Socket> checkRead = new List<Socket>();
         //ping间隔
         public static long pingInterval = 30000;
+        private static float msgSeq = 0;
         public static void StartLoop(int listenPort)
         {
             //Socket
@@ -219,6 +220,7 @@ namespace general.script.net
             //{
             //    return;
             //}
+            msg.msgSeq = ++msgSeq;
             //数据编码
             byte[] nameBytes = MsgBase.EncodeName(msg);
             byte[] bodyBytes = MsgBase.Encode(msg);
