@@ -51,6 +51,10 @@ public class MsgBase{
         {
             return "";
         }
+        if (len <= 0)
+        {
+            return "";
+        }
         count = 2 + len;
         string name = System.Text.Encoding.UTF8.GetString(bytes, offset + 2, len);
         return name;

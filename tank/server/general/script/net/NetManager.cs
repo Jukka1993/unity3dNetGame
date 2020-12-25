@@ -6,11 +6,14 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using general.script.logic;
+using general.script.proto;
 
 namespace general.script.net
 {
     public class NetManager
     {
+        public static float aa = 0;
+        public static float bb = 10;
         //监听socket
         public static Socket listenfd;
         //客户端Socket及状态信息
@@ -32,7 +35,7 @@ namespace general.script.net
             while (true)
             {
                 ResetCheckRead();
-                Socket.Select(checkRead, null, null, 1000);
+                Socket.Select(checkRead, null, null, 5000);
                 for(int i = checkRead.Count - 1; i >= 0; i--)
                 {
                     Socket s = checkRead[i];
@@ -120,6 +123,18 @@ namespace general.script.net
             MethodInfo mei = typeof(general.script.logic.EventHandler).GetMethod("OnTimer");
             object[] ob = { };
             mei.Invoke(null, ob);
+            //Console.WriteLine(aa++);
+            if (aa % 10 == 0)
+            {
+                foreach (ClientState s in clients.Values)
+                {
+                    //checkRead.Add(s.socket);
+                    TestMsg msg = new TestMsg();
+                    msg.str = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz";
+
+                    Send(s, msg);
+                }
+            }
         }
         public static void OnReceiveData(ClientState cs)
         {

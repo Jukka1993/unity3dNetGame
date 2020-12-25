@@ -72,21 +72,22 @@ public class ByteArray
     }
     public void MoveBytes()
     {
-        //勘个毛线误,照这么改了崩得还快些
-        Array.Copy(bytes, readIdx, bytes, 0, length);
-        writeIdx = length;
-        readIdx = 0;
+        ////勘个毛线误,照这么改了崩得还快些
+        //Array.Copy(bytes, readIdx, bytes, 0, length);
+        //writeIdx = length;
+        //readIdx = 0;
         // // Array.Copy(bytes, readIdx, bytes, 0, length);
         // // writeIdx = length;
         // // readIdx = 0;
         // //勘误
         // //https://luopeiyu.github.io/unity_net_book/
         // // 4.6.2 “完整的ByteArray/移动数据”代码段中的CheckAndMoveBytes方法改为
-        // if(length > 0) {
-        //     Array.Copy(bytes, readIdx, bytes, 0, length);
-        // }
-        // writeIdx = length;
-        // readIdx = 0;
+        if (length > 0)
+        {
+            Array.Copy(bytes, readIdx, bytes, 0, length);
+        }
+        writeIdx = length;
+        readIdx = 0;
     }
     public int Write(byte[] bs,int offset,int count)
     {
@@ -105,7 +106,7 @@ public class ByteArray
     public int Read(byte[] bs,int offset,int count)
     {
         count = Math.Min(count, length);
-        Array.Copy(bytes, 0, bs, offset, count);
+        Array.Copy(bytes, readIdx, bs, offset, count);
         Console.WriteLine("B Write===== " + count);
 
         readIdx += count;
@@ -115,7 +116,7 @@ public class ByteArray
     public Int16 ReadInt16()
     {
         if (length < 2) return 0;
-        Int16 ret = (Int16)((bytes[1] << 8) | bytes[0]);
+        Int16 ret = (Int16)((bytes[readIdx + 1] << 8) | bytes[readIdx]);
         //Console.WriteLine("C ReadInt16 add 2");
         readIdx += 2;
         CheckAndMoveBytes();
@@ -127,7 +128,7 @@ public class ByteArray
         {
             return 0;
         }
-        Int32 ret = (Int32)((bytes[3] << 24) | bytes[2] << 16 | bytes[1] << 8 | bytes[0]);
+        Int32 ret = (Int32)((bytes[readIdx + 3] << 24) | bytes[readIdx + 2] << 16 | bytes[readIdx + 1] << 8 | bytes[readIdx + 0]);
         readIdx += 4;
         CheckAndMoveBytes();
         return ret;

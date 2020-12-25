@@ -196,7 +196,7 @@ public static class NetManager {
         int readIdx = readBuff.readIdx;
         byte[] bytes = readBuff.bytes;
         Int16 bodyLength = (Int16)((bytes[readIdx + 1] << 8) | bytes[readIdx]);
-        if(readBuff.length < bodyLength)
+        if(readBuff.length < bodyLength + 2)
         {
             return;
         }

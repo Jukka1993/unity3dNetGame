@@ -66,6 +66,10 @@ namespace general.script.net
                 return "";
             }
             Int16 len = (Int16)((bytes[offset + 1] << 8) | bytes[offset]);
+            if (len <= 0)
+            {
+                return "";
+            }
             if (offset + 2 + len > bytes.Length)
             {
                 //string name1 = System.Text.Encoding.UTF8.GetString(bytes, offset + 2, len);

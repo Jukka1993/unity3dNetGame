@@ -1,4 +1,5 @@
-﻿using System;
+﻿//using Assets.Script.proto;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,7 +20,10 @@ public class GameMain : MonoBehaviour {
     private string showText2 = "";
     private string showText3 = "";
     private string showText4 = "";
-
+    public Text text5;
+    public InputField inputField;
+    public InputField ipInputField;
+    public bool started = false;
     public void updateText(string tt)
     {
         showText = tt;
@@ -36,8 +40,16 @@ public class GameMain : MonoBehaviour {
     {
         showText4 = tt;
     }
-    private void Start()
+    public void onStartClick()
     {
+        DoStart();
+    }
+    private void DoStart()
+    {
+        if (started)
+        {
+            return;
+        }
         NetManager.updateText = updateText;
         NetManager.updateText2 = updateText2;
         NetManager.updateText3 = updateText3;
@@ -48,10 +60,11 @@ public class GameMain : MonoBehaviour {
         NetManager.AddEventListener(NetEvent.Close, OnConnectClose);
 
         NetManager.AddMsgListener("MsgKick", OnMsgKick);
+        NetManager.AddMsgListener("TestMsg", OnTestMsg);
 
         //NetManager.Connect("192.168.100.12", 8888);
-        NetManager.Connect("172.18.10.121", 8888);
-        //NetManager.Connect("192.168.100.12", 8888);
+        //NetManager.Connect("172.18.10.121", 8888);
+        NetManager.Connect(ipInputField.text, 8888);
         //NetManager.Connect("127.0.0.1", 8888);
 
 
@@ -65,6 +78,23 @@ public class GameMain : MonoBehaviour {
         luaEnv = new XLua.LuaEnv();
         luaEnv.DoString(luaMian.text);
         luaUpdate = luaEnv.Global.Get<UpdateDelType>("Update");
+        started = true;
+    }
+    public void OnTestMsg(MsgBase msg)
+    {
+        TestMsg msg1 = (TestMsg)msg;
+        Debug.Log(msg1.msgSeq);
+        string s = msg1.str;
+        int count = int.Parse(inputField.text);
+        for (int i = 0; i < count; i++)
+        {
+            char[] ss = s.ToCharArray();
+            for (int j = 0; j < ss.Length; j++)
+            {
+                s += ss[j];
+            }
+        }
+        text5.text = msg1.msgSeq + s;
     }
     public void OnDestroy()
     {
@@ -73,6 +103,10 @@ public class GameMain : MonoBehaviour {
     }
     private void Update()
     {
+        if (!started)
+        {
+            return;
+        }
         text.text = showText;
         text2.text = showText2;
         text3.text = showText3;
