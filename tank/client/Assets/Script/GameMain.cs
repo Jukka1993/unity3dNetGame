@@ -24,6 +24,10 @@ public class GameMain : MonoBehaviour {
     public InputField inputField;
     public InputField ipInputField;
     public bool started = false;
+    private float lastCheckPingSec = 0;
+    public Text c2sPing;
+    public Text sDeal;
+    public Text s2cPing;
     public void updateText(string tt)
     {
         showText = tt;
@@ -83,7 +87,7 @@ public class GameMain : MonoBehaviour {
     public void OnTestMsg(MsgBase msg)
     {
         TestMsg msg1 = (TestMsg)msg;
-        Debug.Log(msg1.msgSeq);
+        
         string s = msg1.str;
         int count = int.Parse(inputField.text);
         for (int i = 0; i < count; i++)
@@ -107,6 +111,7 @@ public class GameMain : MonoBehaviour {
         {
             return;
         }
+        checkPing();
         text.text = showText;
         text2.text = showText2;
         text3.text = showText3;
@@ -116,6 +121,22 @@ public class GameMain : MonoBehaviour {
         {
             luaUpdate();
         }
+    }
+    void checkPing()
+    {
+        //if (Time.time > lastCheckPingSec)
+        //{
+        //    PingCheck msg = new PingCheck();
+        //    msg.clientSendTime1 = (DateTime.Now.ToUniversalTime().Ticks - 621355968000000000) / 10000;
+        //    NetManager.Send(msg);
+        //    lastCheckPingSec = Time.time;
+        //}
+        CheckPing.Instance.afterCheckPing = afterCheckPing;
+        CheckPing.Instance.checkPing();
+    }
+    void afterCheckPing(double pingTime)
+    {
+        c2sPing.text = pingTime.ToString();
     }
     void OnConnectFail(string txt)
     {
