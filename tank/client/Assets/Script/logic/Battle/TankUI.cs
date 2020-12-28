@@ -23,7 +23,11 @@ public class TankUI : MonoBehaviour {
     {
         curHp = hp;
         bloodBar.GetComponent<RectTransform>().sizeDelta = new Vector2(curHp / maxHp * maxWidth, 10);
-        DOTween.To(() => bloodBarShadow.GetComponent<RectTransform>().sizeDelta.x, x => { bloodBarShadow.GetComponent<RectTransform>().sizeDelta = new Vector2(x, 10); },curHp / maxHp * maxWidth, 0.5f);
+        DOTween.To(
+            () => bloodBarShadow.GetComponent<RectTransform>().sizeDelta.x,
+            x => { bloodBarShadow.GetComponent<RectTransform>().sizeDelta = new Vector2(x, 10); },
+            curHp / maxHp * maxWidth,
+            0.5f);
 
     }
 }

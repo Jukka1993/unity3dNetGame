@@ -12,6 +12,13 @@ public enum NetEvent
     ConnectFail = 2,
     Close = 3,
 }
+public enum NetState
+{
+    Closed = 1,
+    Connecting = 2,
+    Connected = 3,
+    Closing = 4
+}
 
 
 public static class NetManager {
@@ -21,15 +28,15 @@ public static class NetManager {
     static ByteArray readBuff;
     //写入队列
     static Queue<ByteArray> writeQueue;
-    static bool isConnecting = false;
     static bool isClosing = false;
     static List<MsgBase> msgList = new List<MsgBase>();
     static int msgCount = 0;
     readonly static int MAX_MESSAGE_FIRE = 10;
     public static bool isUsePing = true;
-    public static int pingInterval = 30000;
+    public static int pingInterval = 10;
     static float lastPingTime = 0;
     static float lastPongTime = 0;
+    static NetState netState = NetState.Closed;
 
     public delegate void EventListener(String err);
     private static Dictionary<NetEvent, EventListener> eventListeners = new Dictionary<NetEvent, EventListener>();
@@ -112,14 +119,15 @@ public static class NetManager {
             Debug.Log("Connect fail, already connected!");
             return;
         }
-        if (isConnecting)
+        if (netState == NetState.Connecting)
         {
             Debug.Log("Connect fail, isConnecting!");
             return;
         }
+        netState = NetState.Connecting;
         InitState();
         socket.NoDelay = true;
-        isConnecting = true;
+        netState = NetState.Connecting;
         socket.BeginConnect(ip, port, ConnectCallback, socket);
     }
     private static void InitState()
@@ -131,8 +139,8 @@ public static class NetManager {
         writeQueue = new Queue<ByteArray>();
         msgList = new List<MsgBase>();
         msgCount = 0;
-        isConnecting = false;
-        isClosing = false;
+        netState = NetState.Closed;
+
         if (!msgListeners.ContainsKey("MsgPong"))
         {
             AddMsgListener("MsgPong", OnMsgPong);
@@ -150,15 +158,15 @@ public static class NetManager {
             Socket socket = (Socket)ar.AsyncState;
             socket.EndConnect(ar);
             Debug.Log("Socket Connect Succ");
+            netState = NetState.Connected;
             FireEvent(NetEvent.ConnectSucc, "");
-            isConnecting = false;
             socket.BeginReceive(readBuff.bytes, readBuff.writeIdx, readBuff.remain, 0, ReceiveCallback, socket);
         }
         catch (SocketException ex)
         {
             Debug.Log("Socket Connect fail" + ex.ToString());
+            netState = NetState.Closed;
             FireEvent(NetEvent.ConnectFail, ex.ToString());
-            isConnecting = false;
         }
     }
     private static void ReceiveCallback(IAsyncResult ar)
@@ -185,6 +193,7 @@ public static class NetManager {
         }catch(SocketException ex)
         {
             Debug.Log("Socket Receive fail " + ex.ToString());
+            Close();
         }
     }
     private static void OnReceiveData()
@@ -254,18 +263,23 @@ public static class NetManager {
     {
         if(socket == null || !socket.Connected)
         {
+            netState = NetState.Closed;
+            FireEvent(NetEvent.Close, "");
             return;
         }
-        if (isConnecting)
+
+        if (netState == NetState.Connecting)
         {
+
             return;
         }
         if (writeQueue.Count > 0)
         {
-            isClosing = true;
+            netState = NetState.Closing;
         } else
         {
             socket.Close();
+            netState = NetState.Closed;
             FireEvent(NetEvent.Close, "");
         }
     }
@@ -275,11 +289,11 @@ public static class NetManager {
         {
             return;
         }
-        if (isConnecting)
+        if (netState == NetState.Connecting)
         {
             return;
         }
-        if (isClosing)
+        if (netState == NetState.Closing)
         {
             return;
         }
@@ -334,7 +348,7 @@ public static class NetManager {
         if(ba != null)
         {
             socket.BeginSend(ba.bytes, ba.readIdx, ba.length, 0, SendCallback, socket);
-        } else if (isClosing)
+        } else if (netState == NetState.Closing)
         {
             socket.Close();
         }
@@ -346,6 +360,10 @@ public static class NetManager {
     }
     public static void PingUpdate()
     {
+        if (netState != NetState.Connected)
+        {
+            return;
+        }
         if (!isUsePing)
         {
             return;

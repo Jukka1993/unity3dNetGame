@@ -124,17 +124,17 @@ namespace general.script.net
             object[] ob = { };
             mei.Invoke(null, ob);
             //Console.WriteLine(aa++);
-            //if (aa % 10 == 0)
-            //{
-            //    foreach (ClientState s in clients.Values)
-            //    {
-            //        //checkRead.Add(s.socket);
-            //        TestMsg msg = new TestMsg();
-            //        msg.str = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz";
+            if (aa++ % 200 == 0)
+            {
+                foreach (ClientState s in clients.Values)
+                {
+                    //checkRead.Add(s.socket);
+                    TestMsg msg = new TestMsg();
+                    msg.str = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz";
 
-            //        Send(s, msg);
-            //    }
-            //}
+                    Send(s, msg);
+                }
+            }
         }
         public static void OnReceiveData(ClientState cs)
         {

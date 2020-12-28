@@ -28,6 +28,7 @@ public class GameMain : MonoBehaviour {
     public Text c2sPing;
     public Text sDeal;
     public Text s2cPing;
+    private bool shouldOpenReConnect = false;
     public void updateText(string tt)
     {
         showText = tt;
@@ -47,6 +48,10 @@ public class GameMain : MonoBehaviour {
     public void onStartClick()
     {
         DoStart();
+    }
+    public void DoConnect()
+    {
+        NetManager.Connect(ipInputField.text, 8888);
     }
     private void DoStart()
     {
@@ -68,7 +73,7 @@ public class GameMain : MonoBehaviour {
 
         //NetManager.Connect("192.168.100.12", 8888);
         //NetManager.Connect("172.18.10.121", 8888);
-        NetManager.Connect(ipInputField.text, 8888);
+        DoConnect();
         //NetManager.Connect("127.0.0.1", 8888);
 
 
@@ -121,6 +126,15 @@ public class GameMain : MonoBehaviour {
         {
             luaUpdate();
         }
+        tryOpenReConnect();
+    }
+    void tryOpenReConnect()
+    {
+        if (shouldOpenReConnect)
+        {
+            PanelManager.Open<ReConnectPanel>();
+            shouldOpenReConnect = false;
+        }
     }
     void checkPing()
     {
@@ -149,6 +163,7 @@ public class GameMain : MonoBehaviour {
     void OnConnectClose(string txt)
     {
         Debug.Log("连接断开");
+        shouldOpenReConnect = true;
     }
     void OnMsgKick(MsgBase msgBase)
     {

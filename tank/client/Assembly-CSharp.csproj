@@ -90,6 +90,7 @@
     <Compile Include="Assets\Script\logic\Battle\TankUIPanel.cs" />
     <Compile Include="Assets\Script\logic\Common\CheckPing.cs" />
     <Compile Include="Assets\Script\logic\Common\CommonUtil.cs" />
+    <Compile Include="Assets\Script\logic\Common\ReConnectPanel.cs" />
     <Compile Include="Assets\Script\logic\Common\TipPanel.cs" />
     <Compile Include="Assets\Script\logic\Core\GameRoot.cs" />
     <Compile Include="Assets\Script\logic\Login\LoginPanel.cs" />
