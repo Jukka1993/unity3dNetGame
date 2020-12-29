@@ -11,22 +11,31 @@ namespace general.script.logic
         public static void OnDisconnect(ClientState cs)
         {
             //Player下线
-            if(cs.player != null)
+            if (cs.player != null)
             {
-                if(cs.player != null)
+                Room.Status status = Room.Status.PREPARE;
+                int roomId = cs.player.roomId;
+                if (roomId >= 0)
                 {
-                    int roomId = cs.player.roomId;
-                    if(roomId >= 0)
+                    Room room = RoomManager.GetRoom(roomId);
+                    status = room.status;
+                    if (status == Room.Status.PREPARE)
                     {
-                        Room room = RoomManager.GetRoom(roomId);
                         room.RemovePlayer(cs.player.id);
                     }
                 }
+                if (status == Room.Status.PREPARE)
+                {
+                    //保存数据
+                    DBManager.UpdatePlayerData(cs.player.id, cs.player.data);
+                    //移除
+                    PlayerManager.RemovePlayer(cs.player.id);
+                }
+                if (cs.player.cs != null)
+                {
+                    cs.player.cs = null;
+                }
 
-                //保存数据
-                DBManager.UpdatePlayerData(cs.player.id, cs.player.data);
-                //移除
-                PlayerManager.RemovePlayer(cs.player.id);
             }
         }
         public static void OnTimer()
@@ -40,7 +49,7 @@ namespace general.script.logic
             long overtime = NetManager.pingInterval * 4;
             foreach (ClientState cs in NetManager.clients.Values)
             {
-                if(timeNow -cs.lastPingTime > overtime)
+                if (timeNow - cs.lastPingTime > overtime)
                 {
                     Console.WriteLine("Ping Close " + cs.socket.RemoteEndPoint.ToString());
                     NetManager.Close(cs);

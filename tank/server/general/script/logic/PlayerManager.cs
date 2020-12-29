@@ -19,6 +19,10 @@ namespace general.script.logic
         {
             return players.ContainsKey(id);
         }
+        public static bool ExistPlayer(int id)
+        {
+            return players.ContainsKey(id);
+        }
         public static Player GetPlayer(int id)
         {
             if (players.ContainsKey(id))

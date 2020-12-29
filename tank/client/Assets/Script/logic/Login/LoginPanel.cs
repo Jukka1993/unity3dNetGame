@@ -57,17 +57,18 @@ public class LoginPanel : BasePanel {
         MsgLogin msg = (MsgLogin)msgBase;
         if(msg.result == 0)
         {
-            CommonUtil.OpenTip("登录成功");
-            ////进入游戏
-            ////添加坦克
-            //GameObject tankObj = new GameObject("myTank");
-            //CtrlTank ctrlTank = tankObj.AddComponent<CtrlTank>();
-            //ctrlTank.Init("Prefabs/ModelPre/TankPrefab/tankPrefab");
-            ////设置相机
-            //tankObj.AddComponent<CameraFollow>();
             GameMain.id = msg.id;
             GameMain.userName = msg.name;
-            PanelManager.Open<RoomListPanel>();
+            if (msg.roomId == -1)
+            {
+                CommonUtil.OpenTip("登录成功");
+                PanelManager.Open<RoomListPanel>();
+            } else
+            {
+
+            }
+            
+            
             //关闭登录界面
             Close();
         } else

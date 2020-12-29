@@ -5,8 +5,16 @@ using general.script.net;
 
 namespace general.script.logic
 {
+    public enum PlayerState
+    {
+        OffLine,
+        OutRoom,
+        Preparing,
+        Fighting
+    }
     public class Player
     {
+        public PlayerState status = PlayerState.OffLine;
         public int id = -1;
         public string name = "";
         public ClientState cs;
@@ -23,6 +31,7 @@ namespace general.script.logic
         public Player(ClientState state)
         {
             this.cs = state;
+            status = PlayerState.OutRoom;
         }
         public void Send(MsgBase msgBase)
         {

@@ -64,39 +64,51 @@ namespace general.script.logic
 
                 return;
             }
+            Player player = null;
             //如果该账号已被其他人登录，则踢出其他人
             if (PlayerManager.IsOnline(id))
             {
                 Player other = PlayerManager.GetPlayer(id);
+                player = other;
                 MsgKick msgKick = new MsgKick();
                 msgKick.reason = 0;
                 msgKick.reasonStr = "other login with your account";
-            DBManager.UpdatePlayerData(other.id, other.data);
-            PlayerManager.RemovePlayer(other.id);
+                DBManager.UpdatePlayerData(other.id, other.data);
+                //PlayerManager.RemovePlayer(other.id);
                 other.Send(msgKick);
-            other.cs.player = null;
-                //NetManager.Close(other.cs);
+                other.cs.player = null;
+                NetManager.Close(other.cs);
             }
             //获取玩家数据
             PlayerData playerData = DBManager.GetPlayerData(id);
             string playerName = DBManager.GetPlayerName(id);
             if(playerData == null)
             {
+                if (player != null)
+                {
+                    PlayerManager.RemovePlayer(player.id);
+                }
                 msg.result = 1;
                 msg.reasonStr = reasonStr;
                 NetManager.Send(cs, msg);
                 return;
             }
-            Player player = new Player(cs);
+            if (player == null)
+            {
+                player = new Player(cs);
+            }
             player.name = playerName;
             player.id = id;
             player.data = playerData;
-
-            PlayerManager.AddPlayer(id, player);
+            if (!PlayerManager.ExistPlayer(id))
+            {
+                PlayerManager.AddPlayer(id, player);
+            }
             cs.player = player;
             //返回协议
             msg.result = 0;
             msg.id = id;
+            msg.roomId = player.roomId;
             player.Send(msg);
         }
     }

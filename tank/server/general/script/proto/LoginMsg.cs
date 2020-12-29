@@ -29,6 +29,7 @@ namespace general.script.proto
         public string name = "";
         public string pw = "";
         public int id = -1;
+        public int roomId = -1;
         public int result = 0;
     }
     public class MsgLogout : MsgBase
