@@ -65,8 +65,9 @@ namespace general.script.logic
                 return;
             }
             Player player = null;
-            //如果该账号已被其他人登录，则踢出其他人
-            if (PlayerManager.IsOnline(id))
+            //如果该账号在playermanager中,且存在一个连接,断开之前的连接,相当于要踢走之前登陆的那个客户端
+            //如果该账号在playermanager中,但没有连接,则说明可能是断线了的角色(仍然存在于房间中),则不需要踢走(没得踢的),而是用现在这个新的连接,连上这个账号角色
+            if (PlayerManager.ExistPlayer(id) && PlayerManager.GetPlayer(id).cs != null)
             {
                 Player other = PlayerManager.GetPlayer(id);
                 player = other;
@@ -76,8 +77,7 @@ namespace general.script.logic
                 DBManager.UpdatePlayerData(other.id, other.data);
                 //PlayerManager.RemovePlayer(other.id);
                 other.Send(msgKick);
-                other.cs.player = null;
-                NetManager.Close(other.cs);
+                other.BreakFromCS();
             }
             //获取玩家数据
             PlayerData playerData = DBManager.GetPlayerData(id);
@@ -96,6 +96,9 @@ namespace general.script.logic
             if (player == null)
             {
                 player = new Player(cs);
+            } else
+            {
+                player.bindCS(cs);
             }
             player.name = playerName;
             player.id = id;
@@ -110,6 +113,13 @@ namespace general.script.logic
             msg.id = id;
             msg.roomId = player.roomId;
             player.Send(msg);
+            if (msg.roomId >= 0)
+            {
+                if (RoomManager.GetRoom(msg.roomId).status == Room.Status.FIGHT)
+                {
+                    player.ReEnterRoom();
+                }
+            }
         }
     }
 }

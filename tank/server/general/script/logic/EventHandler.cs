@@ -29,7 +29,7 @@ namespace general.script.logic
                     //保存数据
                     DBManager.UpdatePlayerData(cs.player.id, cs.player.data);
                     //移除
-                    PlayerManager.RemovePlayer(cs.player.id);
+                    PlayerManager.RemovePlayer(cs.player.id);//todo 断开连接不要立刻删除player了,如果是战斗中,就一直保留,如果是在房间中,则等待一段时间,如果还没有连接回来,删除player
                 }
                 if (cs.player.cs != null)
                 {
@@ -46,7 +46,7 @@ namespace general.script.logic
         public static void CheckPing()
         {
             long timeNow = NetManager.GetTimeStamp();
-            long overtime = NetManager.pingInterval * 4;
+            long overtime = Constant.pingInterval * Constant.pingWaitCount;
             foreach (ClientState cs in NetManager.clients.Values)
             {
                 if (timeNow - cs.lastPingTime > overtime)

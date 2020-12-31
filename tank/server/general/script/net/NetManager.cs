@@ -20,8 +20,6 @@ namespace general.script.net
         public static Dictionary<Socket, ClientState> clients = new Dictionary<Socket, ClientState>();
         //select的检查列表
         static List<Socket> checkRead = new List<Socket>();
-        //ping间隔
-        public static long pingInterval = 30000;
         private static float msgSeq = 0;
         public static void StartLoop(int listenPort)
         {

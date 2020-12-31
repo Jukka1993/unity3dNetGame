@@ -5,6 +5,18 @@ using general.script.net;
 
 namespace general.script.proto
 {
+    /// <summary>
+    /// 用于重连的时候,将战场的所有坦克信息传给重连上来的那个账号
+    /// </summary>
+    public class MsgSyncAllTank:MsgBase
+    {
+        public MsgSyncAllTank()
+        {
+            protoName = "MsgSyncAllTank";
+        }
+
+        
+    }
     public class MsgSyncTank : MsgBase
     {
         public MsgSyncTank()

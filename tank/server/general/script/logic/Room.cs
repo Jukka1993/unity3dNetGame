@@ -34,35 +34,16 @@ namespace general.script.logic
         private long lastJudgeTime = 0;
         public void Update()
         {
-            if(status != Status.FIGHT)
+            if (status == Status.FIGHT)
             {
+                FightingUpdate();
+                return;
+            } 
+            if (status == Status.PREPARE)
+            {
+                PreparingUpdate();
                 return;
             }
-            if(NetManager.GetTimeStamp() - lastJudgeTime < 10f)
-            {
-                return;
-            }
-            lastJudgeTime = NetManager.GetTimeStamp();
-            int winCamp = Judgement();
-            if(winCamp == 0)
-            {
-                return;
-            }
-            status = Status.PREPARE;
-            foreach(int id in playerIds.Keys)
-            {
-                Player p = PlayerManager.GetPlayer(id);
-                if(p.camp == winCamp)
-                {
-                    p.data.winCount++;
-                } else
-                {
-                    p.data.lostCount++;
-                }
-            }
-            MsgBattleResult msg = new MsgBattleResult();
-            msg.winCamp = winCamp;
-            Broadcast(msg);
         }
         public bool AddPlayer(int id)
         {
@@ -208,35 +189,7 @@ namespace general.script.logic
         {
             return p.hp <= 0;
         }
-        public int Judgement()
-        {
-            int count1 = 0;
-            int count2 = 0;
-            foreach (int id in playerIds.Keys)
-            {
-                Player p = PlayerManager.GetPlayer(id);
-                if (!IsDie(p))
-                {
-                    if (p.camp == 1)
-                    {
-                        count1++;
-                    }
-                    if (p.camp == 2)
-                    {
-                        count2++;
-                    }
-                }
-            }
-            if (count1 <= 0)
-            {
-                return 2;
-            }
-            else if (count2 <= 0)
-            {
-                return 1;
-            }
-            return 0;
-        }
+        
         public TankInfo PlayerToTankInfo(Player player)
         {
             TankInfo info = new TankInfo();
@@ -332,6 +285,80 @@ namespace general.script.logic
                 }
                 player.hp = 100;
             }
+        }
+        private void FightingUpdate()
+        {
+            if (NetManager.GetTimeStamp() - lastJudgeTime < 10f)
+            {
+                return;
+            }
+            lastJudgeTime = NetManager.GetTimeStamp();
+            int winCamp = Judgement();
+            if (winCamp == 0)
+            {
+                return;
+            }
+            status = Status.PREPARE;
+            foreach (int id in playerIds.Keys)
+            {
+                Player p = PlayerManager.GetPlayer(id);
+                if (p.camp == winCamp)
+                {
+                    p.data.winCount++;
+                }
+                else
+                {
+                    p.data.lostCount++;
+                }
+            }
+            MsgBattleResult msg = new MsgBattleResult();
+            msg.winCamp = winCamp;
+            Broadcast(msg);
+        }
+        private void PreparingUpdate()
+        {
+            int[] keys = new int[playerIds.Keys.Count];
+            playerIds.Keys.CopyTo(keys,0);
+            long timestamp = NetManager.GetTimeStamp();
+
+            foreach (int id in keys)
+            {
+                Player player = PlayerManager.GetPlayer(id);
+                if (timestamp - player.lastPingTime > Constant.pingInterval * Constant.preparingRoomWaitCount)
+                {
+                    RemovePlayer(id);//todo 房间准备状态,若玩家离线太久,则踢出房间
+                } 
+
+            }
+        }
+        private int Judgement()
+        {
+            int count1 = 0;
+            int count2 = 0;
+            foreach (int id in playerIds.Keys)
+            {
+                Player p = PlayerManager.GetPlayer(id);
+                if (!IsDie(p))
+                {
+                    if (p.camp == 1)
+                    {
+                        count1++;
+                    }
+                    if (p.camp == 2)
+                    {
+                        count2++;
+                    }
+                }
+            }
+            if (count1 <= 0)
+            {
+                return 2;
+            }
+            else if (count2 <= 0)
+            {
+                return 1;
+            }
+            return 0;
         }
     }
 }
