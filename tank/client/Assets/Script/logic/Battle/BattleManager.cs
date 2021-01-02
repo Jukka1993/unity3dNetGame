@@ -22,9 +22,11 @@ public class BattleManager : MonoBehaviour {
         {
             return;
         }
+        Debug.Log("收到其他人的坦克同步信息");
         SyncTank tank = (SyncTank)GetTank(msg.id);
         if(tank == null)
         {
+            Debug.Log("收到其他人的坦克同步信息,但是tank==null");
             return;
         }
         tank.SyncPos(msg);
@@ -58,6 +60,19 @@ public class BattleManager : MonoBehaviour {
         MsgEnterBattle msg = (MsgEnterBattle)msgBase;
         EnterBattle(msg);
     }
+    public static void ReEnterBattle(MsgReEnterRoom msg)
+    {
+        //EnterBattle((MsgEnterBattle)msg);
+        Reset();
+        PanelManager.Close("RoomPanel");
+        PanelManager.Close("ResultPanel");
+        PanelManager.Open<TankUIPanel>();
+        PanelManager.Open<PlayControlPanel>();
+        for (int i = 0; i < msg.tanks.Length; i++)
+        {
+            GenerateTank(msg.tanks[i]);
+        }
+    }
     private static void EnterBattle(MsgEnterBattle msg)
     {
         Reset();
@@ -90,9 +105,14 @@ public class BattleManager : MonoBehaviour {
         tank.tankName = tankInfo.name;
         Vector3 pos = new Vector3(tankInfo.x, tankInfo.y, tankInfo.z);
         Vector3 rot = new Vector3(tankInfo.ex, tankInfo.ey, tankInfo.ez);
+        Debug.Log(tankInfo.turretY);
+
+        Debug.Log(tank.id + " pos => " + tankInfo.x + " " + tankInfo.y + " " + tankInfo.z);
+        Debug.Log(tank.id + " rot => " + tankInfo.ex+" "+ tankInfo.ey + " " + tankInfo.ez);
         tank.transform.position = pos;
         tank.transform.eulerAngles = rot;
-        if(tankInfo.camp == 1)
+        //turret.localEulerAngles.
+        if (tankInfo.camp == 1)
         {
             tank.Init("Prefabs/ModelPre/TankPrefab/tankPrefab");//todo 写入正确的坦克模型路径
         } else
@@ -101,6 +121,7 @@ public class BattleManager : MonoBehaviour {
             tank.Init("Prefabs/ModelPre/TankPrefab/tankPrefab");//todo 写入正确的坦克模型路径
         }
         AddTank(tankInfo.id, tank);
+        tank.InitGunDirect(tankInfo.turretY);
     }
     private static void OnMsgBattleResult(MsgBase msgBase)
     {

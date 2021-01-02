@@ -30,6 +30,7 @@ public class TankInfo
     public float ex = 0;
     public float ey = 0;
     public float ez = 0;
+    public float turretY = 0;
 
 }
 

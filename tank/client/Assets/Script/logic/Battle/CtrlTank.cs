@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class CtrlTank : BaseTank {
     private double lastSendSyncTime = 0;
     //public static float syncInterval = 0.02f;
-    public static float syncInterval = 50f;
+    public static double syncInterval = 50f;
     //private int nameUp = 5;
     public VariableJoystick joystick;
     public EButton fireButton;
@@ -71,6 +71,7 @@ public class CtrlTank : BaseTank {
         msg.ex = transform.eulerAngles.x;
         msg.ey = transform.eulerAngles.y;
         msg.ez = transform.eulerAngles.z;
+        Debug.Log(msg.ex + " " + msg.ey + " " + msg.ez);
         msg.turretY = turret.localEulerAngles.y;
         NetManager.Send(msg);
     }

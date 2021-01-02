@@ -2,19 +2,26 @@
 using System.Collections.Generic;
 using System.Text;
 using general.script.net;
+using general.script.proto;
 
 namespace general.script.logic
 {
     public enum PlayerState
     {
-        OffLine,
         OutRoom,
         Preparing,
         Fighting
     }
     public class Player
     {
-        public PlayerState status = PlayerState.OffLine;
+        public bool Connected
+        {
+            get
+            {
+                return cs == null;
+            }
+        }
+        public PlayerState status = PlayerState.OutRoom;
         public int id = -1;
         public string name = "";
         public ClientState cs;
@@ -24,6 +31,7 @@ namespace general.script.logic
         public float ex;
         public float ey;
         public float ez;
+        public float turretY;
         public int roomId = -1;
         public int camp = 1;
         public int hp = 100;
@@ -37,18 +45,15 @@ namespace general.script.logic
         }
         public void Send(MsgBase msgBase)
         {
+            if (cs == null)
+            {
+                return;
+            }
             NetManager.Send(cs, msgBase);
         }
-        public void ReEnterRoom()
+        public void BreakFromCS(bool breakConnect = true, bool isNormalBreak = true)
         {
-            Room room = RoomManager.GetRoom(roomId);
-            //if (room)
-            
-            
-        }
-        public void BreakFromCS(bool breakConnect = true)
-        {
-            if (this.cs == null)
+            if (cs == null)
             {
                 return;
             }
@@ -56,13 +61,35 @@ namespace general.script.logic
             this.cs = null;
             if (breakConnect)
             {
-                NetManager.Close(oldCs);
+                NetManager.Close(oldCs, isNormalBreak);
             }
         }
-        public void bindCS(ClientState newCs)
+        public void UnBindCS()
+        {
+            ClientState oldCs = cs;
+            cs = null;
+            if (oldCs != null)
+            {
+                NetManager.Close(oldCs, false);
+            }
+            NotifyRoom();
+        }
+        public void BindCS(ClientState newCs)
         {
             cs = newCs;
             lastPingTime = cs.lastPingTime;
+            NotifyRoom();
+        }
+        public void NotifyRoom()
+        {
+            if (roomId >= 0)
+            {
+                Room room = RoomManager.GetRoom(roomId);
+                if (room != null)
+                {
+                    room.PlayerStatusChange();
+                }
+            }
         }
     }
 }

@@ -8,7 +8,7 @@ namespace general.script.logic
 {
     public partial class MsgHandler
     {
-        public static void MsgPing(ClientState cs, MsgBase msg)
+        public static void OnReceiveMsgPing(ClientState cs, MsgBase msg)
         {
             //Console.WriteLine("Receive MsgPing");
             cs.lastPingTime = NetManager.GetTimeStamp();

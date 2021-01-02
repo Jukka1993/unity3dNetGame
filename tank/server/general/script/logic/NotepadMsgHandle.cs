@@ -8,7 +8,7 @@ namespace general.script.logic
 {
     public partial class MsgHandler
     {
-        public static void MsgGetText(ClientState cs, MsgBase msgBase)
+        public static void OnReceiveMsgGetText(ClientState cs, MsgBase msgBase)
         {
             MsgGetText msg = (MsgGetText)msgBase;
             Player player = cs.player;
@@ -19,7 +19,7 @@ namespace general.script.logic
             msg.text = player.data.text;
             player.Send(msg);
         }
-        public static void MsgSaveText(ClientState cs, MsgBase msgBase)
+        public static void OnReceiveMsgSaveText(ClientState cs, MsgBase msgBase)
         {
             MsgSaveText msg = (MsgSaveText)msgBase;
             Player player = cs.player;

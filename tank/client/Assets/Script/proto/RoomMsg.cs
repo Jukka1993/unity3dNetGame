@@ -5,7 +5,18 @@ using System.Text;
 
 //namespace Assets.Script.proto
 //{
-    class MsgGetAchieve: MsgBase
+public class MsgReEnterRoom : MsgBase
+{
+    public MsgReEnterRoom()
+    {
+        protoName = "ReEnterRoom";
+    }
+    public int roomId = -1;
+    public Constant.RoomState roomState = Constant.RoomState.Preparing;
+    public int mapId = 1;
+    public TankInfo[] tanks;
+}
+class MsgGetAchieve: MsgBase
     {
         public MsgGetAchieve()
         {

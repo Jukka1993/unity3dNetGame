@@ -11,35 +11,30 @@ namespace general.script.logic
         static float[,,] birthConfig = new float[2, 3, 6]
         {
             {//阵营1
-                { 10f,2f,30f,4f,5f,6f},     //阵营1,1号出生点
-                { 10f,2f,0f,4f,5f,6f},     //阵营1,2号出生点
-                { 10f,2f,-30f,4f,5f,6f}      //阵营1,3号出生点
+                { 10f,2f,30f,0f,0f,0f},     //阵营1,1号出生点
+                { 10f,2f,0f,0f,0f,0f},     //阵营1,2号出生点
+                { 10f,2f,-30f,0f,0f,0f}      //阵营1,3号出生点
             },
             {//阵营2
-                { -10f,2f,30f,4f,5f,6f},     //阵营2,1号出生点
-                { -10f,2f,0f,4f,5f,6f},     //阵营2,2号出生点
-                { -10f,2f,-30f,4f,5f,6f}      //阵营2,3号出生点
+                { -10f,2f,30f,0f,0f,0f},     //阵营2,1号出生点
+                { -10f,2f,0f,0f,0f,0f},     //阵营2,2号出生点
+                { -10f,2f,-30f,0f,0f,0f}      //阵营2,3号出生点
             }
         };
         public int roomId = 0;
         public int maxPlayer = 6;
-        public Dictionary<int,bool> playerIds = new Dictionary<int,bool>();
+        public Dictionary<int, bool> playerIds = new Dictionary<int, bool>();
         public int ownerId = -1;
-        public enum Status
-        {
-            PREPARE = 0,
-            FIGHT = 1
-        }
-        public Status status = Status.PREPARE;
+        public Constant.RoomState status = Constant.RoomState.Preparing;
         private long lastJudgeTime = 0;
         public void Update()
         {
-            if (status == Status.FIGHT)
+            if (status == Constant.RoomState.Fighting)
             {
                 FightingUpdate();
                 return;
-            } 
-            if (status == Status.PREPARE)
+            }
+            if (status == Constant.RoomState.Preparing)
             {
                 PreparingUpdate();
                 return;
@@ -48,16 +43,17 @@ namespace general.script.logic
         public bool AddPlayer(int id)
         {
             Player player = PlayerManager.GetPlayer(id);
-            if(player == null)
+            if (player == null)
             {
                 Console.WriteLine("room.AddPlayer fail, player is null");
                 return false;
             }
-            if (playerIds.Count >= maxPlayer) {
+            if (playerIds.Count >= maxPlayer)
+            {
                 Console.WriteLine("room.AddPlayer fail, reach maxPlayer");
                 return false;
             }
-            if(status != Status.PREPARE)
+            if (status != Constant.RoomState.Preparing)
             {
                 Console.WriteLine("room.AddPlayer fail, not PREPARE");
                 return false;
@@ -70,7 +66,7 @@ namespace general.script.logic
             playerIds[id] = true;
             player.camp = SwitchCamp();
             player.roomId = this.roomId;
-            if(ownerId == -1)
+            if (ownerId == -1)
             {
                 ownerId = player.id;
             }
@@ -78,10 +74,11 @@ namespace general.script.logic
             RoomManager.Broadcast();
             return true;
         }
+
         public bool RemovePlayer(int id)
         {
             Player player = PlayerManager.GetPlayer(id);
-            if(player == null)
+            if (player == null)
             {
                 Console.WriteLine("room.RemovePlayer fail, player is null");
                 return false;
@@ -98,44 +95,53 @@ namespace general.script.logic
             {
                 ownerId = SwitchOwner();
             }
-            if(status == Status.FIGHT)
-            {
-                player.data.lostCount++;
-                MsgLeaveBattle msg = new MsgLeaveBattle();
-                msg.id = player.id;
-                Broadcast(msg);
-            }
+            //if(status == Status.FIGHT) //战斗中就不踢出人了,断网了,就让坦克在房间不动就好了
+            //{
+            //    player.data.lostCount++;
+            //    MsgLeaveBattle msg = new MsgLeaveBattle();
+            //    msg.id = player.id;
+            //    Broadcast(msg);
+            //}
 
-            if(playerIds.Count == 0)
+            if (playerIds.Count == 0)
             {
                 RoomManager.RemoveRoom(this.roomId);
-            } else
+            }
+            else
             {
                 RoomManager.Broadcast();
             }
             Broadcast(ToMsg());
             return true;
         }
+        /// <summary>
+        /// 玩家状态变化了
+        /// </summary>
+        public void PlayerStatusChange()
+        {
+            Broadcast(ToMsg());
+        }
         public int SwitchCamp()
         {
             int count1 = 0;
             int count2 = 0;
-            foreach(int id in playerIds.Keys)
+            foreach (int id in playerIds.Keys)
             {
                 Player player = PlayerManager.GetPlayer(id);
-                if(player.camp == 1)
+                if (player.camp == 1)
                 {
                     count1++;
                 }
-                if(player.camp == 2)
+                if (player.camp == 2)
                 {
                     count2++;
                 }
             }
-            if(count1 <= count2)
+            if (count1 <= count2)
             {
                 return 1;
-            } else
+            }
+            else
             {
                 return 2;
             }
@@ -146,15 +152,15 @@ namespace general.script.logic
         }
         public int SwitchOwner()
         {
-            foreach(int id in playerIds.Keys)
+            foreach (int id in playerIds.Keys)
             {
                 return id;
             }
             return -1;
         }
-        public void Broadcast(MsgBase msg,bool showLog = false)
+        public void Broadcast(MsgBase msg, bool showLog = false)
         {
-            foreach(int id in playerIds.Keys)
+            foreach (int id in playerIds.Keys)
             {
                 if (showLog)
                 {
@@ -164,19 +170,50 @@ namespace general.script.logic
                 player.Send(msg);
             }
         }
+        public void ReEnterRoom(Player player)
+        {
+            //if (status == Constant.RoomState.Fighting)
+            //{
+            MsgReEnterRoom msg = new MsgReEnterRoom();
+            msg.roomId = roomId;
+            msg.roomState = status;
+
+            if (status == Constant.RoomState.Fighting)
+            {
+                msg.mapId = 1;
+                msg.tanks = new TankInfo[playerIds.Count];
+                int i = 0;
+                foreach (int id in playerIds.Keys)
+                {
+                    Player playerTemp = PlayerManager.GetPlayer(id);
+                    msg.tanks[i] = PlayerToTankInfo(playerTemp);
+                    i++;
+                }
+            }
+
+            player.Send(msg);
+            if (status == Constant.RoomState.Preparing)
+            {
+                player.Send(ToMsg());
+            }
+            //} else if (status == Constant.RoomState.Preparing)
+            //{
+            //    
+            //}
+        }
         public bool StartBattle()
         {
             if (!CanStartBattle())
             {
                 return false;
             }
-            status = Status.FIGHT;
+            status = Constant.RoomState.Fighting;
             ResetPlayers();
             MsgEnterBattle msg = new MsgEnterBattle();
             msg.mapId = 1;
             msg.tanks = new TankInfo[playerIds.Count];
             int i = 0;
-            foreach(int id in playerIds.Keys)
+            foreach (int id in playerIds.Keys)
             {
                 Player player = PlayerManager.GetPlayer(id);
                 msg.tanks[i] = PlayerToTankInfo(player);
@@ -189,7 +226,7 @@ namespace general.script.logic
         {
             return p.hp <= 0;
         }
-        
+
         public TankInfo PlayerToTankInfo(Player player)
         {
             TankInfo info = new TankInfo();
@@ -203,28 +240,30 @@ namespace general.script.logic
             info.ex = player.ex;
             info.ey = player.ey;
             info.ez = player.ez;
+            info.turretY = player.turretY;
             return info;
         }
         public bool CanStartBattle()
         {
-            if(status != Status.PREPARE)
+            if (status != Constant.RoomState.Preparing)
             {
                 return false;
             }
             int count1 = 0;
             int count2 = 0;
-            foreach(int id in playerIds.Keys)
+            foreach (int id in playerIds.Keys)
             {
                 Player player = PlayerManager.GetPlayer(id);
-                if(player.camp == 1)
+                if (player.camp == 1)
                 {
                     count1++;
-                } else
+                }
+                else
                 {
                     count2++;
                 }
             }
-            if(count1 <1 || count2 < 1)
+            if (count1 < 1 || count2 < 1)
             {
                 return false;
             }
@@ -237,7 +276,7 @@ namespace general.script.logic
             msg.players = new PlayerInfo[count];
 
             int i = 0;
-            foreach(int id in playerIds.Keys)
+            foreach (int id in playerIds.Keys)
             {
                 Player player = PlayerManager.GetPlayer(id);
                 PlayerInfo playerInfo = new PlayerInfo();
@@ -248,6 +287,7 @@ namespace general.script.logic
                 playerInfo.winCount = player.data.winCount;
                 playerInfo.lostCount = player.data.lostCount;
                 playerInfo.isOwner = false;
+                playerInfo.connected = player.Connected;
                 if (isOwner(player))
                 {
                     playerInfo.isOwner = true;
@@ -257,7 +297,7 @@ namespace general.script.logic
             }
             return msg;
         }
-        private void SetBirthPos(Player player,int index)
+        private void SetBirthPos(Player player, int index)
         {
             int camp = player.camp;
             player.x = birthConfig[camp - 1, index, 0];
@@ -271,14 +311,15 @@ namespace general.script.logic
         {
             int count1 = 0;
             int count2 = 0;
-            foreach(int id in playerIds.Keys)
+            foreach (int id in playerIds.Keys)
             {
                 Player player = PlayerManager.GetPlayer(id);
-                if(player.camp == 1)
+                if (player.camp == 1)
                 {
                     SetBirthPos(player, count1);
                     count1++;
-                } else
+                }
+                else
                 {
                     SetBirthPos(player, count2);
                     count2++;
@@ -298,7 +339,7 @@ namespace general.script.logic
             {
                 return;
             }
-            status = Status.PREPARE;
+            status = Constant.RoomState.Preparing;
             foreach (int id in playerIds.Keys)
             {
                 Player p = PlayerManager.GetPlayer(id);
@@ -318,7 +359,7 @@ namespace general.script.logic
         private void PreparingUpdate()
         {
             int[] keys = new int[playerIds.Keys.Count];
-            playerIds.Keys.CopyTo(keys,0);
+            playerIds.Keys.CopyTo(keys, 0);
             long timestamp = NetManager.GetTimeStamp();
 
             foreach (int id in keys)
@@ -327,7 +368,7 @@ namespace general.script.logic
                 if (timestamp - player.lastPingTime > Constant.pingInterval * Constant.preparingRoomWaitCount)
                 {
                     RemovePlayer(id);//todo 房间准备状态,若玩家离线太久,则踢出房间
-                } 
+                }
 
             }
         }

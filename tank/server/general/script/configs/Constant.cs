@@ -17,4 +17,9 @@ public static class Constant
     /// 当房间处于准备状态时,超过 pingInterval * preparingRoomWaitCount 的时间还没收到ping-pong信息,则可以将这个玩家踢出房间了
     /// </summary>
     public static int preparingRoomWaitCount = 20;
+    public enum RoomState
+    {
+        Preparing,
+        Fighting
+    }
 }

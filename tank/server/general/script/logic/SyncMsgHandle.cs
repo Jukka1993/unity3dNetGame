@@ -8,7 +8,7 @@ namespace general.script.logic
 {
     public partial class MsgHandler
     {
-        public static void MsgSyncTank(ClientState cs, MsgBase msgBase)
+        public static void OnReceiveMsgSyncTank(ClientState cs, MsgBase msgBase)
         {
             MsgSyncTank msg = (MsgSyncTank)msgBase;
             Player player = cs.player;
@@ -21,7 +21,7 @@ namespace general.script.logic
             {
                 return;
             }
-            if(room.status != Room.Status.FIGHT)
+            if(room.status != Constant.RoomState.Fighting)
             {
                 return;
             }
@@ -35,14 +35,15 @@ namespace general.script.logic
             player.x = msg.x;
             player.y = msg.y;
             player.z = msg.z;
-            player.ex = msg.x;
-            player.ey = msg.y;
-            player.ez = msg.z;
+            player.ex = msg.ex;
+            player.ey = msg.ey;
+            player.ez = msg.ez;
+            player.turretY = msg.turretY;
             msg.id = player.id; //填充id
             //广播
             room.Broadcast(msg);
         }
-        public static void MsgFire(ClientState cs, MsgBase msgBase)
+        public static void OnReceiveMsgFire(ClientState cs, MsgBase msgBase)
         {
             MsgFire msg = (MsgFire)msgBase;
             Player p = cs.player;
@@ -59,7 +60,7 @@ namespace general.script.logic
 
                 return;
             }
-            if(room.status != Room.Status.FIGHT)
+            if(room.status != Constant.RoomState.Fighting)
             {
                 Console.WriteLine("receive firemsg,but room.status is prepare");
                 return;
@@ -68,7 +69,7 @@ namespace general.script.logic
             msg.id = p.id;
             room.Broadcast(msg,true);
         }
-        public static void MsgHit(ClientState cs,MsgBase msgBase)
+        public static void OnReceiveMsgHit(ClientState cs,MsgBase msgBase)
         {
             MsgHit msg = (MsgHit)msgBase;
             Player player = cs.player;
@@ -86,7 +87,7 @@ namespace general.script.logic
             {
                 return;
             }
-            if(room.status != Room.Status.FIGHT)
+            if(room.status != Constant.RoomState.Fighting)
             {
                 return;
             }

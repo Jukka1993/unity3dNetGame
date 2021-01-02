@@ -8,7 +8,7 @@ namespace general.script.logic
 {
     public partial class MsgHandler
     {
-        public static void MsgGetAchieve(ClientState cs, MsgBase msgBase)
+        public static void OnReceiveMsgGetAchieve(ClientState cs, MsgBase msgBase)
         {
             MsgGetAchieve msg = (MsgGetAchieve)msgBase;
             Player player = cs.player;
@@ -20,7 +20,7 @@ namespace general.script.logic
             msg.failCount = player.data.lostCount;
             player.Send(msg);
         }
-        public static void MsgGetRoomList(ClientState cs, MsgBase msgBase)
+        public static void OnReceiveMsgGetRoomList(ClientState cs, MsgBase msgBase)
         {
 
             MsgGetRoomList msg = (MsgGetRoomList)msgBase;
@@ -31,7 +31,7 @@ namespace general.script.logic
             }
             player.Send(RoomManager.ToMsg());
         }
-        public static void MsgCreateRoom(ClientState cs, MsgBase msgBase)
+        public static void OnReceiveMsgCreateRoom(ClientState cs, MsgBase msgBase)
         {
             MsgCreateRoom msg = (MsgCreateRoom)msgBase;
             Player player = cs.player;
@@ -50,7 +50,7 @@ namespace general.script.logic
             msg.roomId = room.roomId;
             player.Send(msg);
         }
-        public static void MsgEnterRoom(ClientState cs, MsgBase msgBase)
+        public static void OnReceiveMsgEnterRoom(ClientState cs, MsgBase msgBase)
         {
             MsgEnterRoom msg = (MsgEnterRoom)msgBase;
             Player player = cs.player;
@@ -80,7 +80,7 @@ namespace general.script.logic
             msg.result = 0;
             player.Send(msg);
         }
-        public static void MsgGetRoomInfo(ClientState cs, MsgBase msgBase)
+        public static void OnReceiveMsgGetRoomInfo(ClientState cs, MsgBase msgBase)
         {
             MsgGetRoomInfo msg = (MsgGetRoomInfo)msgBase;
             Player player = cs.player;
@@ -96,7 +96,7 @@ namespace general.script.logic
             }
             player.Send(room.ToMsg());
         }
-        public static void MsgKickPlayer(ClientState cs, MsgBase msgBase)
+        public static void OnReceiveMsgKickPlayer(ClientState cs, MsgBase msgBase)
         {
             MsgKickPlayer msg = (MsgKickPlayer)msgBase;
             Player player = cs.player;
@@ -136,7 +136,7 @@ namespace general.script.logic
             kickedPlayer.Send(msg);
             player.Send(msg);
         }
-        public static void MsgLeaveRoom(ClientState cs, MsgBase msgBase)
+        public static void OnReceiveMsgLeaveRoom(ClientState cs, MsgBase msgBase)
         {
             MsgLeaveRoom msg = (MsgLeaveRoom)msgBase;
             Player player = cs.player;
@@ -155,7 +155,7 @@ namespace general.script.logic
             msg.result = 0;
             player.Send(msg);
         }
-        public static void MsgStartBattle(ClientState cs, MsgBase msgBase)
+        public static void OnReceiveMsgStartBattle(ClientState cs, MsgBase msgBase)
         {
             MsgStartBattle msg = (MsgStartBattle)msgBase;
             Player player = cs.player;

@@ -8,7 +8,7 @@ namespace general.script.logic
 {
     public partial class MsgHandler
     {
-        public static void PingCheckMsg(ClientState cs, MsgBase msgBase)
+        public static void OnReceivePingCheckMsg(ClientState cs, MsgBase msgBase)
         {
             PingCheckMsg msg = (PingCheckMsg)msgBase;
             msg.serverReceiveTime2 = (DateTime.Now.ToUniversalTime().Ticks - 621355968000000000) / 10000;

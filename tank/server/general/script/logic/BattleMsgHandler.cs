@@ -7,7 +7,7 @@ namespace general.script.logic
 {
     public partial class MsgHandler
     {
-        public static void MsgMove(ClientState cs,MsgBase msgBase)
+        public static void OnReceiveMsgMove(ClientState cs,MsgBase msgBase)
         {
             MsgMove msgMove = (MsgMove)msgBase;
             //Console.WriteLine(msgMove.x);

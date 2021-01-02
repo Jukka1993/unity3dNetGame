@@ -116,6 +116,12 @@ public class BaseTank : MonoBehaviour {
         lastFireTime = Time.time;
         return bullet;
     }
+    public void InitGunDirect(float turretY)
+    {
+        Vector3 le = turret.localEulerAngles;
+        le.y = turretY;
+        turret.localEulerAngles = le;
+    }
 
     public virtual void Init(string skinPath)
     {

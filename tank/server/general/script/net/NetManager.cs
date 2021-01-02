@@ -89,7 +89,7 @@ namespace general.script.net
             if(readbuff.remain <= 0)
             {
                 Console.WriteLine("Receive fail, maybe msg length > buff capacity");
-                Close(cs);
+                Close(cs, false);
                 return;
             }
             try
@@ -99,14 +99,14 @@ namespace general.script.net
             catch (SocketException ex)
             {
                 Console.WriteLine("Receive SocketException " + ex.ToString());
-                Close(cs);
+                Close(cs, false);
                 return;
             }
             //客户端关闭
             if(count <= 0)
             {
                 Console.WriteLine("Socket Close " + clientfd.RemoteEndPoint.ToString());
-                Close(cs);
+                Close(cs,true);
                 return;
             }
             //消息处理
@@ -174,7 +174,7 @@ namespace general.script.net
             if(protoName == "")
             {
                 Console.WriteLine("OnReceiveData MsgBase.DecodeName fail");
-                Close(cs);
+                Close(cs, false);
                 return;
             }
             //协议名解析完了，读缓冲区的“开始读取索引”向后移动协议名的字节长度，用于之后直接开始解析协议体
@@ -192,7 +192,7 @@ namespace general.script.net
             readBuff.readIdx += bodyCount;
             readBuff.CheckAndMoveBytes();
             //分发消息，反射获取协议名对应的MethodInfo
-            MethodInfo mi = typeof(MsgHandler).GetMethod(protoName);
+            MethodInfo mi = typeof(MsgHandler).GetMethod("OnReceive" + protoName);
             object[] o = { cs, msgBase };
             //Console.WriteLine("Receive proto " + protoName);
             if(mi != null)
@@ -210,11 +210,11 @@ namespace general.script.net
             }
 
         }
-        public static void Close(ClientState cs)
+        public static void Close(ClientState cs,bool isNormalClose)
         {
             //事件分发
             MethodInfo mei = typeof(general.script.logic.EventHandler).GetMethod("OnDisconnect");
-            object[] ob = { cs };
+            object[] ob = { cs,isNormalClose };
             mei.Invoke(null, ob);
             //关闭
             cs.socket.Close();

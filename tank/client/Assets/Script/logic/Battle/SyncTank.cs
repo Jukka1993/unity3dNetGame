@@ -7,7 +7,7 @@ public class SyncTank : BaseTank {
     private Vector3 lastRot;
     private Vector3 forecastPos;
     private Vector3 forecastRot;
-    private float forecastTime;
+    private double forecastTime;
 	
     new void Update()
     {
@@ -24,15 +24,11 @@ public class SyncTank : BaseTank {
         lastRot = transform.eulerAngles;
         forecastPos = transform.position;
         forecastRot = transform.eulerAngles;
-        //forecastTime = Time.time;
-        //DateTime.now.Millisecond;
-        forecastTime = (float)CommonUtil.GetTimeStamp();
+        forecastTime = CommonUtil.GetTimeStamp();
     }
     public bool ForecastUpdate()
     {
-        //float t = (Time.time - forecastTime) / CtrlTank.syncInterval;
-        float t = (float)(CommonUtil.GetTimeStamp() - forecastTime) / CtrlTank.syncInterval;
-
+        float t = (float)((CommonUtil.GetTimeStamp() - forecastTime) / CtrlTank.syncInterval);
         t = Mathf.Clamp(t, 0f, 1f);
         //旋转
         Quaternion quat = transform.rotation;
@@ -44,10 +40,12 @@ public class SyncTank : BaseTank {
         pos = Vector3.Lerp(pos, forecastPos, t);
         if (!transform.position.Equals(pos))
         {
+            //Debug.Log("其他坦克理论上会动");
             transform.position = pos;
             return true;
         } else
         {
+            //Debug.Log("运行到这里了导致tank不动的");
             return false;
         }
     }
@@ -61,6 +59,7 @@ public class SyncTank : BaseTank {
         //更新
         lastPos = pos;
         lastRot = rot;
+        forecastTime = CommonUtil.GetTimeStamp();
         Vector3 le = turret.localEulerAngles;
         le.y = msg.turretY;
         turret.localEulerAngles = le;

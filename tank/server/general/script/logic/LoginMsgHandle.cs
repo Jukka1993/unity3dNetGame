@@ -10,43 +10,44 @@ namespace general.script.logic
 {
     public partial class MsgHandler
     {
-        public static void MsgRegister(ClientState cs, MsgBase msgBase)
+        public static void OnReceiveMsgRegister(ClientState cs, MsgBase msgBase)
         {
             MsgRegister msg = (MsgRegister)msgBase;
             //注册
             //int id = ;
             string reasonStr = "";
-            if (DBManager.Register(msg.name, msg.pw,out reasonStr))
+            if (DBManager.Register(msg.name, msg.pw, out reasonStr))
             {
                 int id = DBManager.CheckPassword(msg.name, msg.pw);
                 DBManager.CreatePlayer(id);
                 msg.id = id;
                 msg.result = 0;
-            } else
+            }
+            else
             {
                 msg.reasonStr = reasonStr;
                 msg.result = 1;
             }
             NetManager.Send(cs, msg);
         }
-        public static void MsgLogout(ClientState cs,MsgBase msgBase)
+        public static void OnReceiveMsgLogout(ClientState cs, MsgBase msgBase)
         {
             MsgLogout msg = (MsgLogout)msgBase;
-            if(cs.player == null)
-        {
-            return;
-        }
+            if (cs.player == null)
+            {
+                return;
+            }
             DBManager.UpdatePlayerData(cs.player.id, cs.player.data);
             PlayerManager.RemovePlayer(cs.player.id);
             cs.player = null;
             msg.result = 0;
-            NetManager.Send(cs,msg);
+            NetManager.Send(cs, msg);
         }
-        public static void MsgLogin(ClientState cs,MsgBase msgBase)
+        public static void OnReceiveMsgLogin(ClientState cs, MsgBase msgBase)
         {
             MsgLogin msg = (MsgLogin)msgBase;
             string reasonStr = "";
-            int id = DBManager.CheckPassword(msg.name, msg.pw,out reasonStr);
+            int id = DBManager.CheckPassword(msg.name, msg.pw, out reasonStr);
             if (id < 0)
             {
                 msg.result = 1;
@@ -56,7 +57,7 @@ namespace general.script.logic
                 return;
             }
             //不允许再次登录(这条socket连接已经有一个player了
-            if(cs.player != null)
+            if (cs.player != null)
             {
                 msg.result = 1;
                 NetManager.Send(cs, msg);
@@ -77,12 +78,13 @@ namespace general.script.logic
                 DBManager.UpdatePlayerData(other.id, other.data);
                 //PlayerManager.RemovePlayer(other.id);
                 other.Send(msgKick);
-                other.BreakFromCS();
+                //other.BreakFromCS(true, false);
+                other.UnBindCS();
             }
             //获取玩家数据
             PlayerData playerData = DBManager.GetPlayerData(id);
             string playerName = DBManager.GetPlayerName(id);
-            if(playerData == null)
+            if (playerData == null)
             {
                 if (player != null)
                 {
@@ -96,9 +98,10 @@ namespace general.script.logic
             if (player == null)
             {
                 player = new Player(cs);
-            } else
+            }
+            else
             {
-                player.bindCS(cs);
+                player.BindCS(cs);
             }
             player.name = playerName;
             player.id = id;
@@ -113,11 +116,15 @@ namespace general.script.logic
             msg.id = id;
             msg.roomId = player.roomId;
             player.Send(msg);
+            Console.WriteLine("登录了一个用户");
             if (msg.roomId >= 0)
             {
-                if (RoomManager.GetRoom(msg.roomId).status == Room.Status.FIGHT)
+                Console.WriteLine("用户应该在房间内");
+                Room room = RoomManager.GetRoom(player.roomId);
+                if (room != null)
                 {
-                    player.ReEnterRoom();
+                    Console.WriteLine("服务器尝试将用户拉到房间内");
+                    room.ReEnterRoom(player);
                 }
             }
         }

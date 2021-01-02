@@ -6,6 +6,17 @@ using general.script.net;
 
 namespace general.script.proto
 {
+    class MsgReEnterRoom : MsgBase
+    {
+        public MsgReEnterRoom()
+        {
+            protoName = "MsgReEnterRoom";
+        }
+        public int roomId = -1;
+        public Constant.RoomState roomState = Constant.RoomState.Preparing;
+        public int mapId = 1;
+        public TankInfo[] tanks;
+    }
     class MsgGetAchieve: MsgBase
     {
         public MsgGetAchieve()
@@ -83,6 +94,7 @@ namespace general.script.proto
     {
         public int id = -1;
         public string name = "";
+        public bool connected = false;
         /// <summary>
         /// 阵营
         /// </summary>

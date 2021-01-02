@@ -70,6 +70,7 @@ public class GameMain : MonoBehaviour {
 
         NetManager.AddMsgListener("MsgKick", OnMsgKick);
         NetManager.AddMsgListener("TestMsg", OnTestMsg);
+        NetManager.AddMsgListener("MsgReEnterRoom", OnMsgReEnterRoom);
 
         //NetManager.Connect("192.168.100.12", 8888);
         //NetManager.Connect("172.18.10.121", 8888);
@@ -88,6 +89,27 @@ public class GameMain : MonoBehaviour {
         luaEnv.DoString(luaMian.text);
         luaUpdate = luaEnv.Global.Get<UpdateDelType>("Update");
         started = true;
+    }
+    public void OnMsgReEnterRoom(MsgBase msgBase)
+    {
+        MsgReEnterRoom msg = (MsgReEnterRoom)msgBase;
+        Debug.Log("客户端收到了重进房间的消息");
+        if (msg.roomState == Constant.RoomState.Preparing)
+        {
+            //todo //重连进入房间
+            Debug.Log("客户端打开房间界面");
+            PanelManager.Open<RoomPanel>();
+            PanelManager.Close("RoomListPanel");
+        } else if (msg.roomState == Constant.RoomState.Fighting)
+        {
+            //todo //重连进入战斗
+            Debug.Log("客户端准备进入战斗");
+
+            PanelManager.Close("RoomListPanel");
+            PanelManager.Close("RoomPanel");
+            BattleManager.ReEnterBattle(msg);
+
+        }
     }
     public void OnTestMsg(MsgBase msg)
     {
