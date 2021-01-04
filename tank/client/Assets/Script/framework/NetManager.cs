@@ -33,7 +33,6 @@ public static class NetManager {
     static int msgCount = 0;
     readonly static int MAX_MESSAGE_FIRE = 10;
     public static bool isUsePing = true;
-    public static int pingInterval = 10;
     static float lastPingTime = 0;
     static float lastPongTime = 0;
     static NetState netState = NetState.Closed;
@@ -83,7 +82,7 @@ public static class NetManager {
             eventListeners[netEvent](err);
         }
     }
-    public static void AddMsgListener(string msgName,MsgListener listener)
+    public static void AddMsgListener(string msgName, MsgListener listener)
     {
         if (msgListeners.ContainsKey(msgName))
         {
@@ -368,14 +367,14 @@ public static class NetManager {
         {
             return;
         }
-        if(Time.time -lastPingTime > pingInterval)
+        if(Time.time -lastPingTime > Constant.pingInterval)
         {
             MsgPing msgPing = new MsgPing();
             Debug.Log("Send(msgPing);");
             Send(msgPing);
             lastPingTime = Time.time;
         }
-        if(Time.time - lastPongTime > pingInterval * 4)
+        if(Time.time - lastPongTime > Constant.pingInterval * Constant.pongWaitCount)
         {
             Close();
         }

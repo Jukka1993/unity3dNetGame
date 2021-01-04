@@ -25,44 +25,21 @@ public class ReConnectPanel : BasePanel
     public override void OnShow(params object[] para)
     {
         base.OnShow(para);
-        Debug.Log("AA1");
         reconnectBtn = skin.transform.Find("ReConnectButton").GetComponent<Button>();
-        Debug.Log("AA2");
-
         reconnectingTip = skin.transform.Find("ReConnectingTip").GetComponent<Text>();
-        Debug.Log("AA3");
-
         disconnectTip = skin.transform.Find("DisConnectTip").GetComponent<Text>();
-        Debug.Log("AA4");
-
         reconnectingImg = skin.transform.Find("ReConnectCircle").GetComponent<Image>();
-        Debug.Log("AA5");
-
-
         NetManager.AddEventListener(NetEvent.ConnectSucc, OnConnectSucc);
-        Debug.Log("AA6");
-
         NetManager.AddEventListener(NetEvent.ConnectFail, OnConnectFail);
-        Debug.Log("AA7");
-
-        NetManager.AddEventListener(NetEvent.Close, OnConnectClose);
-        Debug.Log("AA8");
-
-
         setState(false);
-        Debug.Log("AA9");
-
-
         reconnectBtn.onClick.AddListener(onReConnectClick);
-        Debug.Log("AA10");
-
     }
     public override void OnClose()
     {
         base.OnClose();
         NetManager.RemoveEventListener(NetEvent.ConnectSucc, OnConnectSucc);
         NetManager.RemoveEventListener(NetEvent.ConnectFail, OnConnectFail);
-        NetManager.RemoveEventListener(NetEvent.Close, OnConnectClose);
+        
     }
     public void OnConnectSucc(string txt)
     {

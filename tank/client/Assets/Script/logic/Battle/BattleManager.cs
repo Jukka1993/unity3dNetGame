@@ -7,13 +7,26 @@ public class BattleManager : MonoBehaviour {
 
 	public static void Init()
     {
+        RemoveMsgListener();
+        AddMsgListener();
+    }
+    private static void RemoveMsgListener()
+    {
+        NetManager.RemoveMsgListener("MsgEnterBattle", OnMsgEnterBattle);
+        NetManager.RemoveMsgListener("MsgBattleResult", OnMsgBattleResult);
+        NetManager.RemoveMsgListener("MsgLeaveBattle", OnMsgLeaveBattle);
+        NetManager.RemoveMsgListener("MsgSyncTank", OnMsgSyncTank);
+        NetManager.RemoveMsgListener("MsgFire", OnMsgFire);
+        NetManager.RemoveMsgListener("MsgHit", OnMsgHit);
+    }
+    private static void AddMsgListener()
+    {
         NetManager.AddMsgListener("MsgEnterBattle", OnMsgEnterBattle);
         NetManager.AddMsgListener("MsgBattleResult", OnMsgBattleResult);
         NetManager.AddMsgListener("MsgLeaveBattle", OnMsgLeaveBattle);
         NetManager.AddMsgListener("MsgSyncTank", OnMsgSyncTank);
         NetManager.AddMsgListener("MsgFire", OnMsgFire);
         NetManager.AddMsgListener("MsgHit", OnMsgHit);
-
     }
     private static void OnMsgSyncTank(MsgBase msgBase)
     {
@@ -168,7 +181,8 @@ public class BattleManager : MonoBehaviour {
     }
     public static void Reset()
     {
-        foreach(BaseTank tank in tanks.Values)
+        RemoveMsgListener();
+        foreach (BaseTank tank in tanks.Values)
         {
             MonoBehaviour.Destroy(tank.gameObject);
         }

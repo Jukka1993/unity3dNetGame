@@ -23,8 +23,14 @@ public static class PanelManager{
         canvas = root.Find("Canvas");
         Transform panel = canvas.Find("Panel");
         Transform tip = canvas.Find("tip");
-        layers.Add(Layer.Panel, panel);
-        layers.Add(Layer.Tip, tip);
+        if (!layers.ContainsKey(Layer.Panel))
+        {
+            layers.Add(Layer.Panel, panel);
+        }
+        if (!layers.ContainsKey(Layer.Tip))
+        {
+            layers.Add(Layer.Tip, tip);
+        }
     }
     //打开面板
     public static void Open<T>(params object[] para) where T : BasePanel
@@ -74,5 +80,31 @@ public static class PanelManager{
         T panel = (T)panels[name];
         return panel;
     }
-	
+    public static BasePanel GetPanel(string panelName)
+    {
+        if (!panels.ContainsKey(panelName))
+        {
+            return null;
+        }
+        BasePanel panel = panels[panelName];
+        return panel;
+    }
+    public static void CloseAllPanelAndTip()
+    {
+        CloseAllPanelOrTip(true);
+        CloseAllPanelOrTip(false);
+    }
+    public static void CloseAllPanelOrTip(bool isTip)
+    {
+        string[] panelNames = new string[panels.Keys.Count];
+        panels.Keys.CopyTo(panelNames, 0);
+        Layer layerType = isTip ? Layer.Tip : Layer.Panel;
+        foreach (string panelName in panelNames)
+        {
+            if (GetPanel(panelName).layer == layerType)
+            {
+                Close(panelName);
+            }
+        }
+    }
 }

@@ -29,6 +29,8 @@ public class GameMain : MonoBehaviour {
     public Text sDeal;
     public Text s2cPing;
     private bool shouldOpenReConnect = false;
+    private bool afterKick = false;
+    private string kickReason = "";
     public void updateText(string tt)
     {
         showText = tt;
@@ -53,6 +55,31 @@ public class GameMain : MonoBehaviour {
     {
         NetManager.Connect(ipInputField.text, 8888);
     }
+    private void RemoveEventListener()
+    {
+        NetManager.RemoveEventListener(NetEvent.ConnectSucc, OnConnectSucc);
+        NetManager.RemoveEventListener(NetEvent.ConnectFail, OnConnectFail);
+        NetManager.RemoveEventListener(NetEvent.Close, OnConnectClose);
+    }
+    private void AddEventListener()
+    {
+        //网络监听
+        NetManager.AddEventListener(NetEvent.ConnectSucc, OnConnectSucc);
+        NetManager.AddEventListener(NetEvent.ConnectFail, OnConnectFail);
+        NetManager.AddEventListener(NetEvent.Close, OnConnectClose);
+    }
+    private void AddMsgListener()
+    {
+        NetManager.AddMsgListener("MsgKick", OnMsgKick);
+        NetManager.AddMsgListener("TestMsg", OnTestMsg);
+        NetManager.AddMsgListener("MsgReEnterRoom", OnMsgReEnterRoom);
+    }
+    private void RemoveMsgListener()
+    {
+        NetManager.RemoveMsgListener("MsgKick", OnMsgKick);
+        NetManager.RemoveMsgListener("TestMsg", OnTestMsg);
+        NetManager.RemoveMsgListener("MsgReEnterRoom", OnMsgReEnterRoom);
+    }
     private void DoStart()
     {
         if (started)
@@ -63,31 +90,24 @@ public class GameMain : MonoBehaviour {
         NetManager.updateText2 = updateText2;
         NetManager.updateText3 = updateText3;
         NetManager.updateText4 = updateText4;
-        //网络监听
-        NetManager.AddEventListener(NetEvent.ConnectSucc, OnConnectSucc);
-        NetManager.AddEventListener(NetEvent.ConnectFail, OnConnectFail);
-        NetManager.AddEventListener(NetEvent.Close, OnConnectClose);
+        RemoveEventListener();
+        RemoveMsgListener();
+        AddEventListener();
+        AddMsgListener();
 
-        NetManager.AddMsgListener("MsgKick", OnMsgKick);
-        NetManager.AddMsgListener("TestMsg", OnTestMsg);
-        NetManager.AddMsgListener("MsgReEnterRoom", OnMsgReEnterRoom);
-
-        //NetManager.Connect("192.168.100.12", 8888);
-        //NetManager.Connect("172.18.10.121", 8888);
         DoConnect();
-        //NetManager.Connect("127.0.0.1", 8888);
-
-
-
 
         //ui管理器初始化
         PanelManager.Init();
         BattleManager.Init();
         //打开登录面板
         PanelManager.Open<LoginPanel>();
-        luaEnv = new XLua.LuaEnv();
-        luaEnv.DoString(luaMian.text);
-        luaUpdate = luaEnv.Global.Get<UpdateDelType>("Update");
+        if (luaEnv == null)
+        {
+            luaEnv = new XLua.LuaEnv();
+            luaEnv.DoString(luaMian.text);
+            luaUpdate = luaEnv.Global.Get<UpdateDelType>("Update");
+        }
         started = true;
     }
     public void OnMsgReEnterRoom(MsgBase msgBase)
@@ -185,10 +205,22 @@ public class GameMain : MonoBehaviour {
     void OnConnectClose(string txt)
     {
         Debug.Log("连接断开");
-        shouldOpenReConnect = true;
+        if (afterKick)
+        {
+            afterKick = false;
+            CommonUtil.OpenTip(kickReason);
+        } else
+        {
+            shouldOpenReConnect = true;
+        }
     }
     void OnMsgKick(MsgBase msgBase)
     {
+        BattleManager.Reset();
+        PanelManager.CloseAllPanelAndTip();
+        MsgKick msg = (MsgKick)msgBase;
+        afterKick = true;
+        kickReason = msg.reasonStr;
         Debug.Log("被踢了");
     }
 }
