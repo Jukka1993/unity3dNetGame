@@ -45,33 +45,35 @@ namespace general.script.logic
             Player player = PlayerManager.GetPlayer(id);
             if (player == null)
             {
-                Console.WriteLine("room.AddPlayer fail, player is null");
+                CommonUtil.Log("player", id.ToString(), "不存在,无法加入房间", roomId.ToString());
                 return false;
             }
             if (playerIds.Count >= maxPlayer)
             {
-                Console.WriteLine("room.AddPlayer fail, reach maxPlayer");
+                CommonUtil.Log("player", id.ToString(), "无法加入房间", roomId.ToString(),"因为房间已满");
                 return false;
             }
             if (status != Constant.RoomState.Preparing)
             {
-                Console.WriteLine("room.AddPlayer fail, not PREPARE");
+                CommonUtil.Log("player", id.ToString(), "无法加入房间", roomId.ToString(), "因为房间在战斗中");
                 return false;
             }
             if (playerIds.ContainsKey(id))
             {
-                Console.WriteLine("room.AddPlayer fail, already in this room");
+                CommonUtil.Log("player", id.ToString(), "无法加入房间", roomId.ToString(), "因为它本身就在房间里了");
                 return false;
             }
+
             playerIds[id] = true;
             player.camp = SwitchCamp();
-            player.roomId = this.roomId;
+            player.roomId = roomId;
             if (ownerId == -1)
             {
                 ownerId = player.id;
             }
             Broadcast(ToMsg());
             RoomManager.Broadcast();
+            CommonUtil.Log("player", id.ToString(), "加入了房间", roomId.ToString(), "其阵营为", player.camp.ToString());
             return true;
         }
 
@@ -80,21 +82,19 @@ namespace general.script.logic
             Player player = PlayerManager.GetPlayer(id);
             if (player == null)
             {
-                Console.WriteLine("room.RemovePlayer fail, player is null");
+                CommonUtil.Log("player", id.ToString(), "移出房间", roomId.ToString(), "失败，因为它不存在");
+
                 return false;
             }
             if (!playerIds.ContainsKey(id))
             {
-                Console.WriteLine("room.RemovePlayer fail, not in this room");
+                CommonUtil.Log("player", id.ToString(), "移出房间", roomId.ToString(), "失败，因为它本来就不在该房间");
                 return false;
             }
             playerIds.Remove(id);
             player.camp = 0;
             player.roomId = -1;
-            if (isOwner(player))
-            {
-                ownerId = SwitchOwner();
-            }
+            
             //if(status == Status.FIGHT) //战斗中就不踢出人了,断网了,就让坦克在房间不动就好了
             //{
             //    player.data.lostCount++;
@@ -105,10 +105,17 @@ namespace general.script.logic
 
             if (playerIds.Count == 0)
             {
+                CommonUtil.Log("player", id.ToString(), "移出房间", roomId.ToString(), "成功");
+
                 RoomManager.RemoveRoom(this.roomId);
             }
             else
             {
+                if (isOwner(player))
+                {
+                    ownerId = SwitchOwner();
+                    CommonUtil.Log("player", id.ToString(), "移出房间", roomId.ToString(), "成功,新房主id为", ownerId.ToString());
+                }
                 RoomManager.Broadcast();
             }
             Broadcast(ToMsg());
@@ -219,6 +226,7 @@ namespace general.script.logic
                 msg.tanks[i] = PlayerToTankInfo(player);
                 i++;
             }
+            CommonUtil.Log("开始战斗成功并广播");
             Broadcast(msg);
             return true;
         }
@@ -265,6 +273,7 @@ namespace general.script.logic
             }
             if (count1 < 1 || count2 < 1)
             {
+                CommonUtil.Log("开始战斗失败");
                 return false;
             }
             return true;
@@ -367,9 +376,9 @@ namespace general.script.logic
                 Player player = PlayerManager.GetPlayer(id);
                 if (timestamp - player.lastPingTime > Constant.pingInterval * Constant.preparingRoomWaitCount)
                 {
+                    CommonUtil.Log("玩家", player.id.ToString(), "在房间", roomId.ToString(), "内离线时间太久,移出房间");
                     RemovePlayer(id);//todo 房间准备状态,若玩家离线太久,则踢出房间
                 }
-
             }
         }
         private int Judgement()
@@ -393,10 +402,12 @@ namespace general.script.logic
             }
             if (count1 <= 0)
             {
+                CommonUtil.Log("房间", roomId.ToString(), "中,阵营2胜利");
                 return 2;
             }
             else if (count2 <= 0)
             {
+                CommonUtil.Log("房间", roomId.ToString(), "中,阵营1胜利");
                 return 1;
             }
             return 0;

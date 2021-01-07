@@ -30,16 +30,16 @@ public class CheckPing
             }
             return _instance;
         }
-        
+
     }
     public void checkPing()
     {
         if (Time.time > lastCheckPingTime + 1)
         {
-            PingCheckMsg msg = new PingCheckMsg();
-            msg.clientSendTime1 = (DateTime.Now.ToUniversalTime().Ticks - 621355968000000000) / 10000;
-            NetManager.Send(msg);
-            lastCheckPingTime = Time.time;
+           PingCheckMsg msg = new PingCheckMsg();
+           msg.clientSendTime1 = (DateTime.Now.ToUniversalTime().Ticks - 621355968000000000) / 10000;
+           NetManager.Send(msg);
+           lastCheckPingTime = Time.time;
         }
     }
     public void onPingCheckMsg(MsgBase baseMsg)

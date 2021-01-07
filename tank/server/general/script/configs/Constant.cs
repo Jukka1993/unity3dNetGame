@@ -27,4 +27,7 @@ public static class Constant
         Preparing,
         Fighting
     }
+    public static bool showLog = true;
+    public static string[] filterProtoNames = { "PingCheckMsg", "" };
+    public static bool filterAllProto = true;
 }

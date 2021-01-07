@@ -12,6 +12,10 @@ namespace general.script.logic
         {
             //Console.WriteLine("Receive MsgPing");
             cs.lastPingTime = NetManager.GetTimeStamp();
+            if (cs.player != null)
+            {
+                cs.player.lastPingTime = cs.lastPingTime;
+            }
             MsgPong msgPong = new MsgPong();
             NetManager.Send(cs, msgPong);
         }

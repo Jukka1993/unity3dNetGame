@@ -222,5 +222,6 @@ public class GameMain : MonoBehaviour {
         afterKick = true;
         kickReason = msg.reasonStr;
         Debug.Log("被踢了");
+        started = false;
     }
 }

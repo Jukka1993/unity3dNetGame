@@ -13,6 +13,8 @@ namespace general.script.logic
             //Player下线
             if (cs.player != null)
             {
+                CommonUtil.Log(cs.socket.RemoteEndPoint.ToString() + " 断开连接,正常断开,同时将与其绑定的 player " + cs.player.id + " 移除");
+
                 if (isNormalDisConnect)
                 {
                     int roomId = cs.player.roomId;
@@ -20,8 +22,13 @@ namespace general.script.logic
                     {
                         Room room = RoomManager.GetRoom(roomId);
                         {
+                            CommonUtil.Log(cs.socket.RemoteEndPoint.ToString() + " 断开连接,正常断开,同时将与其绑定的 player(在房间"+roomId+"内） " + cs.player.id + " 移除");
                             room.RemovePlayer(cs.player.id);
                         }
+                    }
+                    else
+                    {
+                        CommonUtil.Log(cs.socket.RemoteEndPoint.ToString() + " 断开连接,正常断开,同时将与其绑定的 player(不在房间内） " + cs.player.id + " 移除");
                     }
                     //保存数据
                     DBManager.UpdatePlayerData(cs.player.id, cs.player.data);
@@ -30,9 +37,12 @@ namespace general.script.logic
                 }
                 else
                 {
+                    CommonUtil.Log(cs.socket.RemoteEndPoint.ToString() + " 断开连接,异常断开,将其与连接的 player "+ cs.player.id+ " 解绑");
                     cs.player.UnBindCS();
-
                 }
+            } else
+            {
+                CommonUtil.Log(cs.socket.RemoteEndPoint.ToString() + " 断开连接,本身没有player，无需处理player");
             }
         }
         public static void OnTimer()
@@ -48,7 +58,7 @@ namespace general.script.logic
             {
                 if (timeNow - cs.lastPingTime > overtime)
                 {
-                    Console.WriteLine("Ping Close " + cs.socket.RemoteEndPoint.ToString());
+                    CommonUtil.Log("Ping-Pong超时,关闭连接 " + cs.socket.RemoteEndPoint.ToString());
                     NetManager.Close(cs,false);
                     return;
                 }

@@ -85,12 +85,14 @@ public class RoomPanel : BasePanel {
         MsgLeaveRoom msg = (MsgLeaveRoom)msgBase;
         if(msg.result == 0)
         {
-            CommonUtil.OpenTip("退出房间");
+            Debug.Log("退出房间");
+            //CommonUtil.OpenTip("退出房间");
             PanelManager.Open<RoomListPanel>();
             Close();
         } else
         {
-            CommonUtil.OpenTip("退出房间失败");
+            Debug.Log("退出房间失败");
+            //CommonUtil.OpenTip("退出房间失败");
         }
     }
     private void OnMsgGetRoomInfo(MsgBase msgBase)

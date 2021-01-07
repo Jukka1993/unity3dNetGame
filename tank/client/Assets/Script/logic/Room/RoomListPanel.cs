@@ -72,7 +72,8 @@ public class RoomListPanel : BasePanel {
         //创建房间成功;
         if(msg.roomId > 0)
         {
-            CommonUtil.OpenTip("创建成功");
+            //CommonUtil.OpenTip("创建成功");
+            Debug.Log("创建成功");
             PanelManager.Open<RoomPanel>();
             Close();
         } else

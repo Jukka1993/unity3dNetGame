@@ -147,7 +147,7 @@ public static class NetManager {
     }
     private static void OnMsgPong(MsgBase msgBase)
     {
-        Debug.Log("Receive MsgPond");
+        //Debug.Log("Receive MsgPond");
         lastPongTime = Time.time;
     }
     private static void ConnectCallback(IAsyncResult ar)
@@ -370,7 +370,7 @@ public static class NetManager {
         if(Time.time -lastPingTime > Constant.pingInterval)
         {
             MsgPing msgPing = new MsgPing();
-            Debug.Log("Send(msgPing);");
+            //Debug.Log("Send(msgPing);");
             Send(msgPing);
             lastPingTime = Time.time;
         }

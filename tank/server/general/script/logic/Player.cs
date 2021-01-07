@@ -39,6 +39,7 @@ namespace general.script.logic
         public PlayerData data;
         public Player(ClientState state)
         {
+            CommonUtil.Log("new 一个 player,并绑定到 " + state.socket.RemoteEndPoint.ToString());
             cs = state;
             status = PlayerState.OutRoom;
             lastPingTime = cs.lastPingTime;
@@ -48,6 +49,11 @@ namespace general.script.logic
             if (cs == null)
             {
                 return;
+            }
+            
+            if (!CommonUtil.IsFilterProto(msgBase.protoName))
+            {
+                CommonUtil.Log("向 " + cs.socket.ToString() + " 发送 " + MsgBase.ToString(msgBase));
             }
             NetManager.Send(cs, msgBase);
         }
@@ -61,7 +67,19 @@ namespace general.script.logic
             this.cs = null;
             if (breakConnect)
             {
+                if (isNormalBreak)
+                {
+                    CommonUtil.Log("将player", id.ToString(), "与", cs.socket.RemoteEndPoint.ToString(), "解绑,并正常关闭 cs");
+                }
+                else
+                {
+                    CommonUtil.Log("将player", id.ToString(), "与", cs.socket.RemoteEndPoint.ToString(), "解绑,并异常关闭 cs");
+                }
                 NetManager.Close(oldCs, isNormalBreak);
+            }
+            else
+            {
+                CommonUtil.Log("将player", id.ToString(), "与",cs.socket.RemoteEndPoint.ToString(),"解绑,但不关闭 cs");
             }
         }
         public void UnBindCS()
@@ -70,12 +88,14 @@ namespace general.script.logic
             cs = null;
             if (oldCs != null)
             {
+                CommonUtil.Log("将player", id.ToString(), "与", oldCs.socket.RemoteEndPoint.ToString(), "解绑,并不正常关闭 cs");
                 NetManager.Close(oldCs, false);
             }
             NotifyRoom();
         }
         public void BindCS(ClientState newCs)
         {
+            CommonUtil.Log("将player", id.ToString(), "与", newCs.socket.RemoteEndPoint.ToString(), "绑定");
             cs = newCs;
             lastPingTime = cs.lastPingTime;
             NotifyRoom();

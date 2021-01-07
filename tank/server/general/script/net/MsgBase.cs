@@ -21,6 +21,12 @@ namespace general.script.net
         public string protoName = "";
         public float msgSeq = 1;
 
+        public static string ToString(MsgBase msgBase)
+        {
+            MsgBase tt = msgBase;
+            string s = JsonConvert.SerializeObject(tt);
+            return s;
+        }
         public static byte[] Encode(MsgBase msgBase)
         {
             MsgBase tt = msgBase;
