@@ -5,7 +5,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameMain : MonoBehaviour {
+public class GameMain : MonoBehaviour
+{
     public static int id = -1;
     public static string userName = "";
     public TextAsset luaMian;
@@ -31,6 +32,7 @@ public class GameMain : MonoBehaviour {
     private bool shouldOpenReConnect = false;
     private bool afterKick = false;
     private string kickReason = "";
+    private bool afterConnectFail = false;
     public void updateText(string tt)
     {
         showText = tt;
@@ -120,7 +122,8 @@ public class GameMain : MonoBehaviour {
             Debug.Log("客户端打开房间界面");
             PanelManager.Open<RoomPanel>();
             PanelManager.Close("RoomListPanel");
-        } else if (msg.roomState == Constant.RoomState.Fighting)
+        }
+        else if (msg.roomState == Constant.RoomState.Fighting)
         {
             //todo //重连进入战斗
             Debug.Log("客户端准备进入战斗");
@@ -134,7 +137,7 @@ public class GameMain : MonoBehaviour {
     public void OnTestMsg(MsgBase msg)
     {
         TestMsg msg1 = (TestMsg)msg;
-        
+
         string s = msg1.str;
         int count = int.Parse(inputField.text);
         for (int i = 0; i < count; i++)
@@ -158,13 +161,18 @@ public class GameMain : MonoBehaviour {
         {
             return;
         }
+        if(afterConnectFail)
+        {
+            afterConnectFail = false;
+            CommonUtil.OpenTip("连接服务器失败,点击确定重试", DoConnect);
+        }
         checkPing();
         text.text = showText;
         text2.text = showText2;
         text3.text = showText3;
         text4.text = showText4;
         NetManager.Update();
-        if(luaUpdate != null)
+        if (luaUpdate != null)
         {
             luaUpdate();
         }
@@ -174,8 +182,20 @@ public class GameMain : MonoBehaviour {
     {
         if (shouldOpenReConnect)
         {
-            PanelManager.Open<ReConnectPanel>();
             shouldOpenReConnect = false;
+            StartCoroutine(WaitOpenReconnectPanel(1));
+        }
+    }
+    IEnumerator WaitOpenReconnectPanel (float time)
+    {
+        yield return new WaitForSeconds(time);
+        if (afterKick)
+        {
+            afterKick = false;
+            CommonUtil.OpenTip(kickReason, onStartClick);
+        } else
+        {
+            PanelManager.Open<ReConnectPanel>();
         }
     }
     void checkPing()
@@ -197,6 +217,10 @@ public class GameMain : MonoBehaviour {
     void OnConnectFail(string txt)
     {
         Debug.Log("连接失败");
+        afterConnectFail = true;
+        //
+        Debug.Log("连接失败222");
+
     }
     void OnConnectSucc(string txt)
     {
@@ -205,14 +229,7 @@ public class GameMain : MonoBehaviour {
     void OnConnectClose(string txt)
     {
         Debug.Log("连接断开");
-        if (afterKick)
-        {
-            afterKick = false;
-            CommonUtil.OpenTip(kickReason);
-        } else
-        {
-            shouldOpenReConnect = true;
-        }
+        shouldOpenReConnect = true;
     }
     void OnMsgKick(MsgBase msgBase)
     {

@@ -30,6 +30,7 @@ public class SyncTank : BaseTank {
     {
         float t = (float)((CommonUtil.GetTimeStamp() - forecastTime) / CtrlTank.syncInterval);
         t = Mathf.Clamp(t, 0f, 1f);
+        Debug.Log("t = " + t);
         //旋转
         Quaternion quat = transform.rotation;
         Quaternion forcastQuat = Quaternion.Euler(forecastRot);
@@ -51,6 +52,7 @@ public class SyncTank : BaseTank {
     }
     public void SyncPos(MsgSyncTank msg)
     {
+        Debug.Log(msg.x + " " +  msg.y + " " + msg.z);
         //预测位置
         Vector3 pos = new Vector3(msg.x,msg.y,msg.z);
         Vector3 rot = new Vector3(msg.ex, msg.ey, msg.ez);

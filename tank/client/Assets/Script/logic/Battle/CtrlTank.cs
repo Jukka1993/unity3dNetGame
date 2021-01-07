@@ -71,7 +71,6 @@ public class CtrlTank : BaseTank {
         msg.ex = transform.eulerAngles.x;
         msg.ey = transform.eulerAngles.y;
         msg.ez = transform.eulerAngles.z;
-        Debug.Log(msg.ex + " " + msg.ey + " " + msg.ez);
         msg.turretY = turret.localEulerAngles.y;
         NetManager.Send(msg);
     }

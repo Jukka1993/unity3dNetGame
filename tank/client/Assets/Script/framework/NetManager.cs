@@ -105,9 +105,10 @@ public static class NetManager {
     }
     private static void FireMsg(string msgName,MsgBase msgBase)
     {
-        //Debug.Log("FireMsg ====== "+ msgName);
+        //Debug.Log("FireMsg ====== " + msgName);
         if (msgListeners.ContainsKey(msgName))
         {
+            //Debug.Log("Do FireMsg ====== " + msgName);
             msgListeners[msgName](msgBase);
         }
     }

@@ -33,6 +33,7 @@ public class BattleManager : MonoBehaviour {
         MsgSyncTank msg = (MsgSyncTank)msgBase;
         if(msg.id == GameMain.id)
         {
+            Debug.LogError(msg.id + " " + GameMain.id);
             return;
         }
         Debug.Log("收到其他人的坦克同步信息");
@@ -182,6 +183,7 @@ public class BattleManager : MonoBehaviour {
     public static void Reset()
     {
         RemoveMsgListener();
+        AddMsgListener();
         foreach (BaseTank tank in tanks.Values)
         {
             MonoBehaviour.Destroy(tank.gameObject);

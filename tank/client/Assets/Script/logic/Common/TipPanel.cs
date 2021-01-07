@@ -7,6 +7,8 @@ public class TipPanel : BasePanel {
 
     public Button confirmButton;
     public Text content;
+    public delegate void ConfirmDelegate();
+    ConfirmDelegate confirmDel = null;
     public override void OnInit()
     {
         base.OnInit();
@@ -26,10 +28,18 @@ public class TipPanel : BasePanel {
         if(para.Length == 1)
         {
             content.text = (string)para[0];
+        } else if (para.Length == 2)
+        {
+            content.text = (string)para[0];
+            confirmDel = (ConfirmDelegate)para[1];
         }
     }
     public void OnCloseClick()
     {
         Close();
+        if (confirmDel != null)
+        {
+            confirmDel();
+        }
     }
 }

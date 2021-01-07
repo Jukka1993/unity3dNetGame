@@ -7,7 +7,8 @@ public static class Constant
 {
     public static string dbName = "netgame";
     public static string dbIP = "127.0.0.1";
-    public static int dbPort = 13306;
+    //public static int dbPort = 13306;
+    public static int dbPort = 3306;
     public static string dbLoginAccount = "root";
     public static string dbPassWord = "199349529";
     /// <summary>

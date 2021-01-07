@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class CommonUtil {
 
-	public static void OpenTip(string tipStr)
+	public static void OpenTip(string tipStr, TipPanel.ConfirmDelegate confirmDelegate = null)
     {
-        PanelManager.Open<TipPanel>(tipStr);
+        PanelManager.Open<TipPanel>(tipStr, confirmDelegate);
     }
     public static double GetTimeStamp()
     {
